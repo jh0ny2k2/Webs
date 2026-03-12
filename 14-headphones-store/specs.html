@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENITH | Schematics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-black': '#050505',
+                        'cyber-blue': '#00f3ff',
+                        'cyber-pink': '#bc13fe',
+                        'cyber-metal': '#2a2a2a',
+                    },
+                    fontFamily: {
+                        display: ['Orbitron', 'sans-serif'],
+                        tech: ['Rajdhani', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid': "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #050505; 
+            color: #fff; 
+            overflow-x: hidden;
+        }
+        
+        .blueprint-card {
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            background: rgba(0, 243, 255, 0.02);
+            position: relative;
+        }
+        .blueprint-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 10px; height: 10px;
+            border-top: 2px solid #00f3ff;
+            border-left: 2px solid #00f3ff;
+        }
+        .blueprint-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #00f3ff;
+            border-right: 2px solid #00f3ff;
+        }
+
+        .stat-bar {
+            background: #2a2a2a;
+            height: 4px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-fill {
+            background: #00f3ff;
+            height: 100%;
+            width: 0;
+            box-shadow: 0 0 10px #00f3ff;
+        }
+    </style>
+</head>
+<body class="bg-grid bg-[length:20px_20px]">
+
+    <nav class="fixed w-full z-40 py-6 px-12 flex justify-between items-center backdrop-blur-sm border-b border-white/10">
+        <a href="index.html" class="font-display text-3xl font-black italic tracking-tighter text-white hover:text-cyber-blue transition-colors">ZNTH</a>
+        <div class="hidden md:flex gap-12 font-tech text-xl tracking-widest uppercase">
+            <a href="specs.html" class="text-cyber-blue font-bold">[SPECS]</a>
+            <a href="#" class="hover:text-cyber-pink transition-colors">[NEURAL_LINK]</a>
+            <a href="#" class="hover:text-cyber-blue transition-colors">[SUPPORT]</a>
+        </div>
+        <button class="font-display text-xs bg-white/10 border border-white/20 px-6 py-2 hover:bg-cyber-blue hover:text-black hover:border-cyber-blue transition-all uppercase">
+            Cart // 0
+        </button>
+    </nav>
+
+    <main class="pt-32 pb-20 container mx-auto px-6">
+        
+        <header class="mb-20 border-b border-white/10 pb-8">
+            <h1 class="font-display text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">TECHNICAL_DATA</h1>
+            <p class="font-tech text-cyber-blue tracking-[0.2em]">CLASSIFIED // LEVEL 5 CLEARANCE</p>
+        </header>
+
+        <div class="grid md:grid-cols-2 gap-12">
+            
+            <!-- Blueprint Visual -->
+            <div class="relative border border-white/10 p-8 h-[600px] flex items-center justify-center bg-cyber-blue/5">
+                <div class="absolute inset-0 border border-dashed border-white/20 m-4"></div>
+                <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-contain grayscale invert opacity-80 mix-blend-screen">
+                
+                <!-- Annotations -->
+                <div class="absolute top-20 right-20 text-right">
+                    <div class="font-tech text-cyber-pink text-sm">SENSOR_ARRAY</div>
+                    <div class="w-20 h-[1px] bg-cyber-pink ml-auto"></div>
+                </div>
+                <div class="absolute bottom-20 left-20">
+                    <div class="font-tech text-cyber-blue text-sm">POWER_CORE</div>
+                    <div class="w-20 h-[1px] bg-cyber-blue"></div>
+                </div>
+            </div>
+
+            <!-- Specs List -->
+            <div class="space-y-8">
+                
+                <div class="blueprint-card p-8">
+                    <h3 class="font-display text-xl mb-6 text-cyber-blue flex items-center gap-2">
+                        <span class="w-2 h-2 bg-cyber-blue animate-pulse"></span>
+                        AUDIO_ENGINE
+                    </h3>
+                    <div class="space-y-4 font-tech text-lg">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">FREQUENCY_RESPONSE</span>
+                            <span>5Hz - 80kHz</span>
+                        </div>
+                        <div class="stat-bar"><div class="stat-fill" data-width="100%"></div></div>
+                        
+                        <div class="flex justify-between pt-4">
+                            <span class="text-gray-400">TOTAL_HARMONIC_DISTORTION</span>
+                            <span>< 0.01%</span>
+                        </div>
+                        <div class="stat-bar"><div class="stat-fill" data-width="95%"></div></div>
+                    </div>
+                </div>
+
+                <div class="blueprint-card p-8">
+                    <h3 class="font-display text-xl mb-6 text-cyber-pink flex items-center gap-2">
+                        <span class="w-2 h-2 bg-cyber-pink animate-pulse"></span>
+                        POWER_MANAGEMENT
+                    </h3>
+                    <div class="space-y-4 font-tech text-lg">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">BATTERY_LIFE_CYCLE</span>
+                            <span>INFINITE_LOOP</span>
+                        </div>
+                        <div class="flex justify-between border-t border-white/10 pt-2">
+                            <span class="text-gray-400">CHARGE_TYPE</span>
+                            <span>QUANTUM_INDUCTION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blueprint-card p-8">
+                    <h3 class="font-display text-xl mb-6 text-white flex items-center gap-2">
+                        <span class="w-2 h-2 bg-white animate-pulse"></span>
+                        MATERIALS
+                    </h3>
+                    <p class="font-tech text-gray-400 leading-relaxed">
+                        Constructed from aerospace-grade titanium alloy and memory-foam infused with cooling gel. IPX8 certified for deep space operations.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Fill Bars Animation
+        gsap.utils.toArray('.stat-fill').forEach(bar => {
+            gsap.to(bar, {
+                width: bar.dataset.width,
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%"
+                }
+            });
+        });
+
+        // Card Entry
+        gsap.from(".blueprint-card", {
+            x: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+    </script>
+</body>
+</html>

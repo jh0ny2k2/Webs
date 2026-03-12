@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE ESTATES | The Glass Pavilion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'luxe-gold': '#D4AF37',
+                        'luxe-black': '#0a0a0a',
+                        'luxe-charcoal': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: #f3f3f3; }
+        .glass-nav { background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-serif text-white tracking-widest font-bold">LUXE<span class="text-luxe-gold">.</span></a>
+            <div class="hidden md:flex space-x-8 text-sm tracking-widest">
+                <a href="properties.html" class="hover:text-luxe-gold transition-colors">PROPIEDADES</a>
+                <a href="about.html" class="hover:text-luxe-gold transition-colors">NOSOTROS</a>
+                <a href="contact.html" class="hover:text-luxe-gold transition-colors">CONTACTO</a>
+            </div>
+            <button class="md:hidden text-white text-xl"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Image -->
+    <header class="relative h-[80vh] overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1453&q=80" alt="Main Property" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-luxe-black via-transparent to-black/30"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end">
+                    <div>
+                        <p class="text-luxe-gold tracking-widest mb-2 reveal">MALIBU, CALIFORNIA</p>
+                        <h1 class="text-4xl md:text-6xl font-serif text-white reveal" style="transition-delay: 100ms;">The Glass Pavilion</h1>
+                    </div>
+                    <div class="mt-6 md:mt-0 reveal" style="transition-delay: 200ms;">
+                        <span class="block text-3xl md:text-5xl font-bold text-white text-right">$12,500,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Details Grid -->
+    <section class="py-12 border-b border-white/10 bg-luxe-charcoal">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="reveal">
+                    <i class="fas fa-bed text-2xl text-luxe-gold mb-2"></i>
+                    <p class="text-white text-lg font-bold">5</p>
+                    <p class="text-xs text-gray-500 tracking-widest">HABITACIONES</p>
+                </div>
+                <div class="reveal" style="transition-delay: 50ms;">
+                    <i class="fas fa-bath text-2xl text-luxe-gold mb-2"></i>
+                    <p class="text-white text-lg font-bold">6</p>
+                    <p class="text-xs text-gray-500 tracking-widest">BAÑOS</p>
+                </div>
+                <div class="reveal" style="transition-delay: 100ms;">
+                    <i class="fas fa-ruler-combined text-2xl text-luxe-gold mb-2"></i>
+                    <p class="text-white text-lg font-bold">850 m²</p>
+                    <p class="text-xs text-gray-500 tracking-widest">INTERIOR</p>
+                </div>
+                <div class="reveal" style="transition-delay: 150ms;">
+                    <i class="fas fa-tree text-2xl text-luxe-gold mb-2"></i>
+                    <p class="text-white text-lg font-bold">2.5 ac</p>
+                    <p class="text-xs text-gray-500 tracking-widest">TERRENO</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-16">
+                
+                <!-- Description & Gallery -->
+                <div class="lg:w-2/3">
+                    <h2 class="text-2xl font-serif text-white mb-6 reveal">Descripción</h2>
+                    <p class="text-gray-400 leading-relaxed mb-8 reveal" style="transition-delay: 100ms;">
+                        Esta obra maestra arquitectónica ofrece una experiencia de vida incomparable con vistas panorámicas al océano. Diseñada por el renombrado arquitecto Steve Hermann, The Glass Pavilion es un homenaje al modernismo, con paredes de vidrio de piso a techo que difuminan la línea entre el interior y el exterior.
+                        <br><br>
+                        La cocina de chef cuenta con electrodomésticos Gaggenau y gabinetes personalizados. La suite principal es un santuario privado con su propia terraza y un baño estilo spa revestido en mármol Calacatta.
+                    </p>
+
+                    <h2 class="text-2xl font-serif text-white mb-6 mt-12 reveal">Características</h2>
+                    <ul class="grid grid-cols-2 gap-4 mb-12 reveal" style="transition-delay: 100ms;">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-check text-luxe-gold mr-3"></i> Piscina Infinita</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-check text-luxe-gold mr-3"></i> Cine Privado</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-check text-luxe-gold mr-3"></i> Cava de Vinos</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-check text-luxe-gold mr-3"></i> Garaje para 6 Autos</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-check text-luxe-gold mr-3"></i> Domótica Inteligente</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-check text-luxe-gold mr-3"></i> Gimnasio Equipado</li>
+                    </ul>
+
+                    <!-- Gallery Grid -->
+                    <h2 class="text-2xl font-serif text-white mb-6 reveal">Galería</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 reveal">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80" class="rounded-sm hover:opacity-90 transition-opacity cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="rounded-sm hover:opacity-90 transition-opacity cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=1692&q=80" class="rounded-sm hover:opacity-90 transition-opacity cursor-pointer md:col-span-2">
+                    </div>
+                </div>
+
+                <!-- Agent Card -->
+                <div class="lg:w-1/3">
+                    <div class="bg-luxe-charcoal p-8 rounded-sm sticky top-24 border border-white/5 reveal">
+                        <div class="text-center mb-6">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-2 border-luxe-gold">
+                            <h3 class="text-xl font-serif text-white">Alexander Sterling</h3>
+                            <p class="text-xs text-luxe-gold tracking-widest">AGENTE EXCLUSIVO</p>
+                        </div>
+                        <form class="space-y-4">
+                            <input type="text" placeholder="Nombre" class="w-full bg-luxe-black border border-white/10 p-3 text-white focus:border-luxe-gold focus:outline-none">
+                            <input type="email" placeholder="Email" class="w-full bg-luxe-black border border-white/10 p-3 text-white focus:border-luxe-gold focus:outline-none">
+                            <input type="tel" placeholder="Teléfono" class="w-full bg-luxe-black border border-white/10 p-3 text-white focus:border-luxe-gold focus:outline-none">
+                            <textarea rows="3" placeholder="Estoy interesado en esta propiedad..." class="w-full bg-luxe-black border border-white/10 p-3 text-white focus:border-luxe-gold focus:outline-none"></textarea>
+                            <button class="w-full bg-luxe-gold text-luxe-black font-bold py-3 hover:bg-white transition-colors">CONTACTAR AGENTE</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/10 text-center md:text-left">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-serif font-bold text-white tracking-widest">LUXE<span class="text-luxe-gold">.</span></h2>
+                </div>
+                <div class="flex space-x-6 text-gray-400">
+                    <a href="#" class="hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-tiktok text-xl"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between text-xs text-gray-600 tracking-wider">
+                <p>&copy; 2024 LUXE ESTATES.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>

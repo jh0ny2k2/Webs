@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | The Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aura-cream': '#F9F8F6',
+                        'aura-charcoal': '#2C2C2C',
+                        'aura-stone': '#8E8E8E',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Mulish', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9F8F6; color: #2C2C2C; }
+        .parallax-container { overflow: hidden; position: relative; }
+        .parallax-img { transform: scale(1.2); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 py-12 px-12 md:px-24 flex justify-between items-center bg-aura-cream/90 backdrop-blur-sm">
+        <a href="index.html" class="font-serif text-3xl tracking-widest italic">Aura.</a>
+        <div class="hidden md:flex gap-16 font-sans text-xs tracking-[0.2em] uppercase text-aura-charcoal/80">
+            <a href="catalog.html" class="hover:text-aura-charcoal transition-colors">Shop</a>
+            <a href="about.html" class="text-aura-charcoal font-bold">Studio</a>
+            <a href="#" class="hover:text-aura-charcoal transition-colors">Journal</a>
+        </div>
+        <a href="#" class="font-sans text-xs tracking-[0.2em] uppercase">Cart (0)</a>
+    </nav>
+
+    <main>
+        
+        <!-- Hero -->
+        <header class="pt-40 pb-24 px-12 md:px-24 text-center max-w-4xl mx-auto">
+            <p class="font-sans text-xs tracking-[0.4em] mb-8 text-aura-stone">THE PHILOSOPHY</p>
+            <h1 class="font-serif text-5xl md:text-7xl font-light leading-tight mb-12">
+                We design for longevity. <br> <span class="italic">Objects that age gracefully.</span>
+            </h1>
+        </header>
+
+        <!-- Full Width Image -->
+        <div class="parallax-container h-[80vh] w-full">
+            <img src="https://images.unsplash.com/photo-1505577058444-a3dab90d4253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" class="parallax-img w-full h-full object-cover grayscale opacity-90">
+        </div>
+
+        <!-- Content -->
+        <section class="py-32 px-12 md:px-24 container mx-auto">
+            <div class="grid md:grid-cols-2 gap-24">
+                <div>
+                    <h2 class="font-serif text-4xl italic mb-8">Materiality</h2>
+                    <p class="font-sans text-aura-stone leading-loose font-light">
+                        We source our wood from certified sustainable forests in Scandinavia. Our fabrics are natural, breathable, and free from harmful chemicals. We believe that the tactile experience of furniture is just as important as its visual appeal.
+                    </p>
+                </div>
+                <div>
+                    <h2 class="font-serif text-4xl italic mb-8">Craftsmanship</h2>
+                    <p class="font-sans text-aura-stone leading-loose font-light">
+                        Every piece is finished by hand in our Copenhagen workshop. We work with master joiners who have dedicated their lives to the art of woodworking. This human touch ensures that no two Aura pieces are exactly alike.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Gallery -->
+        <section class="pb-32 px-12 md:px-24">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <img src="https://images.unsplash.com/photo-1581783342308-f792ca438912?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+                <img src="https://images.unsplash.com/photo-1617104424032-b9bd6972d0e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-1000 mt-12">
+                <img src="https://images.unsplash.com/photo-1532372320572-cda25653a26d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-24 px-12 md:px-24 border-t border-aura-charcoal/5 flex flex-col md:flex-row justify-between items-start gap-12">
+        <div>
+            <h4 class="font-serif text-2xl italic mb-8">Aura.</h4>
+        </div>
+        <div class="flex gap-12 font-sans text-xs tracking-[0.2em] uppercase text-aura-charcoal/60">
+            <a href="#" class="hover:text-aura-charcoal">Instagram</a>
+            <a href="#" class="hover:text-aura-charcoal">Contact</a>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.to(".parallax-img", {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".parallax-container",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    </script>
+</body>
+</html>

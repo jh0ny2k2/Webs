@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INK NOIR | Artistas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Oswald:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ink-black': '#050505',
+                        'ink-charcoal': '#121212',
+                        'ink-gray': '#2A2A2A',
+                        'ink-white': '#Eaeaea',
+                        'ink-accent': '#D43F3F',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Oswald', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #Eaeaea; cursor: none; }
+        .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+        .cursor-dot { width: 8px; height: 8px; background-color: #Eaeaea; }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(234, 234, 234, 0.5); transition: width 0.2s, height 0.2s; }
+        body:hover .cursor-outline { width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-ink-accent selection:text-ink-black">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 mix-blend-difference py-6 px-6 md:px-12 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-serif font-bold tracking-widest text-ink-white hover:text-ink-accent transition-colors">INK<span class="text-ink-accent">.</span>NOIR</a>
+        <div class="hidden md:flex gap-12 font-mono text-sm tracking-widest">
+            <a href="artists.html" class="text-ink-accent">ARTISTAS</a>
+            <a href="portfolio.html" class="hover:text-ink-accent transition-colors">PORTFOLIO</a>
+            <a href="booking.html" class="hover:text-ink-accent transition-colors">BOOKING</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-ink-white text-2xl"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ink-black z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8">
+        <a href="index.html" class="text-4xl font-serif hover:text-ink-accent">HOME</a>
+        <a href="artists.html" class="text-4xl font-serif text-ink-accent">ARTISTAS</a>
+        <a href="portfolio.html" class="text-4xl font-serif hover:text-ink-accent">PORTFOLIO</a>
+        <a href="booking.html" class="text-4xl font-serif hover:text-ink-accent">BOOKING</a>
+        <button id="close-menu" class="absolute top-6 right-6 text-2xl text-ink-white"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Header -->
+    <header class="pt-40 pb-20 px-6 md:px-12 text-center">
+        <h1 class="text-5xl md:text-8xl font-serif text-ink-white mb-6">LOS ARTISTAS</h1>
+        <p class="font-mono text-ink-white/60 max-w-xl mx-auto text-sm">Cada artista en Ink Noir tiene una visión única. Elige al que mejor cuente tu historia.</p>
+    </header>
+
+    <!-- Artist List -->
+    <section class="pb-32 px-6 md:px-12">
+        <div class="space-y-32">
+            
+            <!-- Artist 1 -->
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative group">
+                    <img src="https://images.unsplash.com/photo-1590412676578-c8a7742d6226?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full h-[600px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 border border-ink-white/20 transform translate-x-4 translate-y-4 -z-10 group-hover:translate-x-6 group-hover:translate-y-6 transition-transform duration-500"></div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl md:text-6xl font-serif text-ink-white mb-4">ALEX VOID</h2>
+                    <p class="font-mono text-ink-accent text-sm tracking-widest mb-8">REALISMO / BLACKWORK</p>
+                    <p class="text-ink-white/70 leading-relaxed mb-8 font-light">
+                        Maestro de las sombras y el contraste. Alex se especializa en retratos hiperrealistas y composiciones oscuras que desafían la percepción. Su técnica de blackwork es reconocida por su profundidad y durabilidad.
+                    </p>
+                    <a href="portfolio.html" class="inline-block border-b border-ink-white pb-1 hover:text-ink-accent hover:border-ink-accent transition-colors">VER PORTFOLIO COMPLETO -></a>
+                </div>
+            </div>
+
+            <!-- Artist 2 -->
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="md:w-1/2 relative group">
+                    <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full h-[600px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 border border-ink-white/20 transform -translate-x-4 translate-y-4 -z-10 group-hover:-translate-x-6 group-hover:translate-y-6 transition-transform duration-500"></div>
+                </div>
+                <div class="md:w-1/2 text-right md:text-left"> <!-- Adjusted text align for variety or keep left -->
+                     <div class="md:text-right">
+                        <h2 class="text-4xl md:text-6xl font-serif text-ink-white mb-4">SARA INK</h2>
+                        <p class="font-mono text-ink-accent text-sm tracking-widest mb-8">NEOTRADICIONAL / COLOR</p>
+                        <p class="text-ink-white/70 leading-relaxed mb-8 font-light ml-auto md:ml-auto md:mr-0 max-w-xl">
+                            Sara trae vida a la piel con paletas de colores vibrantes y líneas audaces. Su estilo neotradicional combina la iconografía clásica con un toque moderno y femenino.
+                        </p>
+                        <a href="portfolio.html" class="inline-block border-b border-ink-white pb-1 hover:text-ink-accent hover:border-ink-accent transition-colors">VER PORTFOLIO COMPLETO -></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artist 3 -->
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative group">
+                    <img src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full h-[600px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute inset-0 border border-ink-white/20 transform translate-x-4 translate-y-4 -z-10 group-hover:translate-x-6 group-hover:translate-y-6 transition-transform duration-500"></div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl md:text-6xl font-serif text-ink-white mb-4">KAI ZEN</h2>
+                    <p class="font-mono text-ink-accent text-sm tracking-widest mb-8">GEOMÉTRICO / DOTWORK</p>
+                    <p class="text-ink-white/70 leading-relaxed mb-8 font-light">
+                        Precisión matemática y espiritualidad. Kai crea mandalas complejos y patrones geométricos utilizando la técnica del puntillismo (dotwork). Tatuajes que fluyen con la anatomía del cuerpo.
+                    </p>
+                    <a href="portfolio.html" class="inline-block border-b border-ink-white pb-1 hover:text-ink-accent hover:border-ink-accent transition-colors">VER PORTFOLIO COMPLETO -></a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ink-black py-20 border-t border-ink-white/5">
+        <div class="container mx-auto px-6 md:px-12 text-center">
+            <h2 class="text-3xl font-serif font-bold text-ink-white mb-6">INK<span class="text-ink-accent">.</span>NOIR</h2>
+            <p class="font-mono text-ink-white/50 text-xs">© 2024 INK NOIR STUDIO</p>
+        </div>
+    </footer>
+
+    <script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+    </script>
+</body>
+</html>

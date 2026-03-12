@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRONOS | The Navigator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'chronos-navy': '#0B1026',
+                        'chronos-gold': '#E0C097',
+                        'chronos-silver': '#E5E7EB',
+                    },
+                    fontFamily: {
+                        serif: ['Italiana', 'serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B1026; color: #E5E7EB; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 py-8 px-12 flex justify-between items-center bg-chronos-navy/90 backdrop-blur-md border-b border-chronos-gold/10">
+        <a href="index.html" class="font-serif text-3xl text-chronos-gold">CHRONOS</a>
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-widest uppercase text-chronos-gold">
+            <a href="collection.html" class="hover:text-white transition-colors">Collection</a>
+            <a href="about.html" class="hover:text-white transition-colors">Legacy</a>
+            <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <main class="pt-32 min-h-screen flex flex-col md:flex-row">
+        
+        <!-- Product Image -->
+        <div class="md:w-1/2 relative h-[60vh] md:h-screen bg-white/5">
+            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=1999&q=80" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Product Details -->
+        <div class="md:w-1/2 p-12 md:p-20 flex flex-col justify-center">
+            <div class="mb-12">
+                <span class="text-chronos-gold font-sans text-xs tracking-[0.2em] mb-4 block">AVIATION SERIES</span>
+                <h1 class="font-serif text-6xl md:text-7xl mb-6">The Navigator</h1>
+                <p class="font-sans text-gray-400 leading-relaxed mb-8 max-w-md">
+                    Built for the skies. The Navigator combines robust durability with refined elegance. Its rose gold case houses our proprietary C-900 automatic movement, visible through the exhibition caseback.
+                </p>
+                <span class="font-serif text-4xl text-white block mb-8">$12,500</span>
+                
+                <button class="bg-chronos-gold text-chronos-navy px-12 py-4 font-sans text-xs tracking-widest uppercase hover:bg-white transition-colors">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 border-t border-chronos-gold/20 pt-12">
+                <div>
+                    <h3 class="font-serif text-xl mb-2 text-chronos-gold">Case</h3>
+                    <p class="font-sans text-sm text-gray-400">42mm Rose Gold</p>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl mb-2 text-chronos-gold">Movement</h3>
+                    <p class="font-sans text-sm text-gray-400">Automatic Caliber C-900</p>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl mb-2 text-chronos-gold">Strap</h3>
+                    <p class="font-sans text-sm text-gray-400">Alligator Leather</p>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl mb-2 text-chronos-gold">Water Resistance</h3>
+                    <p class="font-sans text-sm text-gray-400">100m / 330ft</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        gsap.from("img", { scale: 1.1, opacity: 0, duration: 1.5, ease: "power2.out" });
+        gsap.from("h1", { x: 50, opacity: 0, duration: 1, ease: "power2.out", delay: 0.5 });
+        gsap.from("p", { y: 20, opacity: 0, duration: 1, ease: "power2.out", delay: 0.7 });
+    </script>
+</body>
+</html>

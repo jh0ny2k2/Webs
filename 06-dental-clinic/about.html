@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA DENTAL | Nosotros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aura-navy': '#0F172A',
+                        'aura-gold': '#C5A059',
+                        'aura-gold-light': '#E5C585',
+                        'aura-cream': '#F9F8F6',
+                        'aura-gray': '#64748B',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9F8F6; color: #0F172A; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-aura-navy text-aura-gold flex items-center justify-center rounded-sm font-serif font-bold text-xl">A</div>
+                <span class="text-xl font-serif font-bold tracking-wide text-aura-navy group-hover:text-aura-gold transition-colors">AURA<span class="font-light">DENTAL</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                <a href="index.html" class="text-aura-navy hover:text-aura-gold transition-colors">INICIO</a>
+                <a href="about.html" class="text-aura-gold">NOSOTROS</a>
+                <a href="services.html" class="text-aura-navy hover:text-aura-gold transition-colors">TRATAMIENTOS</a>
+                <a href="contact.html" class="px-6 py-2 bg-aura-navy text-white rounded-sm hover:bg-aura-gold transition-colors duration-300">AGENDAR CITA</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-aura-navy text-2xl"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-lg py-4 px-6 flex flex-col gap-4">
+            <a href="index.html" class="text-aura-navy hover:text-aura-gold font-medium">INICIO</a>
+            <a href="about.html" class="text-aura-navy hover:text-aura-gold font-medium">NOSOTROS</a>
+            <a href="services.html" class="text-aura-navy hover:text-aura-gold font-medium">TRATAMIENTOS</a>
+            <a href="contact.html" class="text-aura-navy hover:text-aura-gold font-medium">CONTACTO</a>
+            <a href="contact.html" class="px-6 py-2 bg-aura-navy text-white rounded-sm hover:bg-aura-gold transition-colors text-center">AGENDAR CITA</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Team" class="w-full h-full object-cover grayscale opacity-40">
+            <div class="absolute inset-0 bg-aura-navy/60"></div>
+        </div>
+        <div class="relative z-10 text-center px-6">
+            <p class="text-aura-gold tracking-[0.2em] text-sm font-bold mb-4 uppercase" data-aos="fade-down">Nuestra Esencia</p>
+            <h1 class="text-5xl md:text-7xl font-serif text-white mb-6" data-aos="fade-up">Pasión por el <br/><span class="italic text-aura-gold">Detalle</span></h1>
+        </div>
+    </header>
+
+    <!-- Philosophy -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2" data-aos="fade-right">
+                    <h2 class="text-4xl font-serif text-aura-navy mb-6">Más que una clínica, <br>un espacio de bienestar.</h2>
+                    <p class="text-aura-gray mb-6 leading-relaxed text-lg">
+                        Fundada en 2015 por el Dr. Alejandro Vance, AURA nació con una misión clara: transformar la odontología tradicional en una experiencia premium centrada en el paciente.
+                    </p>
+                    <p class="text-aura-gray mb-6 leading-relaxed text-lg">
+                        Entendemos que cada sonrisa es única. Por eso, combinamos técnicas artesanales con la última tecnología digital para diseñar tratamientos que no solo mejoran la estética, sino que respetan la función biológica de tu boca.
+                    </p>
+                    <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80" class="w-full rounded-sm mt-8 shadow-xl">
+                </div>
+                <div class="md:w-1/2 space-y-8" data-aos="fade-left">
+                    <div class="flex gap-6">
+                        <div class="w-16 h-16 flex-shrink-0 bg-aura-cream flex items-center justify-center text-aura-gold text-2xl rounded-full">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-aura-navy mb-2">Excelencia Estética</h3>
+                            <p class="text-aura-gray">Buscamos la perfección natural. Dientes que se ven y se sienten reales.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="w-16 h-16 flex-shrink-0 bg-aura-cream flex items-center justify-center text-aura-gold text-2xl rounded-full">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-aura-navy mb-2">Tecnología Mínimamente Invasiva</h3>
+                            <p class="text-aura-gray">Preservamos la estructura dental original siempre que es posible.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="w-16 h-16 flex-shrink-0 bg-aura-cream flex items-center justify-center text-aura-gold text-2xl rounded-full">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-aura-navy mb-2">Empatía Total</h3>
+                            <p class="text-aura-gray">Escuchamos tus miedos y deseos antes de tocar un solo diente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="py-24 bg-aura-cream">
+        <div class="container mx-auto px-6 text-center mb-16">
+            <h2 class="text-sm font-bold text-aura-gold tracking-widest uppercase mb-2">Expertos</h2>
+            <h3 class="text-4xl font-serif text-aura-navy">Conoce a tus Doctores</h3>
+        </div>
+
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Doc 1 -->
+            <div class="group" data-aos="fade-up">
+                <div class="relative overflow-hidden rounded-sm mb-6 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                </div>
+                <h4 class="text-2xl font-serif text-aura-navy">Dr. Alejandro Vance</h4>
+                <p class="text-aura-gold text-sm tracking-widest uppercase mt-1">Director Médico & Estética</p>
+            </div>
+
+            <!-- Doc 2 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative overflow-hidden rounded-sm mb-6 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                </div>
+                <h4 class="text-2xl font-serif text-aura-navy">Dra. Elena Costa</h4>
+                <p class="text-aura-gold text-sm tracking-widest uppercase mt-1">Ortodoncia</p>
+            </div>
+
+            <!-- Doc 3 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative overflow-hidden rounded-sm mb-6 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1064&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                </div>
+                <h4 class="text-2xl font-serif text-aura-navy">Dr. Marcos Ruiz</h4>
+                <p class="text-aura-gold text-sm tracking-widest uppercase mt-1">Implantología</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-aura-navy text-white pt-20 pb-10 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 bg-white text-aura-navy flex items-center justify-center rounded-sm font-serif font-bold text-xl">A</div>
+                        <span class="text-xl font-serif font-bold tracking-wide text-white">AURA<span class="font-light">DENTAL</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Clínica dental boutique especializada en estética y restauración. Tu salud bucal en manos de expertos.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-serif font-bold mb-6 text-aura-gold">Enlaces</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Inicio</a></li>
+                        <li><a href="about.html" class="hover:text-white transition-colors">Nosotros</a></li>
+                        <li><a href="services.html" class="hover:text-white transition-colors">Tratamientos</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-serif font-bold mb-6 text-aura-gold">Contacto</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1 text-aura-gold"></i> Calle Velázquez 45, Madrid</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-phone text-aura-gold"></i> +34 912 345 678</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-aura-gold"></i> info@auradental.com</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-serif font-bold mb-6 text-aura-gold">Horario</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex justify-between"><span>Lunes - Viernes</span> <span>9:00 - 20:00</span></li>
+                        <li class="flex justify-between"><span>Sábados</span> <span>10:00 - 14:00</span></li>
+                        <li class="flex justify-between"><span>Domingos</span> <span>Cerrado</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2024 Aura Dental Clinic. Todos los derechos reservados.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-facebook text-lg"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fab fa-tiktok text-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50, duration: 800 });
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md', 'py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('shadow-md', 'py-2');
+                navbar.classList.add('py-4');
+            }
+        });
+
+        // Mobile Menu Logic
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

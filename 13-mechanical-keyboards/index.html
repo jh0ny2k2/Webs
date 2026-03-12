@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THOCK | Custom Keyboards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'keeb-bg': '#f3f4f6',
+                        'keeb-dark': '#1f2937',
+                        'keeb-accent': '#818cf8',
+                        'keeb-pastel-pink': '#fbcfe8',
+                        'keeb-pastel-blue': '#bfdbfe',
+                        'keeb-pastel-green': '#bbf7d0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f3f4f6; color: #1f2937; }
+        .keycap {
+            box-shadow: 
+                0 4px 0 #d1d5db,
+                0 5px 10px rgba(0,0,0,0.1);
+            transition: all 0.1s;
+        }
+        .keycap:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #d1d5db, inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Audio Context -->
+    <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-6 px-8 md:px-12 flex justify-between items-center bg-keeb-bg/80 backdrop-blur-md">
+        <a href="index.html" class="font-mono font-bold text-2xl tracking-tighter hover:text-keeb-accent transition-colors">THOCK.</a>
+        <div class="hidden md:flex gap-8 font-sans font-medium text-sm text-gray-500">
+            <a href="builder.html" class="hover:text-keeb-dark transition-colors">Configurator</a>
+            <a href="switches.html" class="hover:text-keeb-dark transition-colors">Switches</a>
+            <a href="#" class="hover:text-keeb-dark transition-colors">Group Buys</a>
+        </div>
+        <a href="builder.html" class="bg-keeb-dark text-white px-6 py-2 rounded-full font-mono text-sm hover:bg-keeb-accent transition-colors">Build Yours</a>
+    </nav>
+
+    <!-- Hero -->
+    <main class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+        <div class="mb-8 relative inline-block">
+            <span class="absolute -top-6 -right-6 bg-keeb-pastel-pink text-keeb-dark text-xs font-bold px-3 py-1 rounded-full transform rotate-12">New Batch</span>
+            <h1 class="font-sans font-extrabold text-6xl md:text-8xl tracking-tight mb-2">Find Your <br> <span class="gradient-text">Rhythm.</span></h1>
+        </div>
+        <p class="font-mono text-gray-500 max-w-lg mb-12 text-sm md:text-base">Premium mechanical keyboards designed for the enthusiast. Tactile, linear, or clicky—customize every sensation.</p>
+        
+        <div class="flex gap-4">
+            <a href="builder.html" class="keycap bg-keeb-dark text-white px-8 py-4 rounded-lg font-bold font-mono inline-block">START BUILDING</a>
+            <a href="switches.html" class="keycap bg-white text-keeb-dark border border-gray-200 px-8 py-4 rounded-lg font-bold font-mono inline-block">HEAR SOUNDS</a>
+        </div>
+
+        <!-- 3D/Image Placeholder -->
+        <div class="mt-20 relative w-full max-w-4xl">
+            <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80" class="rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-keeb-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-keeb-pastel-green rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        </div>
+    </main>
+
+    <footer class="py-12 text-center text-gray-400 font-mono text-xs">
+        <p>© 2024 THOCK KEYBOARDS. CLACK ON.</p>
+    </footer>
+
+    <script>
+        // Global Sound Effect
+        const audio = document.getElementById('click-sound');
+        
+        // Add sound to all buttons and links
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                const clone = audio.cloneNode();
+                clone.volume = 0.2;
+                clone.play();
+            });
+        });
+
+        // GSAP Intro
+        gsap.from("h1", { y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from("p", { y: 30, opacity: 0, duration: 1, ease: "power3.out", delay: 0.2 });
+        gsap.from(".keycap", { y: 30, opacity: 0, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)", delay: 0.4 });
+        gsap.from("img", { scale: 0.9, opacity: 0, duration: 1.5, ease: "power2.out", delay: 0.6 });
+    </script>
+</body>
+</html>

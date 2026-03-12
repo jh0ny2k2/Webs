@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THOCK | Configurator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'keeb-bg': '#f3f4f6',
+                        'keeb-dark': '#1f2937',
+                        'keeb-accent': '#818cf8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f3f4f6; color: #1f2937; }
+        
+        .keyboard-case {
+            background: #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 
+                0 20px 40px -10px rgba(0,0,0,0.1),
+                0 0 0 1px rgba(0,0,0,0.05),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            transition: background 0.3s;
+        }
+
+        .keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 6px;
+        }
+
+        .key {
+            aspect-ratio: 1/1;
+            background: #ffffff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            box-shadow: 
+                0 3px 0 #d1d5db,
+                0 4px 4px rgba(0,0,0,0.05);
+            transition: all 0.05s ease;
+            user-select: none;
+            position: relative;
+        }
+
+        .key:active, .key.pressed {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #d1d5db, inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Key Sizes */
+        .w-1-5 { grid-column: span 2; aspect-ratio: auto; } /* Tab, Backslash */
+        .w-1-75 { grid-column: span 2; aspect-ratio: auto; } /* Caps */
+        .w-2 { grid-column: span 2; aspect-ratio: auto; } /* Shift, Enter */
+        .w-2-25 { grid-column: span 3; aspect-ratio: auto; } /* Shift, Enter */
+        .w-6-25 { grid-column: span 7; aspect-ratio: auto; } /* Space */
+
+        /* Color Options */
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+        .color-option:hover { transform: scale(1.1); }
+        .color-option.active { border-color: #1f2937; }
+
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Audio Context -->
+    <audio id="thock-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+    <audio id="clack-sound" src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3"></audio>
+    <audio id="creamy-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+
+    <!-- Navigation -->
+    <nav class="w-full py-6 px-8 flex justify-between items-center bg-white border-b border-gray-200">
+        <a href="index.html" class="font-mono font-bold text-xl">THOCK.</a>
+        <div class="flex items-center gap-4">
+            <span class="text-sm font-sans text-gray-500">Total:</span>
+            <span class="font-mono font-bold text-lg">$<span id="price">189.00</span></span>
+            <button class="bg-keeb-dark text-white px-6 py-2 rounded-lg font-mono text-sm hover:bg-keeb-accent transition-colors ml-4">Add to Cart</button>
+        </div>
+    </nav>
+
+    <main class="flex-1 flex flex-col lg:flex-row">
+        
+        <!-- Preview Area -->
+        <div class="lg:w-3/4 bg-keeb-bg flex items-center justify-center p-8 relative overflow-hidden">
+            <div class="keyboard-case" id="keyboard-case">
+                <div class="keyboard-grid">
+                    <!-- Row 1 -->
+                    <div class="key alpha" data-key="ESC">ESC</div>
+                    <div class="key alpha" data-key="1">1</div>
+                    <div class="key alpha" data-key="2">2</div>
+                    <div class="key alpha" data-key="3">3</div>
+                    <div class="key alpha" data-key="4">4</div>
+                    <div class="key alpha" data-key="5">5</div>
+                    <div class="key alpha" data-key="6">6</div>
+                    <div class="key alpha" data-key="7">7</div>
+                    <div class="key alpha" data-key="8">8</div>
+                    <div class="key alpha" data-key="9">9</div>
+                    <div class="key alpha" data-key="0">0</div>
+                    <div class="key alpha" data-key="-">-</div>
+                    <div class="key alpha" data-key="=">=</div>
+                    <div class="key mod w-2" data-key="BKSP">BKSP</div>
+                    
+                    <!-- Row 2 -->
+                    <div class="key mod w-1-5" data-key="TAB">TAB</div>
+                    <div class="key alpha" data-key="Q">Q</div>
+                    <div class="key alpha" data-key="W">W</div>
+                    <div class="key alpha" data-key="E">E</div>
+                    <div class="key alpha" data-key="R">R</div>
+                    <div class="key alpha" data-key="T">T</div>
+                    <div class="key alpha" data-key="Y">Y</div>
+                    <div class="key alpha" data-key="U">U</div>
+                    <div class="key alpha" data-key="I">I</div>
+                    <div class="key alpha" data-key="O">O</div>
+                    <div class="key alpha" data-key="P">P</div>
+                    <div class="key alpha" data-key="[">[</div>
+                    <div class="key alpha" data-key="]">]</div>
+                    <div class="key mod w-1-5" data-key="\">\|</div>
+
+                    <!-- Row 3 -->
+                    <div class="key mod w-1-75" data-key="CAPS">CAPS</div>
+                    <div class="key alpha" data-key="A">A</div>
+                    <div class="key alpha" data-key="S">S</div>
+                    <div class="key alpha" data-key="D">D</div>
+                    <div class="key alpha" data-key="F">F</div>
+                    <div class="key alpha" data-key="G">G</div>
+                    <div class="key alpha" data-key="H">H</div>
+                    <div class="key alpha" data-key="J">J</div>
+                    <div class="key alpha" data-key="K">K</div>
+                    <div class="key alpha" data-key="L">L</div>
+                    <div class="key alpha" data-key=";">;</div>
+                    <div class="key alpha" data-key="'">'</div>
+                    <div class="key accent w-2-25" data-key="ENTER">ENTER</div>
+
+                    <!-- Row 4 -->
+                    <div class="key mod w-2-25" data-key="SHIFT">SHIFT</div>
+                    <div class="key alpha" data-key="Z">Z</div>
+                    <div class="key alpha" data-key="X">X</div>
+                    <div class="key alpha" data-key="C">C</div>
+                    <div class="key alpha" data-key="V">V</div>
+                    <div class="key alpha" data-key="B">B</div>
+                    <div class="key alpha" data-key="N">N</div>
+                    <div class="key alpha" data-key="M">M</div>
+                    <div class="key alpha" data-key=",">,</div>
+                    <div class="key alpha" data-key=".">.</div>
+                    <div class="key alpha" data-key="/">/</div>
+                    <div class="key mod w-2" data-key="SHIFT">SHIFT</div>
+                    <div class="key mod" data-key="FN">FN</div>
+
+                    <!-- Row 5 -->
+                    <div class="key mod w-1-5" data-key="CTRL">CTRL</div>
+                    <div class="key mod w-1-5" data-key="WIN">WIN</div>
+                    <div class="key mod w-1-5" data-key="ALT">ALT</div>
+                    <div class="key alpha w-6-25" data-key="SPACE"></div>
+                    <div class="key mod w-1-5" data-key="ALT">ALT</div>
+                    <div class="key mod w-1-5" data-key="FN">FN</div>
+                    <div class="key mod w-1-5" data-key="CTRL">CTRL</div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-8 text-center text-xs text-gray-400 font-mono">
+                <p>Click keys to hear sounds. Press physical keys to type.</p>
+            </div>
+        </div>
+
+        <!-- Controls Area -->
+        <div class="lg:w-1/4 bg-white border-l border-gray-200 p-8 overflow-y-auto">
+            <h2 class="font-bold font-sans text-xl mb-8">Customize</h2>
+
+            <!-- Case Color -->
+            <div class="mb-8">
+                <h3 class="font-mono text-sm text-gray-500 mb-4 uppercase">Case Color</h3>
+                <div class="flex gap-3">
+                    <div class="color-option active" style="background: #e5e7eb;" onclick="setCase('#e5e7eb')"></div>
+                    <div class="color-option" style="background: #1f2937;" onclick="setCase('#1f2937')"></div>
+                    <div class="color-option" style="background: #fbcfe8;" onclick="setCase('#fbcfe8')"></div>
+                    <div class="color-option" style="background: #bfdbfe;" onclick="setCase('#bfdbfe')"></div>
+                </div>
+            </div>
+
+            <!-- Keycap Colors -->
+            <div class="mb-8">
+                <h3 class="font-mono text-sm text-gray-500 mb-4 uppercase">Alphas (Letters)</h3>
+                <div class="flex gap-3">
+                    <div class="color-option active" style="background: #ffffff;" onclick="setKeys('alpha', '#ffffff', '#374151')"></div>
+                    <div class="color-option" style="background: #374151;" onclick="setKeys('alpha', '#374151', '#ffffff')"></div>
+                    <div class="color-option" style="background: #fef3c7;" onclick="setKeys('alpha', '#fef3c7', '#78350f')"></div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="font-mono text-sm text-gray-500 mb-4 uppercase">Modifiers</h3>
+                <div class="flex gap-3">
+                    <div class="color-option" style="background: #e5e7eb;" onclick="setKeys('mod', '#e5e7eb', '#374151')"></div>
+                    <div class="color-option active" style="background: #9ca3af;" onclick="setKeys('mod', '#9ca3af', '#ffffff')"></div>
+                    <div class="color-option" style="background: #818cf8;" onclick="setKeys('mod', '#818cf8', '#ffffff')"></div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="font-mono text-sm text-gray-500 mb-4 uppercase">Accent (Enter/Esc)</h3>
+                <div class="flex gap-3">
+                    <div class="color-option" style="background: #f87171;" onclick="setKeys('accent', '#f87171', '#ffffff')"></div>
+                    <div class="color-option active" style="background: #34d399;" onclick="setKeys('accent', '#34d399', '#ffffff')"></div>
+                    <div class="color-option" style="background: #fbbf24;" onclick="setKeys('accent', '#fbbf24', '#ffffff')"></div>
+                </div>
+            </div>
+
+            <!-- Switch Type (Sound) -->
+            <div class="mb-8">
+                <h3 class="font-mono text-sm text-gray-500 mb-4 uppercase">Switch Type (Sound)</h3>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-keeb-dark transition-colors">
+                        <input type="radio" name="switch" value="thock" checked onchange="setSound('thock')">
+                        <div class="w-4 h-4 rounded-full bg-red-400"></div>
+                        <span class="font-mono text-sm">Gateron Red (Linear)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-keeb-dark transition-colors">
+                        <input type="radio" name="switch" value="clack" onchange="setSound('clack')">
+                        <div class="w-4 h-4 rounded-full bg-blue-400"></div>
+                        <span class="font-mono text-sm">Cherry Blue (Clicky)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-keeb-dark transition-colors">
+                        <input type="radio" name="switch" value="creamy" onchange="setSound('creamy')">
+                        <div class="w-4 h-4 rounded-full bg-yellow-700"></div>
+                        <span class="font-mono text-sm">Holy Panda (Tactile)</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        let currentSound = 'thock';
+        const sounds = {
+            thock: document.getElementById('thock-sound'),
+            clack: document.getElementById('clack-sound'),
+            creamy: document.getElementById('creamy-sound')
+        };
+
+        // Initialize default colors
+        setKeys('mod', '#e5e7eb', '#374151');
+        setKeys('accent', '#818cf8', '#ffffff');
+
+        // Play Sound
+        function playSound() {
+            const audio = sounds[currentSound].cloneNode();
+            audio.volume = 0.5;
+            audio.play();
+        }
+
+        // Key Interaction
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('mousedown', () => {
+                playSound();
+                key.classList.add('pressed');
+            });
+            key.addEventListener('mouseup', () => {
+                key.classList.remove('pressed');
+            });
+            key.addEventListener('mouseleave', () => {
+                key.classList.remove('pressed');
+            });
+        });
+
+        // Physical Keyboard Support
+        document.addEventListener('keydown', (e) => {
+            const keyChar = e.key.toUpperCase();
+            let keyEl;
+            
+            // Map simple keys
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(k => {
+                if (k.dataset.key === keyChar) keyEl = k;
+            });
+
+            // Map special keys
+            if (e.code === 'Space') keyEl = document.querySelector('[data-key="SPACE"]');
+            if (e.code === 'Enter') keyEl = document.querySelector('[data-key="ENTER"]');
+            if (e.code === 'Backspace') keyEl = document.querySelector('[data-key="BKSP"]');
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') keyEl = document.querySelector('[data-key="SHIFT"]'); // Just grabs first one, simple logic
+
+            if (keyEl) {
+                playSound();
+                keyEl.classList.add('pressed');
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            document.querySelectorAll('.pressed').forEach(k => k.classList.remove('pressed'));
+        });
+
+        // Customization Functions
+        function setCase(color) {
+            document.getElementById('keyboard-case').style.backgroundColor = color;
+        }
+
+        function setKeys(type, bg, text) {
+            let selector = '.key';
+            if (type === 'alpha') selector = '.key.alpha';
+            if (type === 'mod') selector = '.key.mod';
+            if (type === 'accent') selector = '.key.accent';
+
+            document.querySelectorAll(selector).forEach(el => {
+                el.style.backgroundColor = bg;
+                el.style.color = text;
+                el.style.boxShadow = `0 3px 0 ${shadeColor(bg, -20)}, 0 4px 4px rgba(0,0,0,0.05)`;
+            });
+        }
+
+        function setSound(type) {
+            currentSound = type;
+        }
+
+        // Helper to darken colors for shadow
+        function shadeColor(color, percent) {
+            var R = parseInt(color.substring(1,3),16);
+            var G = parseInt(color.substring(3,5),16);
+            var B = parseInt(color.substring(5,7),16);
+
+            R = parseInt(R * (100 + percent) / 100);
+            G = parseInt(G * (100 + percent) / 100);
+            B = parseInt(B * (100 + percent) / 100);
+
+            R = (R<255)?R:255;  
+            G = (G<255)?G:255;  
+            B = (B<255)?B:255;  
+
+            var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+            var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+            var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+            return "#"+RR+GG+BB;
+        }
+    </script>
+</body>
+</html>

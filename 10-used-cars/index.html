@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAW MOTORS | The Lot</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'raw-black': '#0a0a0a',
+                        'raw-white': '#f0f0f0',
+                        'raw-gray': '#1a1a1a',
+                        'raw-orange': '#ff3c00', /* Neon Orange */
+                    },
+                    fontFamily: {
+                        display: ['Archivo Black', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    fontSize: {
+                        'giant': '14vw',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f0f0f0;
+            color: #0a0a0a;
+            overflow-x: hidden;
+        }
+        
+        /* Brutalist Borders */
+        .b-border { border: 2px solid #0a0a0a; }
+        .b-border-t { border-top: 2px solid #0a0a0a; }
+        .b-border-b { border-bottom: 2px solid #0a0a0a; }
+        .b-border-r { border-right: 2px solid #0a0a0a; }
+        
+        /* Custom Selection */
+        ::selection { background-color: #ff3c00; color: #f0f0f0; }
+        
+        /* Hover Effects */
+        .hover-invert { transition: all 0.1s step-end; }
+        .hover-invert:hover { background-color: #0a0a0a; color: #f0f0f0; }
+        
+        .img-glitch {
+            filter: grayscale(100%) contrast(1.2);
+            transition: filter 0.1s steps(2);
+        }
+        .img-glitch:hover {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        /* Marquee */
+        .marquee { white-space: nowrap; overflow: hidden; }
+        .marquee span { display: inline-block; animation: marquee 10s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        /* Loader */
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ff3c00; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            transform-origin: top;
+        }
+    </style>
+</head>
+<body class="font-mono">
+
+    <!-- Preloader -->
+    <div class="loader">
+        <h1 class="font-display text-6xl md:text-9xl text-raw-black">LOADING STOCK...</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-raw-white b-border-b flex justify-between items-stretch h-16">
+        <a href="index.html" class="font-display text-2xl tracking-tighter flex items-center px-6 hover:bg-raw-orange transition-colors">RAW MOTORS</a>
+        
+        <div class="hidden md:flex font-bold uppercase text-sm tracking-tight h-full">
+            <a href="inventory.html" class="flex items-center px-8 b-border-l hover-invert">INVENTORY (42)</a>
+            <a href="contact.html" class="flex items-center px-8 b-border-l hover-invert">SELL YOUR CAR</a>
+            <a href="contact.html" class="flex items-center px-8 b-border-l bg-raw-black text-raw-white hover:bg-raw-orange hover:text-raw-black transition-colors">CONTACT</a>
+        </div>
+
+        <button class="md:hidden px-6 b-border-l text-2xl hover:bg-raw-orange transition-colors"><i class="fas fa-bars"></i>=</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="pt-16">
+        <div class="relative h-[80vh] w-full overflow-hidden b-border-b">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover grayscale brightness-75 contrast-125">
+            </div>
+            <div class="absolute inset-0 z-10 flex flex-col justify-between p-6 md:p-12 pointer-events-none">
+                <div class="flex justify-between items-start">
+                    <span class="bg-raw-orange text-raw-black px-2 py-1 font-bold text-xs uppercase">Available Now</span>
+                    <span class="text-raw-white text-xs uppercase">Est. 1994 // Detroit, MI</span>
+                </div>
+                <div>
+                    <h1 class="font-display text-giant leading-[0.8] text-raw-white mix-blend-difference uppercase">NO<br>BULLSHIT</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticker -->
+        <div class="bg-raw-orange text-raw-black py-3 b-border-b font-display text-xl uppercase overflow-hidden">
+            <div class="marquee">
+                <span>// NEW ARRIVALS: 1998 PORSCHE 911 // 2004 BMW M3 E46 // 1992 NISSAN GTR R32 // 1989 MERCEDES 190E EVO // 1969 FORD MUSTANG BOSS // 1998 PORSCHE 911 // 2004 BMW M3 E46 // 1992 NISSAN GTR R32 // 1989 MERCEDES 190E EVO // 1969 FORD MUSTANG BOSS // </span>
+            </div>
+        </div>
+
+        <!-- Featured Grid -->
+        <div class="grid md:grid-cols-2">
+            <!-- Item 1 -->
+            <a href="details.html" class="group block relative h-[600px] b-border-r b-border-b overflow-hidden cursor-none-custom">
+                <div class="absolute inset-0 bg-raw-gray group-hover:bg-raw-white transition-colors duration-0 z-0"></div>
+                <img src="https://images.unsplash.com/photo-1614200187524-dc4b392dc2f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover img-glitch z-10">
+                <div class="absolute top-0 left-0 p-6 z-20 mix-blend-difference text-raw-white">
+                    <h2 class="font-display text-4xl uppercase mb-2">Porsche 911 (964)</h2>
+                    <p class="font-mono text-sm">1991 • 54,000 KM • MANUAL</p>
+                </div>
+                <div class="absolute bottom-0 right-0 p-6 z-20 bg-raw-black text-raw-white font-bold text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-0">
+                    $124,900
+                </div>
+            </a>
+
+            <!-- Item 2 -->
+            <a href="details.html" class="group block relative h-[600px] b-border-b overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1607853202273-797f1c22a38e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover img-glitch z-10">
+                <div class="absolute top-0 left-0 p-6 z-20 mix-blend-difference text-raw-white">
+                    <h2 class="font-display text-4xl uppercase mb-2">BMW M3 (E30)</h2>
+                    <p class="font-mono text-sm">1988 • 89,000 KM • MANUAL</p>
+                </div>
+                <div class="absolute bottom-0 right-0 p-6 z-20 bg-raw-black text-raw-white font-bold text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-0">
+                    $98,500
+                </div>
+            </a>
+            
+             <!-- Item 3 -->
+            <a href="details.html" class="group block relative h-[600px] b-border-r b-border-b overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover img-glitch z-10">
+                <div class="absolute top-0 left-0 p-6 z-20 mix-blend-difference text-raw-white">
+                    <h2 class="font-display text-4xl uppercase mb-2">Chevrolet Corvette C2</h2>
+                    <p class="font-mono text-sm">1963 • 12,000 MI • AUTO</p>
+                </div>
+                <div class="absolute bottom-0 right-0 p-6 z-20 bg-raw-black text-raw-white font-bold text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-0">
+                    $145,000
+                </div>
+            </a>
+
+            <!-- Call to Action -->
+            <div class="flex flex-col justify-center items-center p-12 b-border-b bg-raw-black text-raw-white text-center h-[600px]">
+                <h3 class="font-display text-6xl uppercase mb-8 leading-none">Don't see<br>what you<br>want?</h3>
+                <a href="contact.html" class="inline-block border-2 border-raw-orange text-raw-orange px-8 py-4 font-bold uppercase hover:bg-raw-orange hover:text-raw-black transition-colors duration-0">
+                    SOURCING REQUEST
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-raw-white py-12 px-6 md:px-12 flex flex-col md:flex-row justify-between items-start gap-12">
+        <div>
+            <h4 class="font-display text-3xl uppercase mb-4">RAW MOTORS</h4>
+            <p class="text-sm max-w-xs text-raw-gray">Curated selection of analog machines for the modern driver. No filters. Just metal.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-12 text-sm font-bold uppercase">
+            <div class="flex flex-col gap-2">
+                <a href="inventory.html" class="hover:text-raw-orange">Inventory</a>
+                <a href="contact.html" class="hover:text-raw-orange">Sell</a>
+                <a href="contact.html" class="hover:text-raw-orange">Contact</a>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="#" class="hover:text-raw-orange">Instagram</a>
+                <a href="#" class="hover:text-raw-orange">Twitter</a>
+                <a href="#" class="hover:text-raw-orange">YouTube</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intro Animation
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to(".loader", { scaleY: 0, duration: 0.5, ease: "power2.inOut", delay: 0.5 })
+              .from("nav", { y: -100, duration: 0.3, ease: "power2.out" })
+              .from("h1", { y: 100, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.2");
+        });
+    </script>
+</body>
+</html>

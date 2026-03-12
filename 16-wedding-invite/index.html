@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S & D | The Wedding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'eth-bg': '#f3f1e7', // Warm cream
+                        'eth-dark': '#1a1a1a', // Soft black
+                        'eth-gold': '#bfa060',
+                        'eth-grey': '#8a8a8a',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Cormorant Garamond', 'serif'],
+                    },
+                    cursor: {
+                        'none': 'none',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #f3f1e7; 
+            color: #1a1a1a; 
+            cursor: none; /* Custom cursor */
+            overflow-x: hidden;
+        }
+
+        /* Noise Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #1a1a1a;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(26, 26, 26, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Utility */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        .char {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+        
+        .parallax-container {
+            overflow: hidden;
+        }
+        
+        .image-reveal-mask {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        .timeline-svg {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            width: 100px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .section-line {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(26, 26, 26, 0.2);
+            transform-origin: left;
+        }
+
+        input, select, textarea {
+            background: transparent;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+            transition: all 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #bfa060;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-eth-dark selection:text-eth-bg">
+
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-8 px-8 md:px-12 flex justify-between items-center mix-blend-difference text-eth-bg">
+        <a href="#" class="font-display text-xl tracking-widest uppercase hover-trigger">S & D</a>
+        <div class="hidden md:flex gap-12 font-display text-sm tracking-[0.2em] uppercase">
+            <a href="#story" class="hover:text-eth-gold transition-colors hover-trigger">Story</a>
+            <a href="#details" class="hover:text-eth-gold transition-colors hover-trigger">Details</a>
+            <a href="#rsvp" class="hover:text-eth-gold transition-colors hover-trigger">RSVP</a>
+        </div>
+        <button class="md:hidden text-2xl hover-trigger">☰</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
+        
+        <!-- Background Parallax Image -->
+        <div class="absolute inset-0 z-0 opacity-20 parallax-container">
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0202128?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+                 class="w-full h-full object-cover scale-110 hero-bg-img" alt="Background Texture">
+        </div>
+
+        <div class="z-10 text-center flex flex-col items-center">
+            <p class="font-display text-sm md:text-base tracking-[0.4em] uppercase mb-6 split-text">Save the Date</p>
+            
+            <h1 class="font-serif text-[12vw] leading-[0.85] text-eth-dark mix-blend-overlay opacity-90 mb-4 split-text-big">
+                Sarah<br>& Daniel
+            </h1>
+
+            <div class="h-px w-24 bg-eth-dark/30 my-8 line-anim"></div>
+
+            <p class="font-display text-xl md:text-2xl italic text-eth-dark/80 split-text">
+                September 24th, 2026 &mdash; Tuscany
+            </p>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 scroll-indicator">
+            <span class="font-display text-xs tracking-widest uppercase">Scroll</span>
+            <div class="w-px h-12 bg-eth-dark/30"></div>
+        </div>
+    </header>
+
+    <!-- Intro Text -->
+    <section class="py-32 md:py-48 px-6 md:px-24 container mx-auto">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="font-serif text-3xl md:text-5xl leading-tight text-eth-dark reveal-scroll-text">
+                We invite you to join us in the rolling hills of Tuscany as we celebrate love, laughter, and a lifetime together.
+            </p>
+        </div>
+    </section>
+
+    <!-- Visual Grid -->
+    <section class="py-20 px-4 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <!-- Text Content -->
+            <div class="md:col-span-4 md:col-start-2 space-y-8 z-10 relative">
+                <div class="overflow-hidden">
+                    <h2 class="font-serif text-5xl md:text-7xl mb-4 transform translate-y-full fade-up-scroll">The<br>Venue</h2>
+                </div>
+                <p class="font-display text-lg text-eth-grey leading-relaxed transform translate-y-10 opacity-0 fade-up-scroll delay-100">
+                    Villa Cetinale, a 17th-century Baroque masterpiece, stands as a testament to timeless elegance. Surrounded by lemon groves and cypress trees.
+                </p>
+                <div class="pt-4 transform translate-y-10 opacity-0 fade-up-scroll delay-200">
+                    <a href="#details" class="inline-block border-b border-eth-dark pb-1 font-display uppercase tracking-widest text-sm hover:text-eth-gold hover:border-eth-gold transition-colors hover-trigger">Explore Details</a>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="md:col-span-6 md:col-start-7 relative">
+                <div class="aspect-[3/4] overflow-hidden image-reveal-wrapper">
+                    <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                         class="w-full h-full object-cover scale-125 image-reveal-target" alt="Villa Cetinale">
+                </div>
+                <!-- Decorative Circle -->
+                <div class="absolute -bottom-12 -left-12 w-32 h-32 border border-eth-dark/20 rounded-full flex items-center justify-center bg-eth-bg rotate-anim">
+                    <svg viewBox="0 0 100 100" width="100" height="100">
+                        <defs>
+                            <path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                        </defs>
+                        <text font-size="11" font-family="Cormorant Garamond" letter-spacing="2">
+                            <textPath xlink:href="#circle">EST. 2026 • WITH LOVE • FOREVER •</textPath>
+                        </text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY SECTION -->
+    <section id="story" class="py-32 relative bg-eth-bg">
+        <header class="text-center px-6 mb-32">
+            <p class="font-display text-sm tracking-[0.3em] uppercase mb-4 opacity-0 fade-in-story">A Timeline of Us</p>
+            <h1 class="font-serif text-6xl md:text-8xl text-eth-dark mb-6 opacity-0 fade-in-story">Our Journey</h1>
+        </header>
+
+        <div class="relative container mx-auto px-6">
+            
+            <!-- SVG Line Container -->
+            <svg class="timeline-svg hidden md:block" preserveAspectRatio="none">
+                <path id="timeline-path" d="M 50 0 V 2000" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-opacity="0.2"/>
+            </svg>
+
+            <!-- Chapter 1 -->
+            <div class="flex flex-col md:flex-row items-center justify-between mb-48 timeline-chapter relative z-10">
+                <div class="md:w-5/12 text-center md:text-right order-2 md:order-1 pr-0 md:pr-12">
+                    <span class="font-display text-eth-gold text-xl tracking-widest block mb-4 chapter-date">October 2018</span>
+                    <h2 class="font-serif text-4xl mb-6 chapter-title">The First Encounter</h2>
+                    <p class="font-display text-lg leading-relaxed text-eth-grey chapter-text">
+                        It wasn't love at first sight, but it was curiosity. A crowded cafe in downtown Seattle. Rain against the windowpane. Two strangers sharing a table.
+                    </p>
+                </div>
+                
+                <div class="md:w-5/12 order-1 md:order-2 pl-0 md:pl-12 mb-12 md:mb-0">
+                    <div class="aspect-[4/5] overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 chapter-img" alt="First Meeting">
+                        <div class="absolute inset-0 bg-eth-dark/10"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 2 -->
+            <div class="flex flex-col md:flex-row items-center justify-between mb-48 timeline-chapter relative z-10">
+                <div class="md:w-5/12 order-1 md:order-1 pr-0 md:pr-12 mb-12 md:mb-0">
+                    <div class="aspect-[4/5] overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 chapter-img" alt="Moving In">
+                             <div class="absolute inset-0 bg-eth-dark/10"></div>
+                    </div>
+                </div>
+                
+                <div class="md:w-5/12 text-center md:text-left order-2 md:order-2 pl-0 md:pl-12">
+                    <span class="font-display text-eth-gold text-xl tracking-widest block mb-4 chapter-date">August 2020</span>
+                    <h2 class="font-serif text-4xl mb-6 chapter-title">Building a Home</h2>
+                    <p class="font-display text-lg leading-relaxed text-eth-grey chapter-text">
+                        Keys in hand, we stepped into our first apartment. Bare walls, echoing laughter, and the promise of building a sanctuary together amidst the chaos of the world.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Chapter 3 -->
+            <div class="flex flex-col md:flex-row items-center justify-between mb-48 timeline-chapter relative z-10">
+                <div class="md:w-5/12 text-center md:text-right order-2 md:order-1 pr-0 md:pr-12">
+                    <span class="font-display text-eth-gold text-xl tracking-widest block mb-4 chapter-date">December 2024</span>
+                    <h2 class="font-serif text-4xl mb-6 chapter-title">The Proposal</h2>
+                    <p class="font-display text-lg leading-relaxed text-eth-grey chapter-text">
+                        Under the ethereal glow of the Northern Lights. The cold air bit our cheeks, but the warmth of that "Yes" will last a lifetime.
+                    </p>
+                </div>
+                
+                <div class="md:w-5/12 order-1 md:order-2 pl-0 md:pl-12 mb-12 md:mb-0">
+                    <div class="aspect-[4/5] overflow-hidden relative group">
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 chapter-img grayscale hover:grayscale-0 transition-all duration-700" alt="Proposal">
+                             <div class="absolute inset-0 bg-eth-dark/10"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILS SECTION -->
+    <section id="details" class="py-32 bg-eth-bg">
+        <header class="text-center px-6 md:px-24 container mx-auto mb-24">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                <div class="md:col-span-8">
+                    <h1 class="font-serif text-6xl md:text-9xl text-eth-dark mb-8 leading-[0.9] opacity-0 fade-in-details">
+                        The<br>Weekend
+                    </h1>
+                </div>
+                <div class="md:col-span-4 flex items-end">
+                    <p class="font-display text-lg leading-relaxed text-eth-grey opacity-0 fade-in-details delay-200">
+                        A celebration of love, art, and life in the heart of Tuscany. We have curated a weekend of events to share our joy with you.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <div class="container mx-auto px-6 md:px-24">
+            <!-- Schedule Section -->
+            <div class="mb-32 detail-section">
+                <div class="section-line mb-12"></div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                    <div class="md:col-span-4">
+                        <span class="font-display text-sm tracking-[0.3em] uppercase text-eth-gold">01 — Schedule</span>
+                    </div>
+                    <div class="md:col-span-8 space-y-16">
+                        <!-- Event 1 -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-4">
+                                <h3 class="font-serif text-3xl md:text-4xl">Welcome Aperitivo</h3>
+                                <span class="font-display text-eth-grey">Sep 23 &mdash; 6:00 PM</span>
+                            </div>
+                            <p class="font-display text-lg text-eth-grey max-w-md">
+                                Join us for cocktails and light bites on the terrace as the sun sets over the hills.
+                            </p>
+                        </div>
+                        
+                        <!-- Event 2 -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-4">
+                                <h3 class="font-serif text-3xl md:text-4xl">The Ceremony</h3>
+                                <span class="font-display text-eth-grey">Sep 24 &mdash; 4:00 PM</span>
+                            </div>
+                            <p class="font-display text-lg text-eth-grey max-w-md">
+                                The main event in the Lemon Garden, followed by dinner and dancing under the stars.
+                            </p>
+                        </div>
+
+                        <!-- Event 3 -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-4">
+                                <h3 class="font-serif text-3xl md:text-4xl">Farewell Brunch</h3>
+                                <span class="font-display text-eth-grey">Sep 25 &mdash; 11:00 AM</span>
+                            </div>
+                            <p class="font-display text-lg text-eth-grey max-w-md">
+                                Recover and reminisce with fresh coffee and pastries before heading home.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <div class="mb-32 detail-section">
+                <div class="section-line mb-12"></div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                    <div class="md:col-span-4">
+                        <span class="font-display text-sm tracking-[0.3em] uppercase text-eth-gold">02 — Location</span>
+                    </div>
+                    <div class="md:col-span-8">
+                        <div class="aspect-video w-full overflow-hidden mb-8 grayscale hover:grayscale-0 transition-all duration-700">
+                            <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-serif text-3xl mb-4">Villa Cetinale</h3>
+                        <p class="font-display text-lg text-eth-grey leading-relaxed mb-6">
+                            Strada di Cetinale, 9, 53018 Sovicille SI, Italy
+                        </p>
+                        <a href="https://maps.google.com" target="_blank" class="inline-block border-b border-eth-dark pb-1 font-display uppercase tracking-widest text-sm hover:text-eth-gold hover:border-eth-gold transition-colors hover-trigger">
+                            Get Directions
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Grid (Dress Code & Registry) -->
+            <div class="detail-section">
+                <div class="section-line mb-12"></div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                    <div class="md:col-span-4">
+                        <span class="font-display text-sm tracking-[0.3em] uppercase text-eth-gold">03 — Information</span>
+                    </div>
+                    <div class="md:col-span-4">
+                        <h3 class="font-serif text-2xl mb-6">Dress Code</h3>
+                        <p class="font-display text-lg text-eth-grey leading-relaxed mb-4">
+                            <span class="text-eth-dark block mb-2">Black Tie Optional</span>
+                            Gentlemen are requested to wear a tuxedo or dark suit. Ladies are encouraged to wear floor-length gowns or formal cocktail attire.
+                        </p>
+                        <p class="font-display text-sm text-eth-gold italic">
+                            Note: Events will take place on grass and gravel.
+                        </p>
+                    </div>
+                    <div class="md:col-span-4">
+                        <h3 class="font-serif text-2xl mb-6">Registry</h3>
+                        <p class="font-display text-lg text-eth-grey leading-relaxed mb-8">
+                            Your presence is the greatest gift. For those wishing to contribute, we are registered at:
+                        </p>
+                        <div class="flex gap-8">
+                            <a href="#" class="font-display uppercase tracking-widest text-sm border-b border-eth-dark/30 pb-1 hover:text-eth-gold hover:border-eth-gold transition-colors hover-trigger">Zola</a>
+                            <a href="#" class="font-display uppercase tracking-widest text-sm border-b border-eth-dark/30 pb-1 hover:text-eth-gold hover:border-eth-gold transition-colors hover-trigger">The Knot</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP SECTION -->
+    <section id="rsvp" class="min-h-screen bg-eth-bg">
+        <div class="grid grid-cols-1 md:grid-cols-2 h-full">
+            <!-- Left Image Section -->
+            <div class="relative h-96 md:h-auto overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                     class="absolute inset-0 w-full h-full object-cover scale-110 image-anim-rsvp" alt="Wedding Flowers">
+                <div class="absolute inset-0 bg-eth-dark/10"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-64 h-64 border border-eth-bg/30 rounded-full flex items-center justify-center animate-spin-slow">
+                        <svg viewBox="0 0 100 100" width="200" height="200" class="opacity-50">
+                            <path id="circle-text" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                            <text font-size="8" font-family="Cormorant Garamond" letter-spacing="3" fill="#f3f1e7">
+                                <textPath xlink:href="#circle-text">KINDLY REPLY • BY AUGUST 1ST • 2026 •</textPath>
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form Section -->
+            <div class="flex items-center justify-center p-8 md:p-24 relative">
+                <div class="w-full max-w-lg relative z-10">
+                    <div class="mb-12">
+                        <span class="font-display text-sm tracking-[0.3em] uppercase text-eth-gold block mb-4 fade-in-rsvp">Répondez s'il vous plaît</span>
+                        <h1 class="font-serif text-5xl md:text-6xl text-eth-dark fade-in-rsvp">Join Us</h1>
+                    </div>
+
+                    <form id="rsvp-form" class="space-y-12">
+                        <div class="grid md:grid-cols-2 gap-8 fade-in-rsvp">
+                            <div class="group">
+                                <input type="text" placeholder="FIRST NAME" required class="w-full py-3 font-display tracking-widest text-sm uppercase bg-transparent">
+                            </div>
+                            <div class="group">
+                                <input type="text" placeholder="LAST NAME" required class="w-full py-3 font-display tracking-widest text-sm uppercase bg-transparent">
+                            </div>
+                        </div>
+
+                        <div class="fade-in-rsvp">
+                            <input type="email" placeholder="EMAIL ADDRESS" required class="w-full py-3 font-display tracking-widest text-sm uppercase bg-transparent">
+                        </div>
+
+                        <div class="fade-in-rsvp">
+                            <label class="block font-display text-sm tracking-widest text-eth-grey mb-4 uppercase">Will you be attending?</label>
+                            <div class="flex gap-8">
+                                <label class="flex items-center gap-3 cursor-pointer hover-trigger group">
+                                    <div class="w-4 h-4 border border-eth-dark rounded-full flex items-center justify-center group-hover:border-eth-gold transition-colors">
+                                        <div class="w-2 h-2 bg-eth-dark rounded-full opacity-0 radio-fill transition-opacity"></div>
+                                    </div>
+                                    <input type="radio" name="attendance" value="yes" class="hidden" onchange="updateRadio(this)">
+                                    <span class="font-display text-sm tracking-widest uppercase">Joyfully Accepts</span>
+                                </label>
+                                
+                                <label class="flex items-center gap-3 cursor-pointer hover-trigger group">
+                                    <div class="w-4 h-4 border border-eth-dark rounded-full flex items-center justify-center group-hover:border-eth-gold transition-colors">
+                                        <div class="w-2 h-2 bg-eth-dark rounded-full opacity-0 radio-fill transition-opacity"></div>
+                                    </div>
+                                    <input type="radio" name="attendance" value="no" class="hidden" onchange="updateRadio(this)">
+                                    <span class="font-display text-sm tracking-widest uppercase">Regretfully Declines</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="fade-in-rsvp">
+                            <textarea rows="1" placeholder="DIETARY REQUIREMENTS" class="w-full py-3 font-display tracking-widest text-sm uppercase bg-transparent"></textarea>
+                        </div>
+
+                        <div class="pt-8 fade-in-rsvp">
+                            <button type="submit" class="group relative px-12 py-4 overflow-hidden border border-eth-dark rounded-full hover-trigger transition-all hover:bg-eth-dark">
+                                <span class="relative z-10 font-display uppercase tracking-widest text-sm group-hover:text-eth-bg transition-colors">Send Response</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="success-msg" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-eth-bg z-20">
+                        <h2 class="font-serif text-5xl mb-4 text-eth-gold">Merci!</h2>
+                        <p class="font-display text-lg text-eth-grey">Your response has been recorded.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN FOOTER -->
+    <section class="py-32 bg-eth-dark text-eth-bg relative overflow-hidden">
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <p class="font-display tracking-[0.3em] text-eth-gold mb-12 uppercase">The Countdown</p>
+            
+            <div class="flex justify-center items-baseline gap-8 md:gap-24 font-serif">
+                <div class="text-center">
+                    <span class="text-6xl md:text-9xl block leading-none" id="days">00</span>
+                    <span class="text-xs md:text-sm font-display tracking-widest opacity-50 uppercase mt-4 block">Days</span>
+                </div>
+                <div class="text-center">
+                    <span class="text-6xl md:text-9xl block leading-none" id="hours">00</span>
+                    <span class="text-xs md:text-sm font-display tracking-widest opacity-50 uppercase mt-4 block">Hours</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Grain overlay specific for dark section -->
+        <div class="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+    </section>
+
+    <footer class="py-12 text-center bg-eth-dark text-eth-bg border-t border-eth-bg/10">
+        <p class="font-serif text-3xl mb-2">S & D</p>
+        <p class="font-display text-xs tracking-widest text-eth-grey uppercase">Designed with Love</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- GLOBAL: CURSOR ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            gsap.to(cursorOutline, { x: posX, y: posY, duration: 0.15, ease: "power2.out" });
+        });
+
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                gsap.to(cursorOutline, { scale: 1.5, backgroundColor: "rgba(26, 26, 26, 0.1)", duration: 0.2 });
+            });
+            trigger.addEventListener('mouseleave', () => {
+                gsap.to(cursorOutline, { scale: 1, backgroundColor: "transparent", duration: 0.2 });
+            });
+        });
+
+        // --- HERO ANIMATIONS ---
+        const splitTextElements = document.querySelectorAll('.split-text');
+        splitTextElements.forEach(el => {
+            const text = el.innerText;
+            el.innerHTML = text.split('').map(char => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`).join('');
+        });
+
+        const splitTextBig = document.querySelectorAll('.split-text-big');
+        splitTextBig.forEach(el => {
+            gsap.from(el, { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", delay: 0.2 });
+        });
+
+        const tlHero = gsap.timeline();
+        tlHero.to('.char', { y: 0, stagger: 0.02, duration: 1, ease: "power3.out" })
+              .from('.line-anim', { width: 0, duration: 1, ease: "power3.inOut" }, "-=0.5")
+              .to('.scroll-indicator', { opacity: 1, y: 10, repeat: -1, yoyo: true, duration: 1.5, ease: "power1.inOut" }, "-=0.5");
+
+        gsap.to('.hero-bg-img', {
+            yPercent: 20, ease: "none",
+            scrollTrigger: { trigger: "header", start: "top top", end: "bottom top", scrub: true }
+        });
+
+        gsap.from('.reveal-scroll-text', {
+            y: 50, opacity: 0, duration: 1.2, ease: "power3.out",
+            scrollTrigger: { trigger: ".reveal-scroll-text", start: "top 80%" }
+        });
+
+        // --- VISUAL GRID ANIMATIONS ---
+        gsap.from('.image-reveal-wrapper', {
+            clipPath: "inset(100% 0 0 0)", duration: 1.5, ease: "power4.inOut",
+            scrollTrigger: { trigger: ".image-reveal-wrapper", start: "top 75%" }
+        });
+        
+        gsap.to('.image-reveal-target', {
+            scale: 1, duration: 1.5, ease: "power4.inOut",
+            scrollTrigger: { trigger: ".image-reveal-wrapper", start: "top 75%" }
+        });
+
+        gsap.utils.toArray('.fade-up-scroll').forEach(element => {
+            gsap.to(element, {
+                y: 0, opacity: 1, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: element, start: "top 85%" }
+            });
+        });
+
+        gsap.to('.rotate-anim', { rotation: 360, duration: 20, repeat: -1, ease: "linear" });
+
+        // --- STORY ANIMATIONS ---
+        gsap.to(".fade-in-story", {
+            y: 0, opacity: 1, duration: 1.5, stagger: 0.3, ease: "power3.out",
+            scrollTrigger: { trigger: "#story", start: "top 60%" }
+        });
+
+        const path = document.querySelector("#timeline-path");
+        const svgContainer = document.querySelector(".timeline-svg");
+        // We set the path height based on container height roughly, or just let it be long
+        // Ideally we measure on load, but for simplicity let's rely on CSS/layout
+        // Re-measure timeline path height
+        ScrollTrigger.create({
+            trigger: "#story",
+            start: "top top",
+            onEnter: () => {
+                 const h = svgContainer.clientHeight;
+                 path.setAttribute("d", `M 50 0 V ${h}`);
+                 const len = path.getTotalLength();
+                 path.style.strokeDasharray = len;
+                 path.style.strokeDashoffset = len;
+                 gsap.to(path, {
+                    strokeDashoffset: 0, ease: "none",
+                    scrollTrigger: {
+                        trigger: "#story", start: "top center", end: "bottom bottom", scrub: 1
+                    }
+                 });
+            }
+        });
+
+        const chapters = document.querySelectorAll(".timeline-chapter");
+        chapters.forEach((chapter) => {
+            const img = chapter.querySelector(".chapter-img");
+            const texts = chapter.querySelectorAll(".chapter-date, .chapter-title, .chapter-text");
+            
+            gsap.from(img, {
+                scale: 1.2, opacity: 0, duration: 1.5, ease: "power3.out",
+                scrollTrigger: { trigger: chapter, start: "top 70%" }
+            });
+
+            gsap.from(texts, {
+                y: 30, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out",
+                scrollTrigger: { trigger: chapter, start: "top 70%" }
+            });
+        });
+
+        // --- DETAILS ANIMATIONS ---
+        gsap.to(".fade-in-details", {
+            y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out",
+            scrollTrigger: { trigger: "#details", start: "top 60%" }
+        });
+
+        gsap.utils.toArray('.detail-section').forEach(section => {
+            const line = section.querySelector('.section-line');
+            const content = section.querySelector('.grid');
+            gsap.from(line, {
+                scaleX: 0, duration: 1.5, ease: "power3.inOut",
+                scrollTrigger: { trigger: section, start: "top 80%" }
+            });
+            gsap.from(content, {
+                y: 50, opacity: 0, duration: 1, delay: 0.5, ease: "power3.out",
+                scrollTrigger: { trigger: section, start: "top 80%" }
+            });
+        });
+
+        // --- RSVP ANIMATIONS ---
+        gsap.to(".fade-in-rsvp", {
+            y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out",
+            scrollTrigger: { trigger: "#rsvp-form", start: "top 80%" }
+        });
+
+        gsap.from(".image-anim-rsvp", {
+            scale: 1.2, duration: 10, ease: "none",
+            scrollTrigger: { trigger: "#rsvp", start: "top 80%" }
+        });
+
+        gsap.to(".animate-spin-slow", {
+            rotation: 360, duration: 30, repeat: -1, ease: "linear"
+        });
+
+        // RSVP Logic
+        function updateRadio(input) {
+            document.querySelectorAll('.radio-fill').forEach(el => el.style.opacity = '0');
+            input.parentElement.querySelector('.radio-fill').style.opacity = '1';
+        }
+
+        const form = document.getElementById('rsvp-form');
+        const successMsg = document.getElementById('success-msg');
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const tl = gsap.timeline();
+            tl.to(form.children, { y: -20, opacity: 0, stagger: 0.05, duration: 0.5, ease: "power2.in" })
+              .set(form, { display: 'none' })
+              .set(successMsg, { display: 'flex' })
+              .from(successMsg.children, { y: 20, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power3.out" });
+        });
+
+        // --- COUNTDOWN ---
+        const targetDate = new Date("2026-09-24T00:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            if(daysEl) daysEl.innerText = d.toString().padStart(2, '0');
+            if(hoursEl) hoursEl.innerText = h.toString().padStart(2, '0');
+        }, 1000);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXE ESTATES | Nosotros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'luxe-gold': '#D4AF37',
+                        'luxe-black': '#0a0a0a',
+                        'luxe-charcoal': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: #f3f3f3; }
+        .glass-nav { background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-serif text-white tracking-widest font-bold">LUXE<span class="text-luxe-gold">.</span></a>
+            <div class="hidden md:flex space-x-8 text-sm tracking-widest">
+                <a href="properties.html" class="hover:text-luxe-gold transition-colors">PROPIEDADES</a>
+                <a href="about.html" class="text-luxe-gold transition-colors">NOSOTROS</a>
+                <a href="contact.html" class="hover:text-luxe-gold transition-colors">CONTACTO</a>
+            </div>
+            <button class="md:hidden text-white text-xl"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Office" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-luxe-black via-luxe-black/50 to-transparent"></div>
+        </div>
+        <div class="relative z-10 text-center px-4">
+            <p class="text-luxe-gold tracking-[0.3em] mb-4 reveal">NUESTRA HISTORIA</p>
+            <h1 class="text-5xl md:text-7xl font-serif text-white mb-6 reveal" style="transition-delay: 100ms;">Más que <span class="italic text-luxe-gold">Propiedades</span></h1>
+        </div>
+    </header>
+
+    <!-- Story Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 reveal">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80" alt="Meeting" class="rounded-sm shadow-2xl grayscale hover:grayscale-0 transition-all duration-500">
+                </div>
+                <div class="md:w-1/2 reveal" style="transition-delay: 200ms;">
+                    <h2 class="text-3xl font-serif text-white mb-6">Redefiniendo el <span class="text-luxe-gold">Lujo</span></h2>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Fundada con la visión de elevar la experiencia inmobiliaria, LUXE ESTATES se ha convertido en sinónimo de exclusividad y servicio personalizado. No solo vendemos casas; curamos estilos de vida.
+                    </p>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        Nuestro equipo de expertos globales entiende que una propiedad de lujo es más que una inversión; es un legado. Con acceso a las residencias más codiciadas fuera del mercado, conectamos a compradores exigentes con arquitecturas extraordinarias.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8 border-t border-white/10 pt-8">
+                        <div>
+                            <span class="block text-3xl font-serif text-white">10+</span>
+                            <span class="text-xs text-luxe-gold tracking-widest">AÑOS DE EXPERIENCIA</span>
+                        </div>
+                        <div>
+                            <span class="block text-3xl font-serif text-white">Global</span>
+                            <span class="text-xs text-luxe-gold tracking-widest">ALCANCE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-20 bg-luxe-charcoal">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-serif text-white mb-4">Nuestro <span class="italic text-luxe-gold">Equipo</span></h2>
+                <div class="h-1 w-20 bg-luxe-gold mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Member 1 -->
+                <div class="group text-center reveal">
+                    <div class="relative overflow-hidden aspect-[3/4] mb-6 mx-auto max-w-sm">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" alt="CEO" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <h3 class="text-xl font-serif text-white">Alexander Sterling</h3>
+                    <p class="text-xs text-luxe-gold tracking-widest mt-1">FUNDADOR & CEO</p>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="group text-center reveal" style="transition-delay: 100ms;">
+                    <div class="relative overflow-hidden aspect-[3/4] mb-6 mx-auto max-w-sm">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=988&q=80" alt="Agent" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <h3 class="text-xl font-serif text-white">Victoria Vance</h3>
+                    <p class="text-xs text-luxe-gold tracking-widest mt-1">DIRECTORA DE VENTAS</p>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="group text-center reveal" style="transition-delay: 200ms;">
+                    <div class="relative overflow-hidden aspect-[3/4] mb-6 mx-auto max-w-sm">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" alt="Agent" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <h3 class="text-xl font-serif text-white">Julian Thorne</h3>
+                    <p class="text-xs text-luxe-gold tracking-widest mt-1">AGENTE SENIOR</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/10 text-center md:text-left">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-serif font-bold text-white tracking-widest">LUXE<span class="text-luxe-gold">.</span></h2>
+                </div>
+                <div class="flex space-x-6 text-gray-400">
+                    <a href="#" class="hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-tiktok text-xl"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between text-xs text-gray-600 tracking-wider">
+                <p>&copy; 2024 LUXE ESTATES.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>

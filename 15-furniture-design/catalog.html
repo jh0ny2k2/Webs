@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aura-cream': '#F9F8F6',
+                        'aura-charcoal': '#2C2C2C',
+                        'aura-stone': '#8E8E8E',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Mulish', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9F8F6; color: #2C2C2C; }
+        .product-card { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .product-card.visible { opacity: 1; transform: translateY(0); }
+        
+        .product-img-container { overflow: hidden; }
+        .product-img { transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+        .product-card:hover .product-img { transform: scale(1.05); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 py-12 px-12 md:px-24 flex justify-between items-center bg-aura-cream/90 backdrop-blur-sm">
+        <a href="index.html" class="font-serif text-3xl tracking-widest italic">Aura.</a>
+        <div class="hidden md:flex gap-16 font-sans text-xs tracking-[0.2em] uppercase text-aura-charcoal/80">
+            <a href="catalog.html" class="text-aura-charcoal font-bold">Shop</a>
+            <a href="about.html" class="hover:text-aura-charcoal transition-colors">Studio</a>
+            <a href="#" class="hover:text-aura-charcoal transition-colors">Journal</a>
+        </div>
+        <a href="#" class="font-sans text-xs tracking-[0.2em] uppercase">Cart (0)</a>
+    </nav>
+
+    <main class="pt-40 px-12 md:px-24 pb-24">
+        
+        <header class="mb-24 flex flex-col md:flex-row justify-between items-end gap-12">
+            <h1 class="font-serif text-6xl md:text-7xl font-light italic">The Collection</h1>
+            <div class="flex gap-8 font-sans text-xs tracking-[0.2em] uppercase text-aura-stone">
+                <button class="text-aura-charcoal border-b border-aura-charcoal pb-1">All</button>
+                <button class="hover:text-aura-charcoal transition-colors">Seating</button>
+                <button class="hover:text-aura-charcoal transition-colors">Tables</button>
+                <button class="hover:text-aura-charcoal transition-colors">Lighting</button>
+            </div>
+        </header>
+
+        <!-- Asymmetric Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-y-24 gap-x-8">
+            
+            <!-- Item 1 (Large) -->
+            <a href="product.html" class="col-span-1 md:col-span-6 product-card group cursor-pointer">
+                <div class="product-img-container mb-6 aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="product-img w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-baseline">
+                    <h3 class="font-serif text-3xl italic group-hover:text-aura-stone transition-colors">Lounge Chair 01</h3>
+                    <span class="font-sans text-xs tracking-widest">$1,200</span>
+                </div>
+                <p class="font-sans text-xs text-aura-stone mt-2">Oak / Linen</p>
+            </a>
+
+            <!-- Item 2 (Small, offset) -->
+            <a href="product.html" class="col-span-1 md:col-span-5 md:col-start-8 md:mt-32 product-card group cursor-pointer" style="transition-delay: 0.1s">
+                <div class="product-img-container mb-6 aspect-square">
+                    <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="product-img w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-baseline">
+                    <h3 class="font-serif text-3xl italic group-hover:text-aura-stone transition-colors">Side Table</h3>
+                    <span class="font-sans text-xs tracking-widest">$450</span>
+                </div>
+                <p class="font-sans text-xs text-aura-stone mt-2">Solid Ash</p>
+            </a>
+
+            <!-- Item 3 (Medium) -->
+            <a href="product.html" class="col-span-1 md:col-span-5 product-card group cursor-pointer" style="transition-delay: 0.2s">
+                <div class="product-img-container mb-6 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1507473888900-52e1adad5474?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="product-img w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-baseline">
+                    <h3 class="font-serif text-3xl italic group-hover:text-aura-stone transition-colors">Table Lamp</h3>
+                    <span class="font-sans text-xs tracking-widest">$280</span>
+                </div>
+                <p class="font-sans text-xs text-aura-stone mt-2">Brass / Glass</p>
+            </a>
+
+            <!-- Item 4 (Large) -->
+            <a href="product.html" class="col-span-1 md:col-span-6 md:col-start-7 product-card group cursor-pointer" style="transition-delay: 0.3s">
+                <div class="product-img-container mb-6 aspect-[16/9]">
+                    <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="product-img w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-baseline">
+                    <h3 class="font-serif text-3xl italic group-hover:text-aura-stone transition-colors">The Sofa</h3>
+                    <span class="font-sans text-xs tracking-widest">$3,400</span>
+                </div>
+                <p class="font-sans text-xs text-aura-stone mt-2">Velvet / Walnut</p>
+            </a>
+
+        </div>
+
+        <div class="mt-32 text-center">
+            <button class="border border-aura-charcoal/20 px-12 py-4 font-sans text-xs tracking-[0.2em] uppercase hover:bg-aura-charcoal hover:text-aura-cream transition-all duration-500">Load More</button>
+        </div>
+
+    </main>
+
+    <footer class="py-24 px-12 md:px-24 border-t border-aura-charcoal/5 flex flex-col md:flex-row justify-between items-start gap-12">
+        <div>
+            <h4 class="font-serif text-2xl italic mb-8">Aura.</h4>
+        </div>
+        <div class="flex gap-12 font-sans text-xs tracking-[0.2em] uppercase text-aura-charcoal/60">
+            <a href="#" class="hover:text-aura-charcoal">Instagram</a>
+            <a href="#" class="hover:text-aura-charcoal">Contact</a>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.product-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

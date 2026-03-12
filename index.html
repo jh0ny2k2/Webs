@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jhonathan's Portfolio | Web Experiments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        serif: ['Instrument Serif', 'serif'],
+                    },
+                    colors: {
+                        'canvas': '#0f0f0f',
+                        'canvas-light': '#1a1a1a',
+                        'accent': '#d4d4d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #0f0f0f; 
+            color: #d4d4d4; 
+            overflow-x: hidden;
+        }
+        
+        .project-preview {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none; /* Disable interaction within iframe preview */
+            transform-origin: top left;
+            transform: scale(0.5); /* Scale down content */
+            width: 200%; /* Compensate scale */
+            height: 200%; /* Compensate scale */
+            background: #fff;
+        }
+
+        .card-wrapper:hover .project-preview-container {
+            transform: scale(1.02);
+        }
+
+        .mask-overlay {
+            background: linear-gradient(to bottom, rgba(15,15,15,0) 0%, rgba(15,15,15,1) 90%);
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="noise"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 top-0 left-0 px-8 py-6 flex justify-between items-center mix-blend-difference text-white">
+        <div class="text-xl font-bold tracking-tighter">JC.PORTFOLIO</div>
+        <div class="text-sm font-mono opacity-50">2026 EDITION</div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+        <h1 class="font-serif text-7xl md:text-9xl leading-[0.9] mb-8 text-white reveal-text">
+            Digital<br>
+            <span class="italic text-gray-500">Playground</span>
+        </h1>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-t border-white/10 pt-8 mt-12 reveal-text delay-100">
+            <p class="max-w-md text-lg text-gray-400 leading-relaxed">
+                A curated collection of web experiments, exploring interaction design, motion, and modern aesthetics.
+            </p>
+            <div class="mt-8 md:mt-0 font-mono text-sm text-gray-500">
+                SCROLL TO EXPLORE ↓
+            </div>
+        </div>
+    </header>
+
+    <!-- Gallery Grid -->
+    <main class="px-6 md:px-12 pb-32 max-w-[1600px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+
+            <!-- Project 16: Wedding -->
+            <a href="16-wedding-invite/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="16-wedding-invite/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">The Wedding</h3>
+                        <p class="text-sm text-gray-500 font-mono mt-1">Ethereal / Luxury / GSAP</p>
+                    </div>
+                    <span class="text-xs border border-white/20 rounded-full px-2 py-1 text-gray-400">NEW</span>
+                </div>
+            </a>
+
+            <!-- Project 15: Furniture -->
+            <a href="15-furniture-design/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="15-furniture-design/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Møbel Design</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Minimalist / E-commerce</p>
+                </div>
+            </a>
+
+            <!-- Project 14: Headphones -->
+            <a href="14-headphones-store/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="14-headphones-store/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Cyber Audio</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Glitch / Neon / Dark Mode</p>
+                </div>
+            </a>
+
+            <!-- Project 13: Keyboards -->
+            <a href="13-mechanical-keyboards/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="13-mechanical-keyboards/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Keychron Config</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Audio API / Interactive</p>
+                </div>
+            </a>
+
+            <!-- Project 12: Sneakers -->
+            <a href="12-sneaker-drop/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="12-sneaker-drop/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Sneaker Drop</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Three.js / Hypebeast</p>
+                </div>
+            </a>
+
+            <!-- Project 11: Watches -->
+            <a href="11-watch-store/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="11-watch-store/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Chronos</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Horizontal Scroll / Storytelling</p>
+                </div>
+            </a>
+
+            <!-- Project 10: Cars -->
+            <a href="10-used-cars/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="10-used-cars/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Turbo Motors</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Brutalist / High Contrast</p>
+                </div>
+            </a>
+
+            <!-- Project 09: Sushi -->
+            <a href="09-sushi-restaurant/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="09-sushi-restaurant/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Zen Sushi</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Elegant / Restaurant</p>
+                </div>
+            </a>
+
+            <!-- Project 08: Gym -->
+            <a href="08-crossfit-gym/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="08-crossfit-gym/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Iron Forge</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Bold / High Energy</p>
+                </div>
+            </a>
+
+            <!-- Project 07: Tattoo -->
+            <a href="07-tattoo-studio/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="07-tattoo-studio/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Ink Studio</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Dark Portfolio / Gallery</p>
+                </div>
+            </a>
+
+            <!-- Project 06: Dental -->
+            <a href="06-dental-clinic/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="06-dental-clinic/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Dental Care</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Clean / Medical / Trust</p>
+                </div>
+            </a>
+
+            <!-- Project 05: Real Estate -->
+            <a href="05-luxury-real-estate/index.html" target="_blank" class="group card-wrapper block relative">
+                <div class="project-preview-container bg-canvas-light rounded-xl overflow-hidden aspect-[4/3] relative border border-white/5 transition-transform duration-500 ease-out">
+                    <iframe src="05-luxury-real-estate/index.html" class="project-preview" loading="lazy"></iframe>
+                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-serif text-white group-hover:underline decoration-1 underline-offset-4">Luxury Estates</h3>
+                    <p class="text-sm text-gray-500 font-mono mt-1">Masonry / Premium</p>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-12 text-center text-gray-600 font-mono text-xs">
+        <p>&copy; 2026 JHONATHAN CHAVES. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        // Smooth Scroll
+        const lenis = new Lenis()
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Header Reveal
+        gsap.from(".reveal-text", {
+            y: 50,
+            opacity: 0,
+            duration: 1.5,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 0.2
+        });
+
+        // Cards Reveal Staggered
+        gsap.utils.toArray('.card-wrapper').forEach((card, i) => {
+            gsap.from(card, {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

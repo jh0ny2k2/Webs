@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRONOS | Timeless Precision</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'chronos-navy': '#0B1026',
+                        'chronos-gold': '#E0C097',
+                        'chronos-silver': '#E5E7EB',
+                    },
+                    fontFamily: {
+                        serif: ['Italiana', 'serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B1026; color: #E5E7EB; overflow-x: hidden; }
+        .horizontal-container { width: 500%; display: flex; flex-wrap: nowrap; }
+        .panel { width: 100vw; height: 100vh; flex-shrink: 0; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .vertical-text { writing-mode: vertical-rl; transform: rotate(180deg); }
+        .img-parallax { transform: scale(1.2); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 py-8 px-12 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-serif text-3xl text-chronos-gold">CHRONOS</a>
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-widest uppercase text-chronos-gold">
+            <a href="collection.html" class="hover:text-white transition-colors">Collection</a>
+            <a href="about.html" class="hover:text-white transition-colors">Legacy</a>
+            <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="fixed bottom-12 left-12 right-12 h-[1px] bg-chronos-gold/20 z-50">
+        <div id="progress-bar" class="h-full bg-chronos-gold w-0"></div>
+    </div>
+
+    <!-- Main Horizontal Scroll Container -->
+    <div class="horizontal-container">
+        
+        <!-- Panel 1: Hero -->
+        <div class="panel">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" class="w-full h-full object-cover opacity-40 img-parallax">
+            </div>
+            <div class="relative z-10 text-center">
+                <p class="font-sans text-chronos-gold text-xs tracking-[0.5em] mb-6">EST. 1924</p>
+                <h1 class="font-serif text-8xl md:text-[10rem] leading-none mb-8">Masters of<br>Time</h1>
+                <p class="font-sans text-sm max-w-md mx-auto text-gray-400">Precision engineering meets artistic excellence. A century of horological innovation.</p>
+            </div>
+            <div class="absolute bottom-12 right-12 animate-pulse">
+                <span class="font-sans text-xs tracking-widest text-chronos-gold">SCROLL TO EXPLORE</span>
+            </div>
+        </div>
+
+        <!-- Panel 2: The Philosophy -->
+        <div class="panel bg-chronos-navy border-l border-chronos-gold/10">
+            <div class="container mx-auto px-12 grid grid-cols-2 gap-20 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1619167232675-227787672223?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80" class="w-full h-[600px] object-cover grayscale opacity-80">
+                    <div class="absolute -bottom-10 -right-10 w-64 h-64 border border-chronos-gold/30 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <span class="font-serif text-2xl text-chronos-gold">Precision</span>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-9xl font-serif text-chronos-gold/10 absolute -top-20 right-20">01</span>
+                    <h2 class="font-serif text-6xl mb-8">Every Second<br>Counts</h2>
+                    <p class="font-sans text-gray-400 leading-relaxed mb-8 max-w-md">
+                        We believe that a watch is more than a tool to tell time. It is a companion for life's journey. Our craftsmen spend hundreds of hours perfecting each movement, ensuring that your Chronos beats in rhythm with your heart.
+                    </p>
+                    <ul class="space-y-4 font-sans text-sm text-chronos-gold">
+                        <li>— Swiss Made Caliber</li>
+                        <li>— Sapphire Crystal Glass</li>
+                        <li>— Hand-Polished Components</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 3: The Showcase (Parallax) -->
+        <div class="panel relative">
+            <div class="absolute inset-0 w-full h-full flex">
+                <div class="w-1/3 h-full bg-[url('https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=927&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700"></div>
+                <div class="w-1/3 h-full bg-[url('https://images.unsplash.com/photo-1623998021450-85c29c644e0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700 mt-20 border-x border-chronos-gold/20"></div>
+                <div class="w-1/3 h-full bg-[url('https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=994&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <h2 class="font-serif text-9xl text-white mix-blend-overlay">Collections</h2>
+            </div>
+        </div>
+
+        <!-- Panel 4: Featured Product -->
+        <div class="panel bg-chronos-navy">
+            <div class="flex flex-col md:flex-row w-full h-full">
+                <div class="w-full md:w-1/2 h-full relative">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=1999&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full md:w-1/2 h-full flex flex-col justify-center px-20">
+                    <span class="text-chronos-gold font-sans text-xs tracking-widest mb-4">THE FLAGSHIP</span>
+                    <h2 class="font-serif text-7xl mb-6">The Navigator</h2>
+                    <p class="font-sans text-gray-400 mb-12 max-w-md">Designed for the modern explorer. Robust, elegant, and uncompromisingly accurate. Features a 42mm rose gold case and a deep navy dial.</p>
+                    <div class="flex gap-8 items-center">
+                        <span class="font-serif text-3xl text-white">$12,500</span>
+                        <a href="product.html" class="px-8 py-4 border border-chronos-gold text-chronos-gold font-sans text-xs tracking-widest hover:bg-chronos-gold hover:text-chronos-navy transition-colors">VIEW DETAILS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 5: Legacy/Footer -->
+        <div class="panel bg-black text-center">
+            <div class="max-w-2xl">
+                <h2 class="font-serif text-6xl mb-8 text-chronos-gold">Join the Legacy</h2>
+                <p class="font-sans text-gray-400 mb-12">Become part of a tradition that spans generations. Sign up for exclusive access to limited editions.</p>
+                <form class="flex border-b border-chronos-gold/30 pb-4 mb-20">
+                    <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent w-full outline-none text-white placeholder-gray-600 font-sans tracking-widest">
+                    <button type="submit" class="text-chronos-gold uppercase text-xs tracking-widest hover:text-white transition-colors">SUBSCRIBE</button>
+                </form>
+                <div class="flex justify-center gap-12 font-sans text-xs text-gray-500 uppercase tracking-widest">
+                    <a href="#" class="hover:text-chronos-gold">Instagram</a>
+                    <a href="#" class="hover:text-chronos-gold">Twitter</a>
+                    <a href="#" class="hover:text-chronos-gold">LinkedIn</a>
+                </div>
+                <p class="mt-12 font-serif text-sm text-gray-700">© 2024 CHRONOS WATCH CO.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const sections = gsap.utils.toArray(".panel");
+
+        gsap.to(sections, {
+            xPercent: -100 * (sections.length - 1),
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".horizontal-container",
+                pin: true,
+                scrub: 1,
+                snap: 1 / (sections.length - 1),
+                end: () => "+=" + document.querySelector(".horizontal-container").offsetWidth
+            }
+        });
+
+        // Parallax Effect for Images
+        gsap.utils.toArray(".img-parallax").forEach(img => {
+            gsap.to(img, {
+                xPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: img.closest(".panel"),
+                    containerAnimation: gsap.getById("horizontal-scroll"), // Need to link this if using container animation, but simple scrub works for horizontal usually if mapped correctly
+                    start: "left right",
+                    end: "right left",
+                    scrub: true
+                }
+            });
+        });
+
+        // Progress Bar
+        gsap.to("#progress-bar", {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".horizontal-container",
+                start: "left left",
+                end: "right right", // This needs to match the total scroll length
+                end: () => "+=" + document.querySelector(".horizontal-container").offsetWidth,
+                scrub: 0
+            }
+        });
+
+    </script>
+</body>
+</html>

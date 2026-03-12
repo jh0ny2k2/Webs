@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRON FORGE | Pricing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;800&family=Teko:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'forge-black': '#050505',
+                        'forge-dark': '#0F0F0F',
+                        'forge-gray': '#1F1F1F',
+                        'forge-neon': '#CCFF00',
+                        'forge-white': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        body: ['Barlow Condensed', 'sans-serif'],
+                        tech: ['Teko', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #FFFFFF; }
+        
+        .price-card { transition: transform 0.3s ease, border-color 0.3s ease; }
+        .price-card:hover { transform: translateY(-10px); border-color: #CCFF00; }
+        .price-card:hover .price-btn { background-color: #CCFF00; color: #050505; }
+        
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #CCFF00;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #CCFF00;
+        }
+        
+        .mobile-menu-overlay {
+            clip-path: circle(0% at 100% 0);
+            transition: clip-path 0.6s ease-in-out;
+        }
+        .mobile-menu-overlay.active {
+            clip-path: circle(150% at 100% 0);
+        }
+    </style>
+</head>
+<body class="font-body antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-6 px-6 md:px-12 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-display text-3xl md:text-4xl tracking-wider text-forge-white uppercase">IRON <span class="text-forge-neon">FORGE</span></a>
+        <div class="hidden md:flex gap-12 font-tech text-xl tracking-widest uppercase font-medium">
+            <a href="classes.html" class="nav-link text-forge-white hover:text-forge-neon transition-colors">CLASSES</a>
+            <a href="pricing.html" class="text-forge-neon">PRICING</a>
+            <a href="contact.html" class="nav-link text-forge-white hover:text-forge-neon transition-colors">CONTACT</a>
+            <a href="pricing.html" class="text-forge-black bg-forge-neon px-6 py-1 hover:bg-white transition-colors skew-x-[-10deg] inline-block"><span class="skew-x-[10deg] inline-block">JOIN NOW</span></a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-forge-white text-3xl"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu-overlay fixed inset-0 bg-forge-neon z-40 flex items-center justify-center">
+        <button id="close-menu" class="absolute top-6 right-6 text-4xl text-forge-black"><i class="fas fa-times"></i></button>
+        <div class="flex flex-col gap-8 text-center font-display text-6xl text-forge-black uppercase">
+            <a href="index.html" class="hover:text-white transition-colors">HOME</a>
+            <a href="classes.html" class="hover:text-white transition-colors">CLASSES</a>
+            <a href="pricing.html" class="hover:text-white transition-colors">PRICING</a>
+            <a href="contact.html" class="hover:text-white transition-colors">CONTACT</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="pt-40 pb-12 px-6 md:px-12 text-center">
+        <h1 class="font-display text-6xl md:text-9xl text-forge-white uppercase mb-8">MEMBERSHIP</h1>
+        
+        <!-- Toggle Switch -->
+        <div class="flex items-center justify-center gap-6 mb-12">
+            <span class="font-tech text-xl uppercase tracking-widest text-forge-white/50" id="monthly-label">MONTHLY</span>
+            <div class="relative inline-block w-16 h-8 align-middle select-none transition duration-200 ease-in">
+                <input type="checkbox" name="toggle" id="billing-toggle" class="toggle-checkbox absolute block w-8 h-8 rounded-full bg-forge-white border-4 border-forge-dark appearance-none cursor-pointer transition-all duration-300 left-0 checked:left-8"/>
+                <label for="billing-toggle" class="toggle-label block overflow-hidden h-8 rounded-full bg-forge-gray cursor-pointer border border-forge-white/20"></label>
+            </div>
+            <span class="font-tech text-xl uppercase tracking-widest text-forge-white" id="yearly-label">YEARLY <span class="text-forge-neon text-sm ml-2">-20%</span></span>
+        </div>
+    </header>
+
+    <!-- Pricing Grid -->
+    <section class="pb-32 px-6 md:px-12">
+        <div class="grid md:grid-cols-3 gap-8 container mx-auto">
+            
+            <!-- Basic Plan -->
+            <div class="price-card bg-forge-dark border border-forge-gray p-8 md:p-12 relative overflow-hidden group">
+                <h3 class="font-tech text-3xl text-forge-white/50 mb-4">FOUNDATION</h3>
+                <div class="flex items-baseline mb-8">
+                    <span class="text-4xl text-forge-neon">$</span>
+                    <span class="font-display text-7xl text-forge-white price-amount" data-monthly="89" data-yearly="70">89</span>
+                    <span class="text-forge-white/50 ml-2">/mo</span>
+                </div>
+                <ul class="space-y-4 font-body text-lg text-forge-white/80 mb-12">
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Open Gym Access</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> 2 Classes / Week</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Locker Access</li>
+                    <li class="flex items-center text-forge-white/20"><i class="fas fa-times mr-3"></i> 24/7 Access</li>
+                </ul>
+                <a href="#" class="price-btn block text-center border border-forge-white/20 py-4 font-display text-xl uppercase tracking-widest text-forge-white transition-colors duration-300">SELECT PLAN</a>
+            </div>
+
+            <!-- Pro Plan (Featured) -->
+            <div class="price-card bg-forge-gray border-2 border-forge-neon p-8 md:p-12 relative overflow-hidden group transform md:-translate-y-4">
+                <div class="absolute top-0 right-0 bg-forge-neon text-forge-black font-tech px-4 py-1 text-sm tracking-widest">MOST POPULAR</div>
+                <h3 class="font-tech text-3xl text-forge-white mb-4">ATHLETE</h3>
+                <div class="flex items-baseline mb-8">
+                    <span class="text-4xl text-forge-neon">$</span>
+                    <span class="font-display text-7xl text-forge-white price-amount" data-monthly="149" data-yearly="119">149</span>
+                    <span class="text-forge-white/50 ml-2">/mo</span>
+                </div>
+                <ul class="space-y-4 font-body text-lg text-forge-white/80 mb-12">
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Unlimited Classes</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Open Gym Access</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Nutrition Guide</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Guest Passes (2/mo)</li>
+                </ul>
+                <a href="#" class="price-btn block text-center bg-forge-neon text-forge-black py-4 font-display text-xl uppercase tracking-widest hover:bg-white transition-colors duration-300">SELECT PLAN</a>
+            </div>
+
+            <!-- Elite Plan -->
+            <div class="price-card bg-forge-dark border border-forge-gray p-8 md:p-12 relative overflow-hidden group">
+                <h3 class="font-tech text-3xl text-forge-white/50 mb-4">ELITE</h3>
+                <div class="flex items-baseline mb-8">
+                    <span class="text-4xl text-forge-neon">$</span>
+                    <span class="font-display text-7xl text-forge-white price-amount" data-monthly="199" data-yearly="159">199</span>
+                    <span class="text-forge-white/50 ml-2">/mo</span>
+                </div>
+                <ul class="space-y-4 font-body text-lg text-forge-white/80 mb-12">
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> All Access 24/7</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> 1-on-1 Coaching (1/mo)</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Recovery Lounge</li>
+                    <li class="flex items-center"><i class="fas fa-check text-forge-neon mr-3"></i> Exclusive Merch</li>
+                </ul>
+                <a href="#" class="price-btn block text-center border border-forge-white/20 py-4 font-display text-xl uppercase tracking-widest text-forge-white transition-colors duration-300">SELECT PLAN</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="pb-32 px-6 md:px-12 container mx-auto">
+        <h2 class="font-display text-4xl md:text-6xl text-forge-white mb-12 text-center">FAQ</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+            <div class="border-b border-forge-gray pb-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none group">
+                    <span class="font-display text-2xl text-forge-white group-hover:text-forge-neon transition-colors">CAN I CANCEL ANYTIME?</span>
+                    <i class="fas fa-plus text-forge-white group-hover:text-forge-neon transition-colors"></i>
+                </button>
+                <div class="hidden pt-4 text-forge-white/60 font-body text-lg">
+                    Yes, monthly memberships can be cancelled with 30 days notice. Yearly memberships are committed for 12 months.
+                </div>
+            </div>
+            <div class="border-b border-forge-gray pb-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none group">
+                    <span class="font-display text-2xl text-forge-white group-hover:text-forge-neon transition-colors">DO YOU OFFER DROP-INS?</span>
+                    <i class="fas fa-plus text-forge-white group-hover:text-forge-neon transition-colors"></i>
+                </button>
+                <div class="hidden pt-4 text-forge-white/60 font-body text-lg">
+                    Absolutely. Drop-in rate is $25 or buy a t-shirt. Contact us to reserve your spot.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-forge-black pt-32 pb-12 border-t border-forge-gray">
+        <div class="container mx-auto px-6 md:px-12 text-center">
+            <h2 class="font-display text-6xl md:text-9xl text-forge-white uppercase leading-none mb-4">JOIN THE <br> <span class="text-forge-neon">REVOLUTION</span></h2>
+            <p class="text-forge-white/50 font-tech uppercase tracking-widest text-sm mt-12">&copy; 2024 IRON FORGE.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Init Lenis
+        const lenis = new Lenis({
+            duration: 0.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false
+        });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+        // Pricing Toggle
+        const toggle = document.getElementById('billing-toggle');
+        const amounts = document.querySelectorAll('.price-amount');
+        const monthlyLabel = document.getElementById('monthly-label');
+        const yearlyLabel = document.getElementById('yearly-label');
+
+        toggle.addEventListener('change', () => {
+            const isYearly = toggle.checked;
+            
+            // Animate Labels
+            if(isYearly) {
+                yearlyLabel.classList.remove('text-forge-white/50');
+                yearlyLabel.classList.add('text-forge-white');
+                monthlyLabel.classList.add('text-forge-white/50');
+                monthlyLabel.classList.remove('text-forge-white');
+            } else {
+                monthlyLabel.classList.remove('text-forge-white/50');
+                monthlyLabel.classList.add('text-forge-white');
+                yearlyLabel.classList.add('text-forge-white/50');
+                yearlyLabel.classList.remove('text-forge-white');
+            }
+
+            amounts.forEach(amount => {
+                const target = isYearly ? amount.getAttribute('data-yearly') : amount.getAttribute('data-monthly');
+                
+                // Animate Number Change
+                gsap.to(amount, {
+                    innerHTML: target,
+                    duration: 0.5,
+                    snap: { innerHTML: 1 }
+                });
+            });
+        });
+
+        // Simple FAQ Toggle
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                if(content && content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    this.querySelector('i').classList.remove('fa-plus');
+                    this.querySelector('i').classList.add('fa-minus');
+                } else if (content) {
+                    content.classList.add('hidden');
+                    this.querySelector('i').classList.add('fa-plus');
+                    this.querySelector('i').classList.remove('fa-minus');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

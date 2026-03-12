@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRON FORGE | Elite Performance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;800&family=Teko:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'forge-black': '#050505',
+                        'forge-dark': '#0F0F0F',
+                        'forge-gray': '#1F1F1F',
+                        'forge-neon': '#CCFF00', /* Acid Green */
+                        'forge-white': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        body: ['Barlow Condensed', 'sans-serif'],
+                        tech: ['Teko', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'giant': '12rem',
+                        'huge': '8rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        /* Text Stroke Effect */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            color: transparent;
+            transition: all 0.5s ease;
+        }
+        .text-stroke:hover {
+            color: #CCFF00;
+            -webkit-text-stroke: 0px;
+        }
+
+        /* Marquee Animation */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Custom Selection */
+        ::selection {
+            background-color: #CCFF00;
+            color: #050505;
+        }
+
+        /* Navigation Hover */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #CCFF00;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-overlay {
+            clip-path: circle(0% at 100% 0);
+            transition: clip-path 0.6s ease-in-out;
+        }
+        .mobile-menu-overlay.active {
+            clip-path: circle(150% at 100% 0);
+        }
+    </style>
+</head>
+<body class="font-body antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-6 px-6 md:px-12 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-display text-3xl md:text-4xl tracking-wider text-forge-white uppercase">IRON <span class="text-forge-neon">FORGE</span></a>
+        
+        <div class="hidden md:flex gap-12 font-tech text-xl tracking-widest uppercase font-medium">
+            <a href="classes.html" class="nav-link text-forge-white">CLASSES</a>
+            <a href="pricing.html" class="nav-link text-forge-white">PRICING</a>
+            <a href="contact.html" class="nav-link text-forge-white">CONTACT</a>
+            <a href="pricing.html" class="text-forge-black bg-forge-neon px-6 py-1 hover:bg-white transition-colors skew-x-[-10deg] inline-block"><span class="skew-x-[10deg] inline-block">JOIN NOW</span></a>
+        </div>
+
+        <button id="menu-btn" class="md:hidden text-forge-white text-3xl"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu-overlay fixed inset-0 bg-forge-neon z-40 flex items-center justify-center">
+        <button id="close-menu" class="absolute top-6 right-6 text-4xl text-forge-black"><i class="fas fa-times"></i></button>
+        <div class="flex flex-col gap-8 text-center font-display text-6xl text-forge-black uppercase">
+            <a href="index.html" class="hover:text-white transition-colors">HOME</a>
+            <a href="classes.html" class="hover:text-white transition-colors">CLASSES</a>
+            <a href="pricing.html" class="hover:text-white transition-colors">PRICING</a>
+            <a href="contact.html" class="hover:text-white transition-colors">CONTACT</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover brightness-50">
+                <source src="https://videos.pexels.com/video-files/3196208/3196208-uhd_2560_1440_25fps.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-t from-forge-black via-transparent to-black/30"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 w-full">
+            <h1 class="font-display text-7xl md:text-giant leading-[0.85] text-forge-white uppercase mb-6 hero-title opacity-0 translate-y-20">
+                UNLEASH <br> <span class="text-forge-neon">CHAOS</span>
+            </h1>
+            <p class="font-body text-xl md:text-2xl text-forge-white/80 max-w-xl mx-auto mb-12 uppercase tracking-widest hero-subtitle opacity-0 translate-y-10">
+                Forging elite athletes through intensity, discipline, and community.
+            </p>
+            <div class="hero-cta opacity-0 translate-y-10">
+                <a href="pricing.html" class="inline-block border-2 border-forge-neon text-forge-neon px-12 py-4 font-display text-2xl uppercase tracking-widest hover:bg-forge-neon hover:text-forge-black transition-all duration-300">
+                    START TRIAL
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+            <span class="font-tech text-forge-neon uppercase tracking-widest text-sm">SCROLL TO BURN</span>
+            <i class="fas fa-chevron-down text-forge-neon"></i>
+        </div>
+    </header>
+
+    <!-- Marquee Section -->
+    <div class="bg-forge-neon py-6 border-y-4 border-forge-black transform -skew-y-2 origin-left relative z-20">
+        <div class="marquee-container">
+            <div class="marquee-content font-display text-4xl md:text-6xl text-forge-black uppercase tracking-tighter">
+                STRENGTH • CONDITIONING • ENDURANCE • HYPERTROPHY • MOBILITY • POWERLIFTING • OLYMPIC LIFTING • GYMNASTICS • STRENGTH • CONDITIONING • ENDURANCE • HYPERTROPHY • MOBILITY • POWERLIFTING • OLYMPIC LIFTING • GYMNASTICS • 
+            </div>
+        </div>
+    </div>
+
+    <!-- About / Manifesto -->
+    <section class="py-32 bg-forge-black relative">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="font-display text-6xl md:text-8xl uppercase leading-none mb-8 text-reveal">
+                        WE DON'T <br> <span class="text-stroke">MAKE IT EASY.</span> <br> WE MAKE YOU <span class="text-forge-neon">STRONG.</span>
+                    </h2>
+                </div>
+                <div>
+                    <p class="text-forge-white/70 text-lg md:text-xl leading-relaxed mb-8 font-light">
+                        Iron Forge isn't just a gym. It's a proving ground. We reject mediocrity and embrace the grind. Our programming is designed to break you down and build you back up, stronger than ever before.
+                    </p>
+                    <p class="text-forge-white/70 text-lg md:text-xl leading-relaxed mb-8 font-light">
+                        Whether you're a competitive athlete or just starting your journey, our community will push you past your limits.
+                    </p>
+                    <a href="classes.html" class="text-forge-neon font-display text-2xl uppercase border-b-2 border-forge-neon pb-1 hover:text-white hover:border-white transition-colors">EXPLORE PROGRAMS -></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-forge-dark border-t border-forge-gray">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="stat-item">
+                    <span class="block font-display text-6xl md:text-8xl text-forge-white counter" data-target="1500">0</span>
+                    <span class="font-tech text-forge-neon text-xl uppercase tracking-widest">MEMBERS</span>
+                </div>
+                <div class="stat-item">
+                    <span class="block font-display text-6xl md:text-8xl text-forge-white counter" data-target="50">0</span>
+                    <span class="font-tech text-forge-neon text-xl uppercase tracking-widest">COACHES</span>
+                </div>
+                <div class="stat-item">
+                    <span class="block font-display text-6xl md:text-8xl text-forge-white counter" data-target="24">0</span>
+                    <span class="font-tech text-forge-neon text-xl uppercase tracking-widest">HOURS OPEN</span>
+                </div>
+                <div class="stat-item">
+                    <span class="block font-display text-6xl md:text-8xl text-forge-white counter" data-target="100">0</span>
+                    <span class="font-tech text-forge-neon text-xl uppercase tracking-widest">% RESULTS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Showcase -->
+    <section class="h-[80vh] relative flex items-center justify-center overflow-hidden group cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-500"></div>
+        
+        <div class="relative z-10 text-center">
+            <div class="w-24 h-24 rounded-full border-2 border-forge-neon flex items-center justify-center mb-6 mx-auto group-hover:bg-forge-neon transition-colors duration-300">
+                <i class="fas fa-play text-3xl text-forge-neon group-hover:text-forge-black ml-1"></i>
+            </div>
+            <h2 class="font-display text-6xl md:text-8xl text-forge-white uppercase tracking-tighter">SEE THE <span class="text-forge-neon">GRIND</span></h2>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-forge-black pt-32 pb-12 border-t border-forge-gray">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
+                <div>
+                    <h2 class="font-display text-6xl md:text-9xl text-forge-white uppercase leading-none mb-4">JOIN THE <br> <span class="text-forge-neon">REVOLUTION</span></h2>
+                </div>
+                <div class="flex flex-col gap-4 text-right">
+                    <a href="contact.html" class="font-display text-4xl text-forge-white hover:text-forge-neon transition-colors">INSTAGRAM ↗</a>
+                    <a href="contact.html" class="font-display text-4xl text-forge-white hover:text-forge-neon transition-colors">YOUTUBE ↗</a>
+                    <a href="contact.html" class="font-display text-4xl text-forge-white hover:text-forge-neon transition-colors">TIKTOK ↗</a>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-forge-gray text-forge-white/50 font-tech uppercase tracking-widest text-sm">
+                <p>&copy; 2024 IRON FORGE. ALL RIGHTS RESERVED.</p>
+                <div class="flex gap-8 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-forge-white">PRIVACY</a>
+                    <a href="#" class="hover:text-forge-white">TERMS</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Init Lenis
+        const lenis = new Lenis({
+            duration: 0.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Intro
+        const tl = gsap.timeline();
+        tl.to(".hero-title", { opacity: 1, y: 0, duration: 1, ease: "power4.out", delay: 0.5 })
+          .to(".hero-subtitle", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+          .to(".hero-cta", { opacity: 1, y: 0, duration: 1, ease: "back.out(1.7)" }, "-=0.5");
+
+        // Text Reveal on Scroll
+        gsap.utils.toArray('.text-reveal').forEach(text => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        // Counter Animation
+        gsap.utils.toArray('.counter').forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            gsap.to(counter, {
+                innerText: target,
+                duration: 2,
+                snap: { innerText: 1 },
+                scrollTrigger: {
+                    trigger: counter,
+                    start: "top 85%"
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

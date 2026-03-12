@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYPE KICKS | GALLERY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Koulen&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hype-black': '#050505',
+                        'hype-gray': '#1a1a1a',
+                        'hype-red': '#ff003c',
+                        'hype-neon': '#ccff00',
+                    },
+                    fontFamily: {
+                        display: ['Chakra Petch', 'sans-serif'],
+                        tech: ['Koulen', 'sans-serif'],
+                        graffiti: ['Permanent Marker', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #ffffff; overflow: hidden; }
+        .polaroid {
+            position: absolute;
+            background: white;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transition: transform 0.2s, z-index 0s;
+            cursor: grab;
+        }
+        .polaroid:active { cursor: grabbing; transform: scale(1.05); z-index: 50 !important; }
+        .sticker { position: absolute; pointer-events: none; z-index: 40; }
+    </style>
+</head>
+<body class="font-display antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference pointer-events-none">
+        <a href="index.html" class="text-4xl font-bold italic tracking-tighter text-white pointer-events-auto">VOLT X</a>
+        <div class="hidden md:flex gap-8 font-tech text-xl tracking-widest pointer-events-auto">
+            <a href="drop.html" class="hover:text-hype-red transition-colors">[ENTER RAFFLE]</a>
+            <a href="gallery.html" class="text-hype-neon">[GALLERY]</a>
+        </div>
+    </nav>
+
+    <!-- Draggable Canvas -->
+    <main class="w-screen h-screen relative">
+        
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-0">
+            <h1 class="text-[15vw] font-tech text-hype-gray opacity-20 leading-none">CHAOS</h1>
+        </div>
+
+        <!-- Stickers -->
+        <div class="sticker top-20 left-20 rotate-12 bg-hype-red text-black font-graffiti p-2 text-2xl">SOLD OUT</div>
+        <div class="sticker bottom-40 right-40 -rotate-12 bg-hype-neon text-black font-tech p-4 text-4xl border-2 border-black">VERIFIED</div>
+
+        <!-- Polaroids -->
+        <div class="polaroid w-64 md:w-80 top-1/4 left-1/4 rotate-6 z-10">
+            <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full grayscale hover:grayscale-0 transition-all">
+            <p class="font-graffiti text-black text-center mt-2 text-xl rotate-[-2deg]">Side Profile</p>
+        </div>
+
+        <div class="polaroid w-64 md:w-80 top-1/3 right-1/4 -rotate-3 z-20">
+            <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full grayscale hover:grayscale-0 transition-all">
+            <p class="font-graffiti text-black text-center mt-2 text-xl">On Foot</p>
+        </div>
+
+        <div class="polaroid w-64 md:w-80 bottom-1/4 left-1/3 rotate-12 z-30">
+            <img src="https://images.unsplash.com/photo-1605348532760-6753d5c43329?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full grayscale hover:grayscale-0 transition-all">
+            <p class="font-graffiti text-black text-center mt-2 text-xl rotate-[1deg]">Details</p>
+        </div>
+
+        <div class="polaroid w-56 md:w-72 top-20 right-20 rotate-[15deg] z-10">
+            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full grayscale hover:grayscale-0 transition-all">
+            <p class="font-graffiti text-black text-center mt-2 text-xl">Box Fresh</p>
+        </div>
+
+    </main>
+
+    <script>
+        // Init Draggabilly
+        const draggies = [];
+        document.querySelectorAll('.polaroid').forEach( ( el ) => {
+            const draggie = new Draggabilly( el );
+            draggies.push( draggie );
+            
+            // Bring to front on drag
+            draggie.on( 'pointerDown', function() {
+                el.style.zIndex = 100;
+            });
+            draggie.on( 'pointerUp', function() {
+                el.style.zIndex = Math.floor(Math.random() * 50);
+            });
+        });
+
+        // Entrance Animation
+        gsap.from(".polaroid", {
+            y: 1000,
+            rotation: () => Math.random() * 90 - 45,
+            duration: 1.5,
+            stagger: 0.2,
+            ease: "back.out(1.7)"
+        });
+    </script>
+</body>
+</html>

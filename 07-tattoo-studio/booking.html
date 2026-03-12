@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INK NOIR | Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Oswald:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ink-black': '#050505',
+                        'ink-charcoal': '#121212',
+                        'ink-gray': '#2A2A2A',
+                        'ink-white': '#Eaeaea',
+                        'ink-accent': '#D43F3F',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Oswald', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #Eaeaea; cursor: none; }
+        .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+        .cursor-dot { width: 8px; height: 8px; background-color: #Eaeaea; }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(234, 234, 234, 0.5); transition: width 0.2s, height 0.2s; }
+        body:hover .cursor-outline { width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.05); }
+        
+        input, select, textarea {
+            background-color: transparent;
+            border-bottom: 1px solid #2A2A2A;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-bottom-color: #D43F3F;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-ink-accent selection:text-ink-black">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 mix-blend-difference py-6 px-6 md:px-12 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-serif font-bold tracking-widest text-ink-white hover:text-ink-accent transition-colors">INK<span class="text-ink-accent">.</span>NOIR</a>
+        <div class="hidden md:flex gap-12 font-mono text-sm tracking-widest">
+            <a href="artists.html" class="hover:text-ink-accent transition-colors">ARTISTAS</a>
+            <a href="portfolio.html" class="hover:text-ink-accent transition-colors">PORTFOLIO</a>
+            <a href="booking.html" class="text-ink-accent">BOOKING</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-ink-white text-2xl"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ink-black z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8">
+        <a href="index.html" class="text-4xl font-serif hover:text-ink-accent">HOME</a>
+        <a href="artists.html" class="text-4xl font-serif hover:text-ink-accent">ARTISTAS</a>
+        <a href="portfolio.html" class="text-4xl font-serif hover:text-ink-accent">PORTFOLIO</a>
+        <a href="booking.html" class="text-4xl font-serif text-ink-accent">BOOKING</a>
+        <button id="close-menu" class="absolute top-6 right-6 text-2xl text-ink-white"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Header -->
+    <header class="pt-40 pb-20 px-6 md:px-12 text-center">
+        <h1 class="text-5xl md:text-8xl font-serif text-ink-white mb-6">RESERVA TU SESIÓN</h1>
+        <p class="font-mono text-ink-white/60 max-w-xl mx-auto text-sm">El primer paso hacia tu nueva pieza. Cuéntanos tu idea.</p>
+    </header>
+
+    <div class="container mx-auto px-6 md:px-12 pb-32">
+        <div class="flex flex-col lg:flex-row gap-16">
+            
+            <!-- Booking Form -->
+            <div class="lg:w-2/3">
+                <form class="space-y-12">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="group">
+                            <label class="block font-mono text-xs text-ink-accent mb-2 tracking-widest">NOMBRE COMPLETO</label>
+                            <input type="text" class="w-full py-4 text-ink-white font-serif text-xl placeholder-ink-white/20" placeholder="Tu nombre">
+                        </div>
+                        <div class="group">
+                            <label class="block font-mono text-xs text-ink-accent mb-2 tracking-widest">EMAIL</label>
+                            <input type="email" class="w-full py-4 text-ink-white font-serif text-xl placeholder-ink-white/20" placeholder="tu@email.com">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="group">
+                            <label class="block font-mono text-xs text-ink-accent mb-2 tracking-widest">ARTISTA PREFERIDO</label>
+                            <select class="w-full py-4 text-ink-white font-serif text-xl bg-ink-black">
+                                <option>Cualquiera</option>
+                                <option>Alex Void (Realismo)</option>
+                                <option>Sara Ink (Neotradicional)</option>
+                                <option>Kai Zen (Geométrico)</option>
+                            </select>
+                        </div>
+                        <div class="group">
+                            <label class="block font-mono text-xs text-ink-accent mb-2 tracking-widest">ZONA DEL CUERPO</label>
+                            <input type="text" class="w-full py-4 text-ink-white font-serif text-xl placeholder-ink-white/20" placeholder="Ej: Antebrazo, Espalda...">
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <label class="block font-mono text-xs text-ink-accent mb-2 tracking-widest">DESCRIPCIÓN DE LA IDEA</label>
+                        <textarea rows="4" class="w-full py-4 text-ink-white font-serif text-xl placeholder-ink-white/20" placeholder="Describe lo que tienes en mente..."></textarea>
+                    </div>
+
+                    <button type="submit" class="inline-block border border-ink-white/30 px-12 py-5 font-mono text-sm hover:bg-ink-white hover:text-ink-black transition-all duration-300 tracking-widest w-full md:w-auto">
+                        ENVIAR SOLICITUD
+                    </button>
+                </form>
+            </div>
+
+            <!-- Info & Care -->
+            <div class="lg:w-1/3 space-y-16">
+                <div>
+                    <h3 class="font-serif text-2xl text-ink-white mb-6">ANTES DE TU CITA</h3>
+                    <ul class="space-y-4 font-mono text-sm text-ink-white/70 list-disc pl-4">
+                        <li>Descansa bien la noche anterior (mínimo 8 horas).</li>
+                        <li>Come una comida completa antes de venir.</li>
+                        <li>Hidrátate bien.</li>
+                        <li>No consumas alcohol ni drogas 24h antes.</li>
+                        <li>Usa ropa cómoda y accesible a la zona a tatuar.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-serif text-2xl text-ink-white mb-6">DEPOSITOS</h3>
+                    <p class="font-mono text-sm text-ink-white/70 leading-relaxed">
+                        Se requiere un depósito de 50€ para confirmar cualquier cita. Este monto se descontará del precio final del tatuaje. Los depósitos no son reembolsables si se cancela con menos de 48h de antelación.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-ink-black py-20 border-t border-ink-white/5">
+        <div class="container mx-auto px-6 md:px-12 text-center">
+            <h2 class="text-3xl font-serif font-bold text-ink-white mb-6">INK<span class="text-ink-accent">.</span>NOIR</h2>
+            <p class="font-mono text-ink-white/50 text-xs">© 2024 INK NOIR STUDIO</p>
+        </div>
+    </footer>
+
+    <script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+    </script>
+</body>
+</html>

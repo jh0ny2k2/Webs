@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INK NOIR | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Oswald:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ink-black': '#050505',
+                        'ink-charcoal': '#121212',
+                        'ink-gray': '#2A2A2A',
+                        'ink-white': '#Eaeaea',
+                        'ink-accent': '#D43F3F',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Oswald', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #Eaeaea; cursor: none; }
+        .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+        .cursor-dot { width: 8px; height: 8px; background-color: #Eaeaea; }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(234, 234, 234, 0.5); transition: width 0.2s, height 0.2s; }
+        body:hover .cursor-outline { width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.05); }
+        
+        /* Masonry Grid */
+        .masonry-grid { column-count: 1; gap: 1rem; }
+        @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+        
+        .masonry-item { 
+            break-inside: avoid; 
+            margin-bottom: 1rem; 
+            position: relative; 
+            overflow: hidden; 
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .filter-btn.active { color: #D43F3F; border-bottom: 1px solid #D43F3F; }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-ink-accent selection:text-ink-black">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    <div class="fixed inset-0 pointer-events-none z-[60] mix-blend-overlay opacity-[0.03]" style="background-image: url('https://grainy-gradients.vercel.app/noise.svg')"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 mix-blend-difference py-6 px-6 md:px-12 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-serif font-bold tracking-widest text-ink-white hover:text-ink-accent transition-colors">INK<span class="text-ink-accent">.</span>NOIR</a>
+        <div class="hidden md:flex gap-12 font-mono text-sm tracking-widest">
+            <a href="artists.html" class="hover:text-ink-accent transition-colors">ARTISTAS</a>
+            <a href="portfolio.html" class="text-ink-accent">PORTFOLIO</a>
+            <a href="booking.html" class="hover:text-ink-accent transition-colors">BOOKING</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-ink-white text-2xl"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ink-black z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center gap-8">
+        <a href="index.html" class="text-4xl font-serif hover:text-ink-accent">HOME</a>
+        <a href="artists.html" class="text-4xl font-serif hover:text-ink-accent">ARTISTAS</a>
+        <a href="portfolio.html" class="text-4xl font-serif text-ink-accent">PORTFOLIO</a>
+        <a href="booking.html" class="text-4xl font-serif hover:text-ink-accent">BOOKING</a>
+        <button id="close-menu" class="absolute top-6 right-6 text-2xl text-ink-white"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Header & Filters -->
+    <header class="pt-40 pb-12 px-6 md:px-12">
+        <div class="flex flex-col md:flex-row justify-between items-end border-b border-ink-white/10 pb-8">
+            <div>
+                <h1 class="text-5xl md:text-8xl font-serif text-ink-white mb-4">PORTFOLIO</h1>
+                <p class="font-mono text-ink-white/60 text-sm">Explora nuestra colección de obras maestras.</p>
+            </div>
+            
+            <div class="mt-8 md:mt-0 flex flex-wrap gap-6 font-mono text-xs tracking-widest">
+                <button class="filter-btn active hover:text-ink-accent transition-colors" data-filter="all">TODOS</button>
+                <button class="filter-btn hover:text-ink-accent transition-colors" data-filter="realismo">REALISMO</button>
+                <button class="filter-btn hover:text-ink-accent transition-colors" data-filter="blackwork">BLACKWORK</button>
+                <button class="filter-btn hover:text-ink-accent transition-colors" data-filter="color">COLOR</button>
+                <button class="filter-btn hover:text-ink-accent transition-colors" data-filter="geometrico">GEOMÉTRICO</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <section class="pb-32 px-6 md:px-12">
+        <div class="masonry-grid" id="gallery-grid">
+            
+            <!-- Item 1 -->
+            <div class="masonry-item group" data-category="realismo">
+                <img src="https://images.unsplash.com/photo-1590246294380-1e0375c6395b?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Skull Study</h3>
+                    <p class="font-mono text-ink-accent text-xs">ALEX VOID</p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="masonry-item group" data-category="blackwork">
+                <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Back Piece</h3>
+                    <p class="font-mono text-ink-accent text-xs">ALEX VOID</p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="masonry-item group" data-category="geometrico">
+                <img src="https://images.unsplash.com/photo-1560707303-4e98035872dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Sacred Geo</h3>
+                    <p class="font-mono text-ink-accent text-xs">KAI ZEN</p>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="masonry-item group" data-category="color">
+                <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Floral Neo</h3>
+                    <p class="font-mono text-ink-accent text-xs">SARA INK</p>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="masonry-item group" data-category="blackwork">
+                <img src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Portrait</h3>
+                    <p class="font-mono text-ink-accent text-xs">ALEX VOID</p>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="masonry-item group" data-category="geometrico">
+                <img src="https://images.unsplash.com/photo-1621112904887-419379ce6824?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Mandala Sleeve</h3>
+                    <p class="font-mono text-ink-accent text-xs">KAI ZEN</p>
+                </div>
+            </div>
+
+             <!-- Item 7 -->
+            <div class="masonry-item group" data-category="color">
+                <img src="https://images.unsplash.com/photo-1550537687-c91389cb7f15?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="w-full grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div class="absolute inset-0 bg-ink-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
+                    <h3 class="font-serif text-2xl text-ink-white mb-2">Tiger Color</h3>
+                    <p class="font-mono text-ink-accent text-xs">SARA INK</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ink-black py-20 border-t border-ink-white/5">
+        <div class="container mx-auto px-6 md:px-12 text-center">
+            <h2 class="text-3xl font-serif font-bold text-ink-white mb-6">INK<span class="text-ink-accent">.</span>NOIR</h2>
+            <p class="font-mono text-ink-white/50 text-xs">© 2024 INK NOIR STUDIO</p>
+        </div>
+    </footer>
+
+    <script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+
+        // Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.masonry-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                const tl = gsap.timeline();
+                
+                // Hide all first
+                items.forEach(item => {
+                    gsap.to(item, {
+                        duration: 0.3,
+                        autoAlpha: 0,
+                        y: 20,
+                        onComplete: () => {
+                             item.style.display = 'none';
+                             if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                                item.style.display = 'block';
+                                gsap.to(item, {
+                                    duration: 0.5,
+                                    autoAlpha: 1,
+                                    y: 0,
+                                    ease: "power2.out",
+                                    delay: 0.1
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        });
+
+        // Initial Stagger Animation
+        gsap.to(".masonry-item", {
+            duration: 0.8,
+            autoAlpha: 1,
+            y: 0,
+            stagger: 0.1,
+            ease: "power2.out",
+            delay: 0.2
+        });
+
+        // Header Reveal
+        gsap.from("h1", {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 0.2
+        });
+    </script>
+</body>
+</html>

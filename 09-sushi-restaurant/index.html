@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMI | Omakase Experience</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'umi-blue': '#0a192f',
+                        'umi-gold': '#d4af37',
+                        'umi-cream': '#f4f1ea',
+                        'umi-red': '#c0392b',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a192f;
+            color: #f4f1ea;
+            overflow-x: hidden;
+        }
+
+        .text-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        /* Japanese Pattern Overlay */
+        .pattern-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zm4 0h2v2h-2V1zm4 0h2v2h-2V1zm-8 4h2v2H9V5zm4 0h2v2h-2V5zm-8 4h2v2H5V9zm4 0h2v2H9V9zm-8 4h2v2H1v-2zm4 0h2v2H5v-2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #d4af37;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-overlay {
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .mobile-menu-overlay.active {
+            clip-path: inset(0 0 0 0);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-umi-gold selection:text-umi-blue cursor-none">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="pattern-overlay fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-8 px-8 md:px-16 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-serif text-3xl italic tracking-wider text-umi-cream relative z-50">UMI <span class="text-xs not-italic font-sans tracking-[0.3em] block ml-1 text-umi-gold">OMAKASE</span></a>
+        
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-[0.2em] uppercase text-umi-cream items-center">
+            <a href="menu.html" class="hover:text-umi-gold transition-colors relative group">
+                MENU
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-umi-gold transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="about.html" class="hover:text-umi-gold transition-colors relative group">
+                STORY
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-umi-gold transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="reservation.html" class="hover:text-umi-gold transition-colors relative group">
+                RESERVATION
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-umi-gold transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="reservation.html" class="border border-umi-gold/50 px-6 py-3 hover:bg-umi-gold hover:text-umi-blue transition-all duration-500">BOOK TABLE</a>
+        </div>
+
+        <button id="menu-btn" class="md:hidden text-umi-cream text-2xl relative z-50"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu-overlay fixed inset-0 bg-umi-blue z-40 flex items-center justify-center">
+        <div class="flex flex-col gap-10 text-center font-serif text-5xl text-umi-cream italic">
+            <a href="index.html" class="hover:text-umi-gold transition-colors">Home</a>
+            <a href="menu.html" class="hover:text-umi-gold transition-colors">Menu</a>
+            <a href="about.html" class="hover:text-umi-gold transition-colors">Story</a>
+            <a href="reservation.html" class="hover:text-umi-gold transition-colors">Reservation</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1925&q=80" class="w-full h-full object-cover opacity-40 scale-110 hero-img">
+            <div class="absolute inset-0 bg-gradient-to-b from-umi-blue/30 via-transparent to-umi-blue"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4">
+            <p class="font-sans text-umi-gold text-xs tracking-[0.4em] mb-6 reveal-text">EST. 2024 • TOKYO / MADRID</p>
+            <h1 class="font-serif text-6xl md:text-9xl text-umi-cream mb-8 italic reveal-text">
+                The Art of <br> <span class="not-italic font-light">Minimalism</span>
+            </h1>
+            <div class="w-[1px] h-24 bg-umi-gold/50 mx-auto mb-8 reveal-line"></div>
+            <a href="menu.html" class="font-sans text-xs tracking-[0.2em] text-umi-cream border-b border-transparent hover:border-umi-gold pb-2 transition-all reveal-text">EXPLORE MENU</a>
+        </div>
+
+        <!-- Vertical Text -->
+        <div class="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 hidden md:block">
+            <p class="text-vertical font-serif text-umi-gold/30 text-sm tracking-[0.5em]">TRADITION MEETS INNOVATION</p>
+        </div>
+    </header>
+
+    <!-- Intro / Philosophy -->
+    <section class="py-32 relative">
+        <div class="container mx-auto px-6 md:px-16">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2 relative" data-speed="0.8">
+                    <div class="absolute -top-10 -left-10 w-full h-full border border-umi-gold/20 z-0"></div>
+                    <img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?ixlib=rb-4.0.3&auto=format&fit=crop&w=1032&q=80" class="relative z-10 w-full grayscale hover:grayscale-0 transition-all duration-1000">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="font-serif text-5xl md:text-6xl text-umi-cream mb-8 italic">Omakase</h2>
+                    <p class="font-sans text-umi-gold text-xs tracking-[0.2em] mb-6">"I LEAVE IT UP TO YOU"</p>
+                    <p class="font-serif text-xl text-umi-cream/70 leading-relaxed mb-8 font-light">
+                        At UMI, we honor the seasons. Our menu changes daily based on the finest catch from the markets of Toyosu and the Mediterranean. Each piece of nigiri is crafted with precision, temperature, and timing in mind.
+                    </p>
+                    <a href="about.html" class="font-sans text-xs tracking-[0.2em] text-umi-cream border border-umi-gold/30 px-8 py-4 hover:bg-umi-gold hover:text-umi-blue transition-all duration-500 inline-block">MEET THE CHEF</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Preview -->
+    <section class="py-32 bg-umi-blue relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 font-serif text-[15rem] text-white/[0.02] italic whitespace-nowrap pointer-events-none">Signature</div>
+        
+        <div class="container mx-auto px-6 md:px-16 relative z-10">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group cursor-pointer">
+                    <div class="overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-[400px] object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <h3 class="font-serif text-3xl text-umi-cream italic mb-2 group-hover:text-umi-gold transition-colors">Otoro Nigiri</h3>
+                    <p class="font-sans text-xs text-umi-cream/50 tracking-widest">BLUEFIN TUNA BELLY • AGED 14 DAYS</p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group cursor-pointer mt-16 md:mt-0">
+                    <div class="overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1633478062482-790e3b5dd810?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-[400px] object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <h3 class="font-serif text-3xl text-umi-cream italic mb-2 group-hover:text-umi-gold transition-colors">Uni Gunkan</h3>
+                    <p class="font-sans text-xs text-umi-cream/50 tracking-widest">HOKKAIDO SEA URCHIN • NORI</p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group cursor-pointer mt-0 md:mt-16">
+                    <div class="overflow-hidden mb-6 relative">
+                        <img src="https://images.unsplash.com/photo-1558985250-27a406d64cb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="w-full h-[400px] object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <h3 class="font-serif text-3xl text-umi-cream italic mb-2 group-hover:text-umi-gold transition-colors">Wagyu A5</h3>
+                    <p class="font-sans text-xs text-umi-cream/50 tracking-widest">MIYAZAKI BEEF • TRUFFLE SALT</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20">
+                <a href="menu.html" class="font-serif text-2xl italic text-umi-gold hover:text-umi-cream transition-colors border-b border-umi-gold pb-1">View Full Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-umi-gold/10 relative">
+        <div class="container mx-auto px-6 md:px-16 text-center">
+            <h2 class="font-serif text-4xl text-umi-cream italic mb-8">Umi.</h2>
+            <div class="flex justify-center gap-8 mb-12 font-sans text-xs tracking-widest text-umi-cream/60">
+                <a href="#" class="hover:text-umi-gold transition-colors">INSTAGRAM</a>
+                <a href="#" class="hover:text-umi-gold transition-colors">FACEBOOK</a>
+                <a href="#" class="hover:text-umi-gold transition-colors">TRIPADVISOR</a>
+            </div>
+            <p class="font-serif text-umi-cream/40 text-sm">© 2024 UMI RESTAURANT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileMenu.classList.add('active');
+                menuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenu.classList.remove('active');
+                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Reveal
+        const tl = gsap.timeline();
+        tl.from(".hero-img", { scale: 1.2, opacity: 0, duration: 2, ease: "power2.out" })
+          .from(".reveal-text", { y: 30, opacity: 0, stagger: 0.2, duration: 1, ease: "power3.out" }, "-=1.5")
+          .from(".reveal-line", { height: 0, duration: 1, ease: "power3.out" }, "-=1");
+
+        // Parallax Effect
+        gsap.to(".hero-img", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+    </script>
+</body>
+</html>

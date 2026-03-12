@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMI | Our Story</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'umi-blue': '#0a192f',
+                        'umi-gold': '#d4af37',
+                        'umi-cream': '#f4f1ea',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a192f; color: #f4f1ea; }
+        .pattern-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zm4 0h2v2h-2V1zm4 0h2v2h-2V1zm-8 4h2v2H9V5zm4 0h2v2h-2V5zm-8 4h2v2H5V9zm4 0h2v2H9V9zm-8 4h2v2H1v-2zm4 0h2v2H5v-2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: #d4af37; position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        
+        /* Mobile Menu */
+        .mobile-menu-overlay { clip-path: inset(0 0 100% 0); transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
+        .mobile-menu-overlay.active { clip-path: inset(0 0 0 0); }
+    </style>
+</head>
+<body class="antialiased selection:bg-umi-gold selection:text-umi-blue cursor-none">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="pattern-overlay fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-8 px-8 md:px-16 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-serif text-3xl italic tracking-wider text-umi-cream relative z-50">UMI <span class="text-xs not-italic font-sans tracking-[0.3em] block ml-1 text-umi-gold">OMAKASE</span></a>
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-[0.2em] uppercase text-umi-cream items-center">
+            <a href="menu.html" class="hover:text-umi-gold transition-colors relative group">MENU</a>
+            <a href="about.html" class="text-umi-gold relative group">STORY</a>
+            <a href="reservation.html" class="hover:text-umi-gold transition-colors relative group">RESERVATION</a>
+            <a href="reservation.html" class="border border-umi-gold/50 px-6 py-3 hover:bg-umi-gold hover:text-umi-blue transition-all duration-500">BOOK TABLE</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-umi-cream text-2xl relative z-50"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu-overlay fixed inset-0 bg-umi-blue z-40 flex items-center justify-center">
+        <div class="flex flex-col gap-10 text-center font-serif text-5xl text-umi-cream italic">
+            <a href="index.html" class="hover:text-umi-gold transition-colors">Home</a>
+            <a href="menu.html" class="hover:text-umi-gold transition-colors">Menu</a>
+            <a href="about.html" class="hover:text-umi-gold transition-colors">Story</a>
+            <a href="reservation.html" class="hover:text-umi-gold transition-colors">Reservation</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="pt-40 pb-20 px-6 md:px-16 text-center">
+        <h1 class="font-serif text-6xl md:text-8xl text-umi-cream mb-8 italic">The Craft</h1>
+        <div class="w-[1px] h-24 bg-umi-gold/50 mx-auto mb-8"></div>
+    </header>
+
+    <!-- Chef Section -->
+    <section class="pb-32 px-6 md:px-16">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?ixlib=rb-4.0.3&auto=format&fit=crop&w=1480&q=80" class="w-full grayscale hover:grayscale-0 transition-all duration-1000">
+                </div>
+                <div class="md:w-1/2">
+                    <p class="font-sans text-umi-gold text-xs tracking-[0.2em] mb-6">CHEF KENJIRO SATO</p>
+                    <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-8">"Sushi is not just food. It is a moment in time."</h2>
+                    <p class="font-sans text-sm text-umi-cream/60 leading-relaxed mb-6">
+                        Born in Hokkaido, Chef Kenjiro spent 20 years perfecting his craft in Ginza's most prestigious counters before bringing his vision to Europe.
+                    </p>
+                    <p class="font-sans text-sm text-umi-cream/60 leading-relaxed">
+                        His philosophy is simple: intervene as little as possible. Let the ingredient speak. The warmth of the rice, the slice of the fish, the brush of the soy sauce—everything must be in harmony.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sourcing -->
+    <section class="py-32 bg-umi-blue border-t border-umi-gold/10">
+        <div class="container mx-auto px-6 md:px-16 text-center">
+            <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-16">Sourcing</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <h3 class="font-serif text-2xl text-umi-gold mb-4">Toyosu Market</h3>
+                    <p class="font-sans text-xs text-umi-cream/60 leading-relaxed">
+                        We fly in premium seafood directly from Tokyo's Toyosu Market three times a week to ensure authenticity.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-serif text-2xl text-umi-gold mb-4">Local Waters</h3>
+                    <p class="font-sans text-xs text-umi-cream/60 leading-relaxed">
+                        We partner with sustainable local fishermen for the freshest Mediterranean catch, bridging two worlds.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-serif text-2xl text-umi-gold mb-4">Niigata Rice</h3>
+                    <p class="font-sans text-xs text-umi-cream/60 leading-relaxed">
+                        Our shari (sushi rice) is made from a special blend of crops from Niigata, seasoned with aged red vinegar.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-umi-gold/10 relative">
+        <div class="container mx-auto px-6 md:px-16 text-center">
+            <h2 class="font-serif text-4xl text-umi-cream italic mb-8">Umi.</h2>
+            <p class="font-serif text-umi-cream/40 text-sm">© 2024 UMI RESTAURANT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) { mobileMenu.classList.add('active'); menuBtn.innerHTML = '<i class="fas fa-times"></i>'; } 
+            else { mobileMenu.classList.remove('active'); menuBtn.innerHTML = '<i class="fas fa-bars"></i>'; }
+        });
+    </script>
+</body>
+</html>

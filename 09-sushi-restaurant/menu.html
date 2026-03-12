@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMI | Seasonal Menu</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'umi-blue': '#0a192f',
+                        'umi-gold': '#d4af37',
+                        'umi-cream': '#f4f1ea',
+                        'umi-red': '#c0392b',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a192f; color: #f4f1ea; overflow-x: hidden; }
+        .pattern-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zm4 0h2v2h-2V1zm4 0h2v2h-2V1zm-8 4h2v2H9V5zm4 0h2v2h-2V5zm-8 4h2v2H5V9zm4 0h2v2H9V9zm-8 4h2v2H1v-2zm4 0h2v2H5v-2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: #d4af37; position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .dish-card { opacity: 0; transform: translateY(50px); }
+        .dish-img-wrapper { overflow: hidden; border-radius: 9999px; }
+        .dish-img { transform: scale(1.2); transition: transform 1.5s ease-out; }
+        .dish-card:hover .dish-img { transform: scale(1.1) rotate(5deg); }
+        
+        /* Mobile Menu */
+        .mobile-menu-overlay { clip-path: inset(0 0 100% 0); transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
+        .mobile-menu-overlay.active { clip-path: inset(0 0 0 0); }
+    </style>
+</head>
+<body class="antialiased selection:bg-umi-gold selection:text-umi-blue cursor-none">
+
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="pattern-overlay fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 py-8 px-8 md:px-16 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-serif text-3xl italic tracking-wider text-umi-cream relative z-50">UMI <span class="text-xs not-italic font-sans tracking-[0.3em] block ml-1 text-umi-gold">OMAKASE</span></a>
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-[0.2em] uppercase text-umi-cream items-center">
+            <a href="menu.html" class="text-umi-gold relative group">MENU</a>
+            <a href="about.html" class="hover:text-umi-gold transition-colors relative group">STORY</a>
+            <a href="reservation.html" class="hover:text-umi-gold transition-colors relative group">RESERVATION</a>
+            <a href="reservation.html" class="border border-umi-gold/50 px-6 py-3 hover:bg-umi-gold hover:text-umi-blue transition-all duration-500">BOOK TABLE</a>
+        </div>
+        <button id="menu-btn" class="md:hidden text-umi-cream text-2xl relative z-50"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu-overlay fixed inset-0 bg-umi-blue z-40 flex items-center justify-center">
+        <div class="flex flex-col gap-10 text-center font-serif text-5xl text-umi-cream italic">
+            <a href="index.html" class="hover:text-umi-gold transition-colors">Home</a>
+            <a href="menu.html" class="hover:text-umi-gold transition-colors">Menu</a>
+            <a href="about.html" class="hover:text-umi-gold transition-colors">Story</a>
+            <a href="reservation.html" class="hover:text-umi-gold transition-colors">Reservation</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="pt-40 pb-20 px-6 md:px-16 text-center">
+        <p class="font-sans text-umi-gold text-xs tracking-[0.4em] mb-6 reveal-text">SEASONAL SELECTION</p>
+        <h1 class="font-serif text-6xl md:text-8xl text-umi-cream mb-8 italic reveal-text">The Menu</h1>
+        <div class="w-[1px] h-24 bg-umi-gold/50 mx-auto mb-8 reveal-line"></div>
+    </header>
+
+    <!-- Menu List -->
+    <section class="pb-32 container mx-auto px-6 md:px-16 relative z-10">
+        
+        <!-- Course 1 -->
+        <div class="dish-card flex flex-col md:flex-row items-center gap-12 mb-32 group">
+            <div class="md:w-1/2 order-2 md:order-1 text-center md:text-right">
+                <span class="font-sans text-umi-gold text-xs tracking-widest block mb-4">ZENSAI / APPETIZER</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-4">Sakizuke</h2>
+                <p class="font-sans text-sm text-umi-cream/60 leading-relaxed mb-6 max-w-md ml-auto">
+                    Seasonal vegetables, simmered octopus, and marinated jelly fish served in a traditional lacquer box. A delicate start to awaken the palate.
+                </p>
+                <span class="font-serif text-xl text-umi-gold italic">¥ 2,500</span>
+            </div>
+            <div class="md:w-1/2 order-1 md:order-2 flex justify-center md:justify-start">
+                <div class="dish-img-wrapper w-64 h-64 md:w-96 md:h-96 relative shadow-2xl border border-umi-gold/20">
+                    <img src="https://images.unsplash.com/photo-1626804475297-411dbe169c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80" class="dish-img w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="dish-card flex flex-col md:flex-row items-center gap-12 mb-32 group">
+            <div class="md:w-1/2 flex justify-center md:justify-end">
+                <div class="dish-img-wrapper w-64 h-64 md:w-96 md:h-96 relative shadow-2xl border border-umi-gold/20">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80" class="dish-img w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="md:w-1/2 text-center md:text-left">
+                <span class="font-sans text-umi-gold text-xs tracking-widest block mb-4">SASHIMI</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-4">Tsukuri</h2>
+                <p class="font-sans text-sm text-umi-cream/60 leading-relaxed mb-6 max-w-md mr-auto">
+                    Chef's selection of 5 seasonal fish. Featuring Bluefin Tuna (Akami, Chutoro, Otoro), Japanese Sea Bream, and Hokkaido Scallop.
+                </p>
+                <span class="font-serif text-xl text-umi-gold italic">¥ 4,800</span>
+            </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="dish-card flex flex-col md:flex-row items-center gap-12 mb-32 group">
+            <div class="md:w-1/2 order-2 md:order-1 text-center md:text-right">
+                <span class="font-sans text-umi-gold text-xs tracking-widest block mb-4">NIGIRI</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-4">Omakase Nigiri</h2>
+                <p class="font-sans text-sm text-umi-cream/60 leading-relaxed mb-6 max-w-md ml-auto">
+                    10 pieces of premium nigiri sushi. Hand-pressed with warm vinegared rice. Includes Sea Urchin (Uni), Salmon Roe (Ikura), and Freshwater Eel (Unagi).
+                </p>
+                <span class="font-serif text-xl text-umi-gold italic">¥ 8,500</span>
+            </div>
+            <div class="md:w-1/2 order-1 md:order-2 flex justify-center md:justify-start">
+                <div class="dish-img-wrapper w-64 h-64 md:w-96 md:h-96 relative shadow-2xl border border-umi-gold/20">
+                    <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1925&q=80" class="dish-img w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="dish-card flex flex-col md:flex-row items-center gap-12 mb-32 group">
+            <div class="md:w-1/2 flex justify-center md:justify-end">
+                <div class="dish-img-wrapper w-64 h-64 md:w-96 md:h-96 relative shadow-2xl border border-umi-gold/20">
+                    <img src="https://images.unsplash.com/photo-1563612116625-3012372fccce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1041&q=80" class="dish-img w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="md:w-1/2 text-center md:text-left">
+                <span class="font-sans text-umi-gold text-xs tracking-widest block mb-4">YAKIMONO / GRILLED</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-4">Gindara Saikyo Yaki</h2>
+                <p class="font-sans text-sm text-umi-cream/60 leading-relaxed mb-6 max-w-md mr-auto">
+                    Black Cod marinated in Saikyo miso for 72 hours, grilled to perfection over binchotan charcoal. Served with pickled ginger shoot.
+                </p>
+                <span class="font-serif text-xl text-umi-gold italic">¥ 3,200</span>
+            </div>
+        </div>
+
+         <!-- Course 5 -->
+         <div class="dish-card flex flex-col md:flex-row items-center gap-12 group">
+            <div class="md:w-1/2 order-2 md:order-1 text-center md:text-right">
+                <span class="font-sans text-umi-gold text-xs tracking-widest block mb-4">DESSERT</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-umi-cream italic mb-4">Matcha Monaka</h2>
+                <p class="font-sans text-sm text-umi-cream/60 leading-relaxed mb-6 max-w-md ml-auto">
+                    Crispy wafer filled with premium Kyoto matcha ice cream and sweet red bean paste. A classic finish.
+                </p>
+                <span class="font-serif text-xl text-umi-gold italic">¥ 1,200</span>
+            </div>
+            <div class="md:w-1/2 order-1 md:order-2 flex justify-center md:justify-start">
+                <div class="dish-img-wrapper w-64 h-64 md:w-96 md:h-96 relative shadow-2xl border border-umi-gold/20">
+                    <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=927&q=80" class="dish-img w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-umi-gold/10 relative">
+        <div class="container mx-auto px-6 md:px-16 text-center">
+            <h2 class="font-serif text-4xl text-umi-cream italic mb-8">Umi.</h2>
+            <p class="font-serif text-umi-cream/40 text-sm">© 2024 UMI RESTAURANT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) { mobileMenu.classList.add('active'); menuBtn.innerHTML = '<i class="fas fa-times"></i>'; } 
+            else { mobileMenu.classList.remove('active'); menuBtn.innerHTML = '<i class="fas fa-bars"></i>'; }
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Header Reveal
+        const tl = gsap.timeline();
+        tl.from(".reveal-text", { y: 30, opacity: 0, stagger: 0.2, duration: 1, ease: "power3.out" })
+          .from(".reveal-line", { height: 0, duration: 1, ease: "power3.out" }, "-=0.5");
+
+        // Dish "Serving" Animation
+        gsap.utils.toArray('.dish-card').forEach((card, i) => {
+            gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 75%", // Animation starts when top of card hits 75% of viewport height
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Parallax on image inside
+            const img = card.querySelector('.dish-img');
+            gsap.fromTo(img, 
+                { scale: 1.4 },
+                { 
+                    scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                }
+            );
+        });
+
+    </script>
+</body>
+</html>

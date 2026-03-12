@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYPE KICKS | THE DROP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Koulen&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hype-black': '#050505',
+                        'hype-gray': '#1a1a1a',
+                        'hype-red': '#ff003c', /* Cyberpunk Red */
+                        'hype-neon': '#ccff00',
+                    },
+                    fontFamily: {
+                        display: ['Chakra Petch', 'sans-serif'],
+                        tech: ['Koulen', 'sans-serif'],
+                        graffiti: ['Permanent Marker', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://grainy-gradients.vercel.app/noise.svg')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff003c;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #ccff00;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(33px, 9999px, 11px, 0); }
+            20% { clip: rect(88px, 9999px, 99px, 0); }
+            40% { clip: rect(12px, 9999px, 55px, 0); }
+            60% { clip: rect(66px, 9999px, 22px, 0); }
+            80% { clip: rect(4px, 9999px, 88px, 0); }
+            100% { clip: rect(55px, 9999px, 33px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(11px, 9999px, 33px, 0); }
+            20% { clip: rect(55px, 9999px, 88px, 0); }
+            40% { clip: rect(22px, 9999px, 66px, 0); }
+            60% { clip: rect(99px, 9999px, 12px, 0); }
+            80% { clip: rect(33px, 9999px, 44px, 0); }
+            100% { clip: rect(77px, 9999px, 55px, 0); }
+        }
+
+        /* CRT Scanline */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: fixed;
+            bottom: 100%;
+            pointer-events: none;
+            animation: scanline 10s linear infinite;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+
+        /* 3D Canvas */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="font-display antialiased">
+
+    <div class="scanline"></div>
+    <div class="fixed inset-0 bg-noise opacity-10 pointer-events-none z-50"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="text-4xl font-bold italic tracking-tighter text-white hover:text-hype-neon transition-colors glitch" data-text="VOLT X">VOLT X</a>
+        
+        <div class="hidden md:flex gap-8 font-tech text-xl tracking-widest">
+            <a href="drop.html" class="hover:text-hype-red transition-colors">[ENTER RAFFLE]</a>
+            <a href="gallery.html" class="hover:text-hype-red transition-colors">[GALLERY]</a>
+        </div>
+
+        <div class="text-right font-mono text-xs text-hype-neon">
+            <p>LIMITED RELEASE</p>
+            <p>0500 PAIRS WW</p>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="relative h-screen flex flex-col justify-center items-center overflow-hidden">
+        
+        <!-- 3D Model Container -->
+        <div id="canvas-container"></div>
+
+        <!-- Overlay Content -->
+        <div class="relative z-10 text-center pointer-events-none select-none mix-blend-difference">
+            <h1 class="text-[12vw] leading-none font-bold italic text-transparent stroke-white stroke-2 glitch" data-text="PROTOCOL 01" style="-webkit-text-stroke: 2px white;">
+                PROTOCOL 01
+            </h1>
+            <h2 class="text-4xl md:text-6xl font-tech text-hype-red mt-[-2vw] bg-black inline-block px-4 skew-x-[-10deg]">
+                PROJECT: VELOCITY
+            </h2>
+        </div>
+
+        <!-- Countdown -->
+        <div class="absolute bottom-12 left-0 w-full text-center z-20">
+            <div class="inline-flex gap-8 font-mono text-4xl md:text-6xl text-white bg-hype-black/80 backdrop-blur border border-hype-gray p-4 md:p-8 rounded-none">
+                <div class="flex flex-col items-center">
+                    <span id="days">00</span>
+                    <span class="text-xs text-hype-gray">DAYS</span>
+                </div>
+                <span class="text-hype-red animate-pulse">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="hours">00</span>
+                    <span class="text-xs text-hype-gray">HRS</span>
+                </div>
+                <span class="text-hype-red animate-pulse">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="minutes">00</span>
+                    <span class="text-xs text-hype-gray">MIN</span>
+                </div>
+                <span class="text-hype-red animate-pulse">:</span>
+                <div class="flex flex-col items-center">
+                    <span id="seconds">00</span>
+                    <span class="text-xs text-hype-gray">SEC</span>
+                </div>
+            </div>
+            
+            <div class="mt-8 pointer-events-auto">
+                <a href="drop.html" class="bg-hype-neon text-hype-black font-tech text-2xl px-12 py-4 hover:bg-white hover:text-hype-red transition-all skew-x-[-10deg] inline-block uppercase tracking-widest border-2 border-transparent hover:border-hype-red">
+                    <span class="skew-x-[10deg] inline-block">Secure Your Pair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="absolute top-1/4 left-12 font-mono text-xs text-hype-gray vertical-text hidden md:block">
+            SYSTEM_READY<br>
+            VER: 2.4.0<br>
+            SECURE_CONNECTION
+        </div>
+        <div class="absolute bottom-1/4 right-12 text-right hidden md:block">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=HYPE" class="opacity-50 invert">
+        </div>
+
+    </main>
+
+    <script>
+        // Countdown Logic
+        const targetDate = new Date().getTime() + (2 * 24 * 60 * 60 * 1000); // 2 days from now
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "DROP LIVE";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Three.js Setup (Abstract Shoe Placeholder)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xff003c, 2);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+        const pointLight2 = new THREE.PointLight(0xccff00, 2);
+        pointLight2.position.set(-5, -5, 5);
+        scene.add(pointLight2);
+
+        // Placeholder Geometry (Floating Abstract Shape)
+        const geometry = new THREE.IcosahedronGeometry(2, 0);
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0x111111, 
+            roughness: 0.2, 
+            metalness: 0.8,
+            wireframe: true
+        });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        // Mouse Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            cube.rotation.x += 0.005;
+            cube.rotation.y += 0.005;
+
+            // Parallax
+            cube.rotation.x += mouseY * 0.05;
+            cube.rotation.y += mouseX * 0.05;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // GSAP Intro
+        gsap.from("h1", { duration: 1.5, y: 100, opacity: 0, ease: "power4.out", delay: 0.5 });
+        gsap.from(".countdown-container", { duration: 1, y: 50, opacity: 0, ease: "power2.out", delay: 1 });
+
+    </script>
+</body>
+</html>

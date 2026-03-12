@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAW MOTORS | Contact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'raw-black': '#0a0a0a',
+                        'raw-white': '#f0f0f0',
+                        'raw-gray': '#1a1a1a',
+                        'raw-orange': '#ff3c00',
+                    },
+                    fontFamily: {
+                        display: ['Archivo Black', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: #f0f0f0; }
+        .b-border { border: 2px solid #f0f0f0; }
+        .b-border-t { border-top: 2px solid #f0f0f0; }
+        .b-border-b { border-bottom: 2px solid #f0f0f0; }
+        .b-border-l { border-left: 2px solid #f0f0f0; }
+        .b-border-r { border-right: 2px solid #f0f0f0; }
+        
+        input, textarea, select {
+            background: transparent;
+            border-bottom: 2px solid #f0f0f0;
+            color: #f0f0f0;
+            border-radius: 0;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            background-color: #f0f0f0;
+            color: #0a0a0a;
+        }
+        ::placeholder { color: #555; }
+        ::selection { background-color: #ff3c00; color: #f0f0f0; }
+    </style>
+</head>
+<body class="font-mono">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-raw-black b-border-b flex justify-between items-stretch h-16 text-raw-white">
+        <a href="index.html" class="font-display text-2xl tracking-tighter flex items-center px-6 hover:bg-raw-orange hover:text-raw-black transition-colors">RAW MOTORS</a>
+        <div class="hidden md:flex font-bold uppercase text-sm tracking-tight h-full">
+            <a href="inventory.html" class="flex items-center px-8 b-border-l hover:bg-raw-white hover:text-raw-black transition-colors">INVENTORY (42)</a>
+            <a href="contact.html" class="flex items-center px-8 b-border-l hover:bg-raw-white hover:text-raw-black transition-colors">SELL YOUR CAR</a>
+            <a href="contact.html" class="flex items-center px-8 b-border-l bg-raw-white text-raw-black hover:bg-raw-orange hover:text-raw-black transition-colors">CONTACT</a>
+        </div>
+        <button class="md:hidden px-6 b-border-l text-2xl hover:bg-raw-orange hover:text-raw-black transition-colors"><i class="fas fa-bars"></i>=</button>
+    </nav>
+
+    <main class="pt-16 flex flex-col md:flex-row min-h-screen">
+        
+        <!-- Info Side -->
+        <div class="md:w-1/2 p-6 md:p-12 flex flex-col justify-between b-border-b md:b-border-b-0 md:b-border-r">
+            <div>
+                <h1 class="font-display text-6xl md:text-8xl uppercase leading-none mb-8 text-raw-orange">Make<br>The<br>Deal</h1>
+                <p class="text-lg max-w-md mb-12">
+                    Whether you're looking to buy, sell, or source a specific vehicle, we cut through the noise. Direct communication. Transparent pricing.
+                </p>
+            </div>
+
+            <div class="space-y-8 font-bold uppercase text-sm">
+                <div>
+                    <h3 class="text-raw-gray mb-2">Location</h3>
+                    <p>2000 Brush St<br>Detroit, MI 48226</p>
+                </div>
+                <div>
+                    <h3 class="text-raw-gray mb-2">Contact</h3>
+                    <p>+1 (313) 555-0199<br>deal@rawmotors.com</p>
+                </div>
+                <div>
+                    <h3 class="text-raw-gray mb-2">Hours</h3>
+                    <p>Mon-Fri: 10AM - 6PM<br>Sat: Appt Only</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="md:w-1/2 p-6 md:p-12">
+            <form class="space-y-12 max-w-lg mx-auto md:mx-0">
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="group">
+                        <label class="block text-xs font-bold uppercase mb-2 text-raw-gray">01 // Name</label>
+                        <input type="text" class="w-full py-2 text-xl font-bold uppercase" placeholder="JOHN DOE">
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs font-bold uppercase mb-2 text-raw-gray">02 // Email</label>
+                        <input type="email" class="w-full py-2 text-xl font-bold uppercase" placeholder="EMAIL@ADDR.ESS">
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label class="block text-xs font-bold uppercase mb-2 text-raw-gray">03 // Inquiry Type</label>
+                    <select class="w-full py-2 text-xl font-bold uppercase cursor-pointer">
+                        <option class="bg-raw-black">Purchase Inquiry</option>
+                        <option class="bg-raw-black">Sell My Car</option>
+                        <option class="bg-raw-black">Sourcing Request</option>
+                        <option class="bg-raw-black">General</option>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <label class="block text-xs font-bold uppercase mb-2 text-raw-gray">04 // Message</label>
+                    <textarea rows="4" class="w-full py-2 text-xl font-bold uppercase" placeholder="TELL US WHAT YOU NEED..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-raw-white text-raw-black py-6 font-display text-2xl uppercase hover:bg-raw-orange transition-colors duration-0">
+                    SEND TRANSMISSION
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        gsap.from("h1", { x: -50, opacity: 0, duration: 0.6, ease: "power2.out", delay: 0.2 });
+        gsap.from("form .group", { 
+            y: 30, 
+            opacity: 0, 
+            duration: 0.5, 
+            stagger: 0.1, 
+            ease: "power2.out", 
+            delay: 0.4 
+        });
+    </script>
+</body>
+</html>

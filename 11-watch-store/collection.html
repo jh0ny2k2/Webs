@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRONOS | The Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'chronos-navy': '#0B1026',
+                        'chronos-gold': '#E0C097',
+                        'chronos-silver': '#E5E7EB',
+                    },
+                    fontFamily: {
+                        serif: ['Italiana', 'serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B1026; color: #E5E7EB; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+        .product-card:hover .view-btn { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 py-8 px-12 flex justify-between items-center bg-chronos-navy/90 backdrop-blur-md border-b border-chronos-gold/10">
+        <a href="index.html" class="font-serif text-3xl text-chronos-gold">CHRONOS</a>
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-widest uppercase text-chronos-gold">
+            <a href="collection.html" class="text-white">Collection</a>
+            <a href="about.html" class="hover:text-white transition-colors">Legacy</a>
+            <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-20 px-12 text-center">
+        <h1 class="font-serif text-6xl md:text-8xl mb-6">Timepieces</h1>
+        <div class="flex justify-center gap-8 font-sans text-xs tracking-widest text-gray-400">
+            <button class="text-chronos-gold border-b border-chronos-gold pb-1">ALL</button>
+            <button class="hover:text-white transition-colors">AVIATION</button>
+            <button class="hover:text-white transition-colors">DIVING</button>
+            <button class="hover:text-white transition-colors">DRESS</button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-12 pb-32">
+        <div class="grid md:grid-cols-3 gap-x-8 gap-y-20">
+            
+            <!-- Product 1 -->
+            <a href="product.html" class="product-card group cursor-pointer block">
+                <div class="relative overflow-hidden mb-6 bg-white/5 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=1999&q=80" class="product-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    <div class="view-btn absolute bottom-8 left-0 w-full text-center opacity-0 transform translate-y-4 transition-all duration-500">
+                        <span class="bg-chronos-gold text-chronos-navy px-6 py-3 font-sans text-xs tracking-widest uppercase">View Timepiece</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-serif text-2xl mb-2 text-white">The Navigator</h3>
+                    <p class="font-sans text-xs tracking-widest text-chronos-gold mb-2">AVIATION • 42MM</p>
+                    <span class="font-sans text-sm text-gray-400">$12,500</span>
+                </div>
+            </a>
+
+            <!-- Product 2 -->
+            <a href="product.html" class="product-card group cursor-pointer block">
+                <div class="relative overflow-hidden mb-6 bg-white/5 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=994&q=80" class="product-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    <div class="view-btn absolute bottom-8 left-0 w-full text-center opacity-0 transform translate-y-4 transition-all duration-500">
+                        <span class="bg-chronos-gold text-chronos-navy px-6 py-3 font-sans text-xs tracking-widest uppercase">View Timepiece</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-serif text-2xl mb-2 text-white">The Deep Sea</h3>
+                    <p class="font-sans text-xs tracking-widest text-chronos-gold mb-2">DIVING • 44MM</p>
+                    <span class="font-sans text-sm text-gray-400">$14,200</span>
+                </div>
+            </a>
+
+            <!-- Product 3 -->
+            <a href="product.html" class="product-card group cursor-pointer block">
+                <div class="relative overflow-hidden mb-6 bg-white/5 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=927&q=80" class="product-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    <div class="view-btn absolute bottom-8 left-0 w-full text-center opacity-0 transform translate-y-4 transition-all duration-500">
+                        <span class="bg-chronos-gold text-chronos-navy px-6 py-3 font-sans text-xs tracking-widest uppercase">View Timepiece</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-serif text-2xl mb-2 text-white">The Classic</h3>
+                    <p class="font-sans text-xs tracking-widest text-chronos-gold mb-2">DRESS • 38MM</p>
+                    <span class="font-sans text-sm text-gray-400">$9,800</span>
+                </div>
+            </a>
+
+            <!-- Product 4 -->
+            <a href="product.html" class="product-card group cursor-pointer block">
+                <div class="relative overflow-hidden mb-6 bg-white/5 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80" class="product-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    <div class="view-btn absolute bottom-8 left-0 w-full text-center opacity-0 transform translate-y-4 transition-all duration-500">
+                        <span class="bg-chronos-gold text-chronos-navy px-6 py-3 font-sans text-xs tracking-widest uppercase">View Timepiece</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-serif text-2xl mb-2 text-white">The Chronograph</h3>
+                    <p class="font-sans text-xs tracking-widest text-chronos-gold mb-2">RACING • 41MM</p>
+                    <span class="font-sans text-sm text-gray-400">$16,500</span>
+                </div>
+            </a>
+
+            <!-- Product 5 -->
+            <a href="product.html" class="product-card group cursor-pointer block">
+                <div class="relative overflow-hidden mb-6 bg-white/5 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" class="product-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    <div class="view-btn absolute bottom-8 left-0 w-full text-center opacity-0 transform translate-y-4 transition-all duration-500">
+                        <span class="bg-chronos-gold text-chronos-navy px-6 py-3 font-sans text-xs tracking-widest uppercase">View Timepiece</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-serif text-2xl mb-2 text-white">The Onyx</h3>
+                    <p class="font-sans text-xs tracking-widest text-chronos-gold mb-2">LIMITED • 40MM</p>
+                    <span class="font-sans text-sm text-gray-400">$18,000</span>
+                </div>
+            </a>
+
+            <!-- Product 6 -->
+            <a href="product.html" class="product-card group cursor-pointer block">
+                <div class="relative overflow-hidden mb-6 bg-white/5 aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="product-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    <div class="view-btn absolute bottom-8 left-0 w-full text-center opacity-0 transform translate-y-4 transition-all duration-500">
+                        <span class="bg-chronos-gold text-chronos-navy px-6 py-3 font-sans text-xs tracking-widest uppercase">View Timepiece</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-serif text-2xl mb-2 text-white">The Heritage</h3>
+                    <p class="font-sans text-xs tracking-widest text-chronos-gold mb-2">VINTAGE • 39MM</p>
+                    <span class="font-sans text-sm text-gray-400">$11,200</span>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <footer class="bg-black py-12 text-center border-t border-chronos-gold/10">
+        <p class="font-serif text-chronos-gold text-2xl mb-4">CHRONOS</p>
+        <p class="font-sans text-xs text-gray-600 tracking-widest">SWISS MADE SINCE 1924</p>
+    </footer>
+
+    <script>
+        gsap.from(".product-card", {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out",
+            delay: 0.2
+        });
+    </script>
+</body>
+</html>
