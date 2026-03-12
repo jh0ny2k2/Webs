@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIZZAIOLO | Artisan Pizza Configurator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="https://unpkg.com/canvas-confetti@1.6.0/dist/confetti.browser.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'crust': '#eebb77',
+                        'sauce': '#d64536',
+                        'cheese': '#f5e8b5',
+                        'olive': '#3b4528',
+                        'wood': '#5c4033',
+                        'flour': '#fdfbf7',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #1a1816;
+            background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+            color: #fdfbf7;
+            overflow-x: hidden;
+        }
+        
+        .pizza-base {
+            width: 400px;
+            height: 400px;
+            background: #eebb77;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 
+                inset 0 0 40px rgba(0,0,0,0.2),
+                0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+        
+        .sauce-layer {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            background: #d64536;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-image: radial-gradient(circle at 30% 30%, #e85645, #b83224);
+        }
+
+        .cheese-layer {
+            position: absolute;
+            top: 30px; left: 30px; right: 30px; bottom: 30px;
+            background: #f5e8b5;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-image: radial-gradient(circle, #fffacd 10%, #f5e8b5 90%);
+            mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+        }
+
+        .ingredient {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            cursor: grab;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+        .ingredient:active {
+            cursor: grabbing;
+            transform: scale(1.2);
+        }
+
+        .ingredient-on-pizza {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
+        }
+
+        /* Ingredient Styles (SVG placeholders) */
+        .ing-pepperoni { background: #b9362a; border-radius: 50%; border: 2px solid #8a2be2; box-shadow: inset 2px 2px 5px rgba(255,255,255,0.2); }
+        .ing-mushroom { background: #d7ccc8; border-radius: 40% 40% 20% 20%; clip-path: polygon(20% 0%, 80% 0%, 100% 60%, 80% 100%, 20% 100%, 0% 60%); }
+        .ing-basil { background: #4caf50; border-radius: 0 50% 0 50%; transform: rotate(45deg); }
+        .ing-olive { background: #000; width: 20px; height: 20px; border-radius: 50%; border: 4px solid #333; }
+
+        .price-tag {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        .wood-panel {
+            background: #5c4033;
+            background-image: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, transparent 5%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.05) 95%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Oven Animation */
+        @keyframes oven-heat {
+            0% { filter: brightness(1) sepia(0); transform: scale(1); }
+            50% { filter: brightness(1.2) sepia(0.5) blur(1px); transform: scale(1.02); }
+            100% { filter: brightness(1) sepia(0.2); transform: scale(1); }
+        }
+        .baking {
+            animation: oven-heat 3s infinite;
+        }
+
+        .flour-dust {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row">
+
+    <div class="flour-dust"></div>
+
+    <!-- Sidebar: Ingredients -->
+    <aside class="w-full md:w-1/3 lg:w-1/4 wood-panel p-8 z-20 flex flex-col h-auto md:h-screen relative shadow-2xl">
+        <div class="mb-8 text-center border-b border-white/10 pb-6">
+            <h1 class="font-serif text-3xl italic text-cheese mb-2">Pizzaiolo</h1>
+            <p class="font-sans text-xs uppercase tracking-widest text-white/50">Maestro Artesano</p>
+        </div>
+
+        <div class="space-y-8 flex-grow overflow-y-auto">
+            
+            <!-- Base Options -->
+            <div>
+                <h3 class="font-serif text-xl mb-4 text-white/80">Base</h3>
+                <div class="flex gap-4">
+                    <button onclick="toggleLayer('sauce')" class="flex-1 py-3 border border-white/20 rounded hover:bg-white/5 transition-colors text-sm group">
+                        <div class="w-4 h-4 rounded-full bg-sauce mx-auto mb-2 group-hover:scale-110 transition-transform"></div>
+                        Tomate
+                    </button>
+                    <button onclick="toggleLayer('cheese')" class="flex-1 py-3 border border-white/20 rounded hover:bg-white/5 transition-colors text-sm group">
+                        <div class="w-4 h-4 rounded-full bg-cheese mx-auto mb-2 group-hover:scale-110 transition-transform"></div>
+                        Mozzarella
+                    </button>
+                </div>
+            </div>
+
+            <!-- Draggable Ingredients -->
+            <div>
+                <h3 class="font-serif text-xl mb-4 text-white/80">Ingredientes Frescos</h3>
+                <p class="text-xs text-white/40 mb-4">Arrastra a la pizza</p>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="source-container p-4 bg-black/20 rounded flex flex-col items-center cursor-grab active:cursor-grabbing hover:bg-white/5 transition-colors relative" data-type="pepperoni" data-price="2.50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/11520/11520626.png" class="w-12 h-12 mb-2 pointer-events-none" alt="Pepperoni">
+                        <span class="text-xs font-sans">Pepperoni</span>
+                        <span class="text-xs text-cheese mt-1">+2.50€</span>
+                        <!-- Hidden Clone Source -->
+                        <div class="draggable-source absolute inset-0 opacity-0 z-10"></div>
+                    </div>
+
+                    <div class="source-container p-4 bg-black/20 rounded flex flex-col items-center cursor-grab active:cursor-grabbing hover:bg-white/5 transition-colors relative" data-type="mushroom" data-price="1.80">
+                        <img src="https://cdn-icons-png.flaticon.com/512/11520/11520649.png" class="w-12 h-12 mb-2 pointer-events-none" alt="Champiñón">
+                        <span class="text-xs font-sans">Champiñón</span>
+                        <span class="text-xs text-cheese mt-1">+1.80€</span>
+                         <div class="draggable-source absolute inset-0 opacity-0 z-10"></div>
+                    </div>
+
+                    <div class="source-container p-4 bg-black/20 rounded flex flex-col items-center cursor-grab active:cursor-grabbing hover:bg-white/5 transition-colors relative" data-type="basil" data-price="0.50">
+                        <img src="https://cdn-icons-png.flaticon.com/512/11520/11520610.png" class="w-12 h-12 mb-2 pointer-events-none" alt="Albahaca">
+                        <span class="text-xs font-sans">Albahaca</span>
+                        <span class="text-xs text-cheese mt-1">+0.50€</span>
+                         <div class="draggable-source absolute inset-0 opacity-0 z-10"></div>
+                    </div>
+
+                    <div class="source-container p-4 bg-black/20 rounded flex flex-col items-center cursor-grab active:cursor-grabbing hover:bg-white/5 transition-colors relative" data-type="olive" data-price="1.20">
+                        <img src="https://cdn-icons-png.flaticon.com/512/11520/11520658.png" class="w-12 h-12 mb-2 pointer-events-none" alt="Aceituna">
+                        <span class="text-xs font-sans">Aceituna</span>
+                        <span class="text-xs text-cheese mt-1">+1.20€</span>
+                         <div class="draggable-source absolute inset-0 opacity-0 z-10"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total & Action -->
+        <div class="mt-auto pt-8 border-t border-white/10">
+            <div class="flex justify-between items-end mb-6">
+                <span class="font-serif text-lg text-white/60">Total</span>
+                <span class="font-serif text-4xl text-cheese price-tag" id="total-price">8.00€</span>
+            </div>
+            <button id="bake-btn" class="w-full py-4 bg-sauce hover:bg-red-600 text-white font-sans font-bold uppercase tracking-widest rounded shadow-lg transform hover:scale-[1.02] active:scale-[0.98] transition-all">
+                Hornear al Horno de Leña
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Area: Pizza Canvas -->
+    <main class="flex-grow flex items-center justify-center relative bg-black/50 overflow-hidden min-h-[500px]">
+        
+        <!-- Oven Glow Effect -->
+        <div class="absolute inset-0 pointer-events-none bg-radial-gradient opacity-0 transition-opacity duration-1000" id="oven-glow"
+             style="background: radial-gradient(circle, rgba(255,100,0,0.2) 0%, rgba(0,0,0,0.8) 70%);"></div>
+
+        <!-- The Pizza -->
+        <div id="pizza-container" class="relative">
+            <div class="pizza-base relative flex items-center justify-center">
+                <!-- Layers -->
+                <div id="sauce-layer" class="sauce-layer"></div>
+                <div id="cheese-layer" class="cheese-layer"></div>
+                
+                <!-- Ingredients Container -->
+                <div id="toppings-container" class="absolute inset-0 rounded-full overflow-hidden">
+                    <!-- Ingredients dropped here -->
+                </div>
+            </div>
+            
+            <!-- Wood Paddle Handle (Visual only) -->
+            <div class="absolute top-1/2 left-full w-40 h-8 bg-wood rounded-r transform -translate-y-1/2 -z-10 shadow-xl"></div>
+        </div>
+
+        <!-- Feedback Messages -->
+        <div id="feedback" class="absolute bottom-10 left-1/2 -translate-x-1/2 font-serif text-2xl text-cheese opacity-0 transition-opacity">
+            Perfectamente crujiente...
+        </div>
+
+    </main>
+
+    <script>
+        // State
+        let state = {
+            basePrice: 8.00,
+            sauce: false,
+            cheese: false,
+            ingredients: [],
+            isBaking: false
+        };
+
+        const ingredientsData = {
+            pepperoni: { price: 2.50, src: 'https://cdn-icons-png.flaticon.com/512/11520/11520626.png' },
+            mushroom: { price: 1.80, src: 'https://cdn-icons-png.flaticon.com/512/11520/11520649.png' },
+            basil: { price: 0.50, src: 'https://cdn-icons-png.flaticon.com/512/11520/11520610.png' },
+            olive: { price: 1.20, src: 'https://cdn-icons-png.flaticon.com/512/11520/11520658.png' }
+        };
+
+        // Toggle Layers
+        function toggleLayer(layer) {
+            if(state.isBaking) return;
+            
+            state[layer] = !state[layer];
+            const el = document.getElementById(`${layer}-layer`);
+            
+            if (state[layer]) {
+                el.style.opacity = 1;
+                gsap.from(el, { scale: 0.8, opacity: 0, duration: 0.5, ease: "back.out(1.7)" });
+                playSound('squish');
+            } else {
+                el.style.opacity = 0;
+            }
+            updatePrice();
+        }
+
+        // Draggable Logic
+        // We create temporary draggable elements on click/drag from the sidebar
+        document.querySelectorAll('.source-container').forEach(container => {
+            const type = container.dataset.type;
+            const source = container.querySelector('.draggable-source');
+            
+            Draggable.create(source, {
+                type: "x,y",
+                onPress: function() {
+                    if(state.isBaking) return;
+                    
+                    // Create a visual clone to drag
+                    const clone = document.createElement('img');
+                    clone.src = ingredientsData[type].src;
+                    clone.className = 'fixed w-12 h-12 z-50 pointer-events-none drop-shadow-xl';
+                    clone.style.left = this.pointerX - 24 + 'px';
+                    clone.style.top = this.pointerY - 24 + 'px';
+                    clone.id = 'dragging-clone';
+                    document.body.appendChild(clone);
+                    
+                    this.cloneEl = clone;
+                },
+                onDrag: function() {
+                    if(this.cloneEl) {
+                        this.cloneEl.style.left = this.pointerX - 24 + 'px';
+                        this.cloneEl.style.top = this.pointerY - 24 + 'px';
+                    }
+                },
+                onRelease: function() {
+                    if(this.cloneEl) {
+                        // Check if dropped on pizza
+                        const pizzaRect = document.querySelector('.pizza-base').getBoundingClientRect();
+                        const x = this.pointerX;
+                        const y = this.pointerY;
+                        
+                        // Simple distance check from center (radius 200px)
+                        const centerX = pizzaRect.left + pizzaRect.width / 2;
+                        const centerY = pizzaRect.top + pizzaRect.height / 2;
+                        const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                        
+                        if (distance < 180) { // 180px radius to stay inside crust
+                            addIngredientToPizza(type, x - pizzaRect.left, y - pizzaRect.top);
+                        } else {
+                            // Animate return/poof
+                            gsap.to(this.cloneEl, { scale: 0, opacity: 0, duration: 0.2 });
+                        }
+                        
+                        // Remove clone after anim
+                        setTimeout(() => this.cloneEl.remove(), 200);
+                        this.cloneEl = null;
+                        
+                        // Reset the invisible trigger
+                        gsap.set(this.target, { x: 0, y: 0 });
+                    }
+                }
+            });
+        });
+
+        function addIngredientToPizza(type, x, y) {
+            const container = document.getElementById('toppings-container');
+            const img = document.createElement('img');
+            img.src = ingredientsData[type].src;
+            img.className = 'ingredient-on-pizza w-10 h-10 absolute';
+            
+            // Random rotation for realism
+            const rotation = Math.random() * 360;
+            
+            // Center the image on drop point
+            img.style.left = (x - 20) + 'px';
+            img.style.top = (y - 20) + 'px';
+            img.style.transform = `rotate(${rotation}deg) scale(0)`;
+            
+            container.appendChild(img);
+            
+            // Animate in "splat"
+            gsap.to(img, { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.5)" });
+            
+            // Add to state
+            state.ingredients.push(type);
+            updatePrice();
+            playSound('pop');
+        }
+
+        function updatePrice() {
+            let total = state.basePrice;
+            // Base toppings cost
+            if(state.sauce) total += 1.00;
+            if(state.cheese) total += 1.50;
+            
+            // Ingredients cost
+            state.ingredients.forEach(ing => {
+                total += ingredientsData[ing].price;
+            });
+            
+            // Animate price change
+            const priceEl = document.getElementById('total-price');
+            gsap.to(priceEl, { scale: 1.2, duration: 0.1, yoyo: true, repeat: 1 });
+            priceEl.innerText = total.toFixed(2) + '€';
+        }
+
+        // Bake Logic
+        document.getElementById('bake-btn').addEventListener('click', () => {
+            if(state.isBaking) return;
+            if(state.ingredients.length === 0 && !state.sauce && !state.cheese) {
+                alert("¡Una pizza necesita ingredientes!");
+                return;
+            }
+            
+            state.isBaking = true;
+            const btn = document.getElementById('bake-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "Horneando...";
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            // Effects
+            document.getElementById('oven-glow').style.opacity = 1;
+            document.querySelector('.pizza-base').classList.add('baking');
+            playSound('oven');
+            
+            // Camera Zoom
+            gsap.to("#pizza-container", { scale: 1.1, duration: 3, ease: "power1.inOut" });
+            
+            // Feedback Text
+            const feedback = document.getElementById('feedback');
+            const messages = ["Calentando horno...", "Masa subiendo...", "Queso burbujeando...", "¡Listo!"];
+            
+            let tl = gsap.timeline();
+            messages.forEach((msg, i) => {
+                tl.to(feedback, { opacity: 0, duration: 0.2, onComplete: () => feedback.innerText = msg })
+                  .to(feedback, { opacity: 1, duration: 0.5 })
+                  .to(feedback, { opacity: 1, duration: 1 }); // wait
+            });
+            
+            // Finish
+            setTimeout(() => {
+                state.isBaking = false;
+                btn.innerText = "¡Pizza Lista!";
+                btn.classList.remove('bg-sauce');
+                btn.classList.add('bg-green-600');
+                
+                document.getElementById('oven-glow').style.opacity = 0;
+                document.querySelector('.pizza-base').classList.remove('baking');
+                
+                // Confetti
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#eebb77', '#d64536', '#f5e8b5']
+                });
+                
+                // Reset UI after delay
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-600', 'opacity-50', 'cursor-not-allowed');
+                    btn.classList.add('bg-sauce');
+                    gsap.to("#pizza-container", { scale: 1, duration: 1 });
+                }, 3000);
+                
+            }, 5000);
+        });
+
+        // Simple Audio Context placeholder
+        function playSound(type) {
+            // In a real app, use Audio API. 
+            // Here we just visualize it.
+            console.log(`Playing sound: ${type}`);
+        }
+
+        // Entrance Animation
+        gsap.from("aside", { x: -100, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from(".pizza-base", { scale: 0, rotation: -180, duration: 1.5, ease: "elastic.out(1, 0.7)", delay: 0.5 });
+
+    </script>
+</body>
+</html>

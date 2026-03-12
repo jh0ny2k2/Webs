@@ -4,18 +4,22 @@ A curated collection of modern web design experiments, prototypes, and landing p
 
 ## 🚀 Projects Included
 
-1.  **Wedding Invite (Ethereal Luxury)**: One-page scroll experience with SVG timeline, custom cursor, and GSAP animations.
-2.  **Furniture Design**: Minimalist e-commerce layout focusing on whitespace and photography.
-3.  **Headphones Store**: Cyberpunk/Glitch aesthetic with neon accents.
-4.  **Mechanical Keyboards**: Interactive keycap builder with real-time audio feedback.
-5.  **Sneaker Drop**: Hypebeast-style landing page with 3D elements and countdowns.
-6.  **Watch Store**: Horizontal scroll storytelling for luxury timepieces.
-7.  **Used Cars**: Brutalist design with high contrast and raw typography.
-8.  **Sushi Restaurant**: Elegant Japanese dining interface.
-9.  **CrossFit Gym**: Bold, high-energy sports layout.
-10. **Tattoo Studio**: Dark mode portfolio gallery.
-11. **Dental Clinic**: Clean, professional medical interface.
-12. **Luxury Real Estate**: Premium property showcase with masonry grids.
+1.  **Auto Detailing**: High-end automotive care with interactive "Before/After" image comparison sliders.
+2.  **Artisan Pizza**: Interactive drag-and-drop pizza configurator with GSAP animations and real-time pricing.
+2.  **Developer Portfolio**: Swiss Design minimalist aesthetic. High-end, clean, and typographic-focused dark mode interface.
+2.  **Modern Barbershop**: Dark & Gold elegant design with a booking system and service menu.
+3.  **Wedding Invite (Ethereal Luxury)**: One-page scroll experience with SVG timeline, custom cursor, and GSAP animations.
+3.  **Furniture Design**: Minimalist e-commerce layout focusing on whitespace and photography.
+4.  **Headphones Store**: Cyberpunk/Glitch aesthetic with neon accents.
+5.  **Mechanical Keyboards**: Interactive keycap builder with real-time audio feedback.
+6.  **Sneaker Drop**: Hypebeast-style landing page with 3D elements and countdowns.
+7.  **Watch Store**: Horizontal scroll storytelling for luxury timepieces.
+8.  **Used Cars**: Brutalist design with high contrast and raw typography.
+9.  **Sushi Restaurant**: Elegant Japanese dining interface.
+10. **CrossFit Gym**: Bold, high-energy sports layout.
+11. **Tattoo Studio**: Dark mode portfolio gallery.
+12. **Dental Clinic**: Clean, professional medical interface.
+13. **Luxury Real Estate**: Premium property showcase with masonry grids.
 
 ## 🛠 Tech Stack
 
