@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETÉREO | Café de Especialidad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coffee-black': '#1a1512',
+                        'coffee-brown': '#3c2a21',
+                        'cream': '#f3e5d8',
+                        'gold': '#d4af37',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #1a1512; 
+            color: #f3e5d8; 
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px; height: 8px; background: #d4af37;
+            position: fixed; top: 0; left: 0; border-radius: 50%;
+            pointer-events: none; z-index: 100; transform: translate(-50%, -50%);
+        }
+        .cursor-circle {
+            width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.3);
+            position: fixed; top: 0; left: 0; border-radius: 50%;
+            pointer-events: none; z-index: 99; transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+
+        /* Smoke Canvas */
+        #smoke-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.6;
+        }
+
+        /* Parallax Hero */
+        .hero-section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 120%;
+            background-image: url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover; background-position: center;
+            z-index: 0;
+            filter: brightness(0.4);
+        }
+        
+        .coffee-cup-container {
+            position: absolute;
+            bottom: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            width: 400px;
+        }
+        
+        /* Floating Beans */
+        .bean {
+            position: absolute;
+            width: 40px; height: 40px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/751/751621.png');
+            background-size: contain;
+            opacity: 0.8;
+            z-index: 4;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+        }
+
+        /* Text Reveal */
+        .reveal-text {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .reveal-text.visible {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Menu Item Hover */
+        .menu-item {
+            border-bottom: 1px solid rgba(243, 229, 216, 0.1);
+            transition: all 0.5s ease;
+        }
+        .menu-item:hover {
+            padding-left: 20px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-coffee-black">
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 px-8 py-8 flex justify-between items-center mix-blend-difference text-cream">
+        <a href="index.html" class="font-serif text-2xl tracking-widest hover:text-gold transition-colors italic">ETÉREO</a>
+        
+        <div class="hidden md:flex gap-12 font-sans text-xs tracking-[0.2em] uppercase">
+            <a href="about.html" class="hover:text-gold transition-colors relative group">
+                Orígenes
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-gold transition-all group-hover:w-full"></span>
+            </a>
+            <a href="menu.html" class="hover:text-gold transition-colors relative group">
+                Menú
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-gold transition-all group-hover:w-full"></span>
+            </a>
+            <a href="#" class="hover:text-gold transition-colors relative group">
+                Reservas
+                <span class="absolute -bottom-2 left-0 w-0 h-[1px] bg-gold transition-all group-hover:w-full"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero-section">
+        <div class="hero-bg" id="hero-bg"></div>
+        <canvas id="smoke-canvas"></canvas>
+
+        <div class="relative z-20 text-center">
+            <p class="font-sans text-gold text-xs tracking-[0.4em] mb-4 reveal-target">EST. 2026</p>
+            <h1 class="font-serif text-7xl md:text-9xl text-cream leading-none mb-6 italic reveal-target">
+                El Arte del<br>
+                <span class="not-italic">Silencio</span>
+            </h1>
+            <p class="font-sans text-sm text-gray-400 max-w-md mx-auto leading-relaxed reveal-target">
+                Donde cada grano cuenta una historia. Café de especialidad tostado artesanalmente para los paladares más exigentes.
+            </p>
+        </div>
+
+        <!-- Parallax Elements -->
+        <div class="bean" style="top: 20%; left: 10%; transform: rotate(45deg);" data-speed="2"></div>
+        <div class="bean" style="top: 30%; right: 15%; transform: rotate(-30deg) scale(0.8);" data-speed="-1.5"></div>
+        <div class="bean" style="bottom: 20%; left: 20%; transform: rotate(15deg) scale(1.2);" data-speed="1"></div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20">
+            <span class="font-sans text-[10px] tracking-[0.3em] text-gray-500">DESCUBRIR</span>
+            <div class="w-[1px] h-16 bg-gradient-to-b from-gold to-transparent"></div>
+        </div>
+    </header>
+
+    <!-- Story Section -->
+    <section class="py-32 px-6 md:px-24 relative z-10 bg-coffee-black">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div class="reveal-img overflow-hidden aspect-[4/5] relative">
+                <img src="https://images.unsplash.com/photo-1447933601403-0c60e017bc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                     alt="Roasting" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-110" id="roast-img">
+            </div>
+            <div>
+                <h2 class="font-serif text-5xl md:text-6xl text-cream mb-8 leading-tight">
+                    Tostado con <br>
+                    <span class="text-gold italic">Obsesión</span>
+                </h2>
+                <p class="font-sans text-gray-400 leading-loose mb-8">
+                    No somos solo una cafetería; somos un laboratorio de sabores. Seleccionamos microlotes de fincas sostenibles en Colombia, Etiopía y Brasil, respetando el ciclo de la naturaleza y el trabajo de los agricultores.
+                </p>
+                <a href="about.html" class="inline-block border-b border-gold pb-1 font-sans text-xs tracking-[0.2em] text-gold hover:text-cream transition-colors">
+                    NUESTRA HISTORIA
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Menu Preview -->
+    <section class="py-32 px-6 md:px-24 bg-[#15110e] relative">
+        <div class="absolute top-0 right-0 w-full h-full opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]"></div>
+        
+        <div class="text-center mb-20 relative z-10">
+            <span class="font-sans text-gold text-xs tracking-[0.4em]">SELECCIÓN</span>
+            <h2 class="font-serif text-5xl text-cream mt-4">La Carta</h2>
+        </div>
+
+        <div class="max-w-3xl mx-auto space-y-8 relative z-10">
+            <div class="menu-item py-6 flex justify-between items-baseline cursor-pointer group">
+                <div>
+                    <h3 class="font-serif text-2xl text-cream group-hover:text-gold transition-colors">V60 Pour Over</h3>
+                    <p class="font-sans text-xs text-gray-500 mt-2">Etiopía Yirgacheffe • Floral, Cítrico</p>
+                </div>
+                <span class="font-serif text-xl text-gold">4.50€</span>
+            </div>
+
+            <div class="menu-item py-6 flex justify-between items-baseline cursor-pointer group">
+                <div>
+                    <h3 class="font-serif text-2xl text-cream group-hover:text-gold transition-colors">Flat White</h3>
+                    <p class="font-sans text-xs text-gray-500 mt-2">Doble Ristretto • Leche Texturizada</p>
+                </div>
+                <span class="font-serif text-xl text-gold">3.20€</span>
+            </div>
+
+            <div class="menu-item py-6 flex justify-between items-baseline cursor-pointer group">
+                <div>
+                    <h3 class="font-serif text-2xl text-cream group-hover:text-gold transition-colors">Cold Brew Nitro</h3>
+                    <p class="font-sans text-xs text-gray-500 mt-2">Infusión 24h • Nitrógeno • Cremoso</p>
+                </div>
+                <span class="font-serif text-xl text-gold">4.00€</span>
+            </div>
+        </div>
+
+        <div class="text-center mt-16 relative z-10">
+            <a href="menu.html" class="px-8 py-3 border border-white/10 hover:border-gold hover:text-gold transition-all font-sans text-xs tracking-[0.2em]">
+                VER MENÚ COMPLETO
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-20 px-6 border-t border-white/5 text-center font-sans text-xs text-gray-600 tracking-widest">
+        <p>&copy; 2026 ETÉREO COFFEE ROASTERS.</p>
+    </footer>
+
+    <script>
+        // Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.5,
+            smooth: true
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(cursorCircle, { x: e.clientX, y: e.clientY, duration: 0.3 });
+        });
+
+        document.querySelectorAll('a, .menu-item').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(cursorCircle, { scale: 1.5, borderColor: '#d4af37', backgroundColor: 'rgba(212, 175, 55, 0.1)' });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(cursorCircle, { scale: 1, borderColor: 'rgba(212, 175, 55, 0.3)', backgroundColor: 'transparent' });
+            });
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Reveal
+        setTimeout(() => {
+            document.querySelectorAll('.reveal-target').forEach((el, i) => {
+                setTimeout(() => {
+                    el.classList.add('visible');
+                    el.classList.add('reveal-text'); // Apply class to trigger CSS transition
+                }, i * 200);
+            });
+        }, 500);
+
+        // Parallax Effect
+        gsap.to("#hero-bg", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        gsap.utils.toArray(".bean").forEach(bean => {
+            const speed = bean.getAttribute('data-speed');
+            gsap.to(bean, {
+                y: -100 * speed,
+                rotation: 360,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        gsap.to("#roast-img", {
+            scale: 1,
+            scrollTrigger: {
+                trigger: ".reveal-img",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Smoke Effect (Three.js)
+        const canvas = document.getElementById('smoke-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.z = 1000;
+        scene.add(camera);
+
+        const light = new THREE.DirectionalLight(0xffffff, 0.5);
+        light.position.set(-1, 0, 1);
+        scene.add(light);
+
+        const smokeParticles = [];
+        const loader = new THREE.TextureLoader();
+        loader.load('https://raw.githubusercontent.com/marcobiedermann/playground/master/three.js/smoke-particles/dist/img/smoke.png', function(texture){
+            const smokeGeo = new THREE.PlaneGeometry(300, 300);
+            const smokeMaterial = new THREE.MeshLambertMaterial({ map: texture, transparent: true, opacity: 0.3 }); // Lower opacity
+
+            for (let p = 0; p < 30; p++) { // Fewer particles
+                const particle = new THREE.Mesh(smokeGeo, smokeMaterial);
+                particle.position.set(Math.random()*500-250, Math.random()*500-250, Math.random()*1000-100);
+                particle.rotation.z = Math.random() * 360;
+                scene.add(particle);
+                smokeParticles.push(particle);
+            }
+            animate();
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            smokeParticles.forEach(p => {
+                p.rotation.z += 0.002;
+            });
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>

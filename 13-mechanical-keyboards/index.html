@@ -55,12 +55,28 @@
     <!-- Navigation -->
     <nav class="fixed w-full z-50 py-6 px-8 md:px-12 flex justify-between items-center bg-keeb-bg/80 backdrop-blur-md">
         <a href="index.html" class="font-mono font-bold text-2xl tracking-tighter hover:text-keeb-accent transition-colors">THOCK.</a>
+        
+        <!-- Desktop Menu -->
         <div class="hidden md:flex gap-8 font-sans font-medium text-sm text-gray-500">
             <a href="builder.html" class="hover:text-keeb-dark transition-colors">Configurator</a>
             <a href="switches.html" class="hover:text-keeb-dark transition-colors">Switches</a>
             <a href="#" class="hover:text-keeb-dark transition-colors">Group Buys</a>
         </div>
-        <a href="builder.html" class="bg-keeb-dark text-white px-6 py-2 rounded-full font-mono text-sm hover:bg-keeb-accent transition-colors">Build Yours</a>
+        <a href="builder.html" class="hidden md:block bg-keeb-dark text-white px-6 py-2 rounded-full font-mono text-sm hover:bg-keeb-accent transition-colors">Build Yours</a>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-2xl text-keeb-dark">
+            ☰
+        </button>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-keeb-bg z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300">
+            <a href="builder.html" class="font-sans font-bold text-2xl hover:text-keeb-accent transition-colors">Configurator</a>
+            <a href="switches.html" class="font-sans font-bold text-2xl hover:text-keeb-accent transition-colors">Switches</a>
+            <a href="#" class="font-sans font-bold text-2xl hover:text-keeb-accent transition-colors">Group Buys</a>
+            <a href="builder.html" class="bg-keeb-dark text-white px-8 py-3 rounded-full font-mono text-lg hover:bg-keeb-accent transition-colors">Build Yours</a>
+            <button id="close-menu-btn" class="absolute top-6 right-8 text-3xl">×</button>
+        </div>
     </nav>
 
     <!-- Hero -->
@@ -89,6 +105,25 @@
     </footer>
 
     <script>
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+
         // Global Sound Effect
         const audio = document.getElementById('click-sound');
         

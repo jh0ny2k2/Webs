@@ -4,7 +4,8 @@ A curated collection of modern web design experiments, prototypes, and landing p
 
 ## 🚀 Projects Included
 
-1.  **Auto Detailing**: High-end automotive care with interactive "Before/After" image comparison sliders.
+1.  **Specialty Coffee**: Premium landing page with animated smoke effects and parallax scrolling.
+2.  **Auto Detailing**: High-end automotive care with interactive "Before/After" image comparison sliders.
 2.  **Artisan Pizza**: Interactive drag-and-drop pizza configurator with GSAP animations and real-time pricing.
 2.  **Developer Portfolio**: Swiss Design minimalist aesthetic. High-end, clean, and typographic-focused dark mode interface.
 2.  **Modern Barbershop**: Dark & Gold elegant design with a booking system and service menu.

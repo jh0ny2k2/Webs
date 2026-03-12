@@ -169,7 +169,15 @@
             <a href="mailto:hola@jhonathan.dev" class="hover-underline">Contacto</a>
         </div>
 
-        <div class="md:hidden text-xs uppercase tracking-widest border-b border-white/20 pb-1">Menu</div>
+        <button id="mobile-menu-btn" class="md:hidden text-xs uppercase tracking-widest border-b border-white/20 pb-1">Menu</button>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-noir z-50 flex flex-col items-center justify-center gap-12 opacity-0 pointer-events-none transition-opacity duration-300">
+            <a href="#about" class="font-serif text-4xl text-off-white hover:text-champagne transition-colors">Filosofía</a>
+            <a href="#work" class="font-serif text-4xl text-off-white hover:text-champagne transition-colors">Selección</a>
+            <a href="mailto:hola@jhonathan.dev" class="font-serif text-4xl text-off-white hover:text-champagne transition-colors">Contacto</a>
+            <button id="close-menu-btn" class="absolute top-6 right-8 text-xl text-off-white">Close</button>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -328,6 +336,28 @@
     </footer>
 
     <script>
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
         // Lenis Smooth Scroll
         const lenis = new Lenis({
             duration: 1.5, // Slower for luxury feel

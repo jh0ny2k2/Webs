@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIGHT OF GLORY | Home</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'v-pink': '#FF0055',
+                        'v-purple': '#6600FF',
+                        'v-green': '#00FF99',
+                        'v-dark': '#0a0510',
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    dropShadow: {
+                        'neon': '0 0 10px rgba(255, 0, 85, 0.5)',
+                        'neon-green': '0 0 10px rgba(0, 255, 153, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0510;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0510; }
+        ::-webkit-scrollbar-thumb { background: #FF0055; border-radius: 3px; }
+
+        /* Beam Lights */
+        .beam {
+            position: absolute;
+            top: -20%;
+            width: 100px;
+            height: 150%;
+            background: linear-gradient(to bottom, rgba(0,255,153,0) 0%, rgba(0,255,153,0.4) 20%, rgba(0,255,153,0) 100%);
+            transform-origin: top center;
+            filter: blur(20px);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 0;
+        }
+        .beam-left { left: 10%; transform: rotate(15deg); animation: beam-sway-left 4s infinite alternate ease-in-out; }
+        .beam-right { right: 10%; transform: rotate(-15deg); animation: beam-sway-right 4s infinite alternate ease-in-out; }
+
+        @keyframes beam-sway-left { from { transform: rotate(15deg); opacity: 0.5; } to { transform: rotate(20deg); opacity: 0.8; } }
+        @keyframes beam-sway-right { from { transform: rotate(-15deg); opacity: 0.5; } to { transform: rotate(-20deg); opacity: 0.8; } }
+
+        /* Text Stroke */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+            color: transparent;
+        }
+        
+        .neon-glow {
+            text-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+        }
+
+        /* Hover Effects */
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 153, 0.4);
+            border-color: #00FF99;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-v-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-4 md:px-8 py-4 md:py-6 flex justify-between items-center">
+            <a href="index.html" class="font-display text-2xl md:text-3xl italic tracking-wider text-white drop-shadow-neon">VELADA <span class="text-v-green">IV</span></a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex gap-12 font-display text-lg uppercase tracking-wider text-gray-400">
+                <a href="index.html" class="text-white border-b-2 border-v-pink pb-1 transition-all">Inicio</a>
+                <a href="fighters.html" class="hover:text-v-green transition-colors">Combates</a>
+                <a href="venue.html" class="hover:text-v-green transition-colors">Recinto</a>
+                <a href="tickets.html" class="hover:text-v-green transition-colors">Entradas</a>
+            </div>
+
+            <div class="flex items-center gap-4 md:gap-6">
+                <a href="tickets.html" class="hidden md:block bg-white text-black px-8 py-2 font-display text-lg uppercase tracking-wider hover:bg-v-green hover:text-black transition-all skew-x-[-10deg]">
+                    <span class="block skew-x-[10deg]">Entradas</span>
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-white font-display uppercase">
+                    <span class="sr-only">Menu</span>
+                    ☰
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-v-dark z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500">
+            <a href="index.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Inicio</a>
+            <a href="fighters.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Combates</a>
+            <a href="venue.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Recinto</a>
+            <a href="tickets.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Entradas</a>
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-4xl text-white font-display uppercase">×</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover opacity-40 grayscale mix-blend-multiply">
+            <div class="absolute inset-0 bg-gradient-to-t from-v-dark via-v-purple/20 to-v-pink/20"></div>
+            <div class="beam beam-left"></div>
+            <div class="beam beam-right"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-6 reveal-hero">
+                <span class="bg-v-green text-black font-bold px-3 py-1 text-sm uppercase skew-x-[-10deg]">14 DE JUNIO</span>
+                <span class="text-white font-display tracking-widest text-lg">MADRID ARENA</span>
+            </div>
+            
+            <h1 class="font-display text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] xl:text-[12rem] leading-[0.9] md:leading-[0.8] mb-4 md:mb-2 text-white italic reveal-hero drop-shadow-neon break-words">
+                LA VELADA<br><span class="text-stroke">DEL AÑO</span> <span class="text-v-pink">IV</span>
+            </h1>
+            
+            <p class="font-sans text-gray-300 max-w-xs md:max-w-lg mx-auto mb-8 md:mb-12 text-sm md:text-lg reveal-hero px-4">
+                El evento de boxeo más grande de internet. Streamers, creadores de contenido y artistas en una noche histórica.
+            </p>
+
+            <!-- Countdown -->
+            <div class="flex justify-center gap-4 md:gap-16 mb-8 md:mb-16 font-display text-white reveal-hero">
+                <div class="text-center">
+                    <span id="days" class="text-3xl md:text-7xl block text-v-green">00</span>
+                    <span class="text-[10px] md:text-sm tracking-widest text-gray-500 uppercase">Días</span>
+                </div>
+                <div class="text-center">
+                    <span id="hours" class="text-3xl md:text-7xl block text-v-green">00</span>
+                    <span class="text-[10px] md:text-sm tracking-widest text-gray-500 uppercase">Horas</span>
+                </div>
+                <div class="text-center">
+                    <span id="minutes" class="text-3xl md:text-7xl block text-v-green">00</span>
+                    <span class="text-[10px] md:text-sm tracking-widest text-gray-500 uppercase">Min</span>
+                </div>
+            </div>
+
+            <a href="tickets.html" class="inline-block bg-v-pink text-white px-8 md:px-12 py-3 md:py-4 font-display text-lg md:text-2xl uppercase tracking-wider hover:bg-white hover:text-v-pink transition-all skew-x-[-10deg] shadow-[0_0_20px_rgba(255,0,85,0.4)] reveal-hero">
+                <span class="block skew-x-[10deg]">Comprar Entradas</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Event Teaser -->
+    <section class="py-12 md:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-v-dark via-v-purple/10 to-v-dark"></div>
+        
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center mb-8 md:mb-16">
+                <h2 class="font-display text-4xl md:text-6xl text-white italic">MAIN <span class="text-v-pink">EVENT</span></h2>
+            </div>
+
+            <div class="relative h-[400px] md:h-[600px] w-full max-w-6xl mx-auto group cursor-pointer" onclick="window.location.href='fighters.html'">
+                <!-- Background Glow -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-v-pink/10 rounded-full blur-[60px] md:blur-[100px]"></div>
+
+                <div class="flex justify-between items-end h-full relative z-10">
+                    <!-- Fighter 1 -->
+                    <div class="w-1/2 h-full relative">
+                        <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="absolute bottom-0 right-0 h-[80%] md:h-[110%] object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-transform duration-500 group-hover:scale-105 group-hover:-translate-x-4">
+                        <div class="absolute bottom-10 md:bottom-20 left-0 md:left-10 text-left">
+                            <h3 class="font-display text-2xl md:text-4xl lg:text-6xl text-white italic neon-glow leading-none">THE BEAST</h3>
+                        </div>
+                    </div>
+
+                    <!-- Center VS -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                        <span class="font-display text-4xl md:text-6xl lg:text-8xl italic text-white text-stroke opacity-50">VS</span>
+                    </div>
+
+                    <!-- Fighter 2 -->
+                    <div class="w-1/2 h-full relative">
+                        <img src="https://images.unsplash.com/photo-1615117970172-35f606346761?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="absolute bottom-0 left-0 h-[80%] md:h-[110%] object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-transform duration-500 transform scale-x-[-1] group-hover:scale-x-[-1] group-hover:scale-105 group-hover:translate-x-4">
+                        <div class="absolute bottom-10 md:bottom-20 right-0 md:right-10 text-right">
+                            <h3 class="font-display text-2xl md:text-4xl lg:text-6xl text-white italic neon-glow leading-none">THE TITAN</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="fighters.html" class="text-gray-400 hover:text-white font-display text-lg md:text-xl uppercase tracking-wider border-b border-v-green pb-1 transition-colors">Ver Cartelera Completa</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Cards -->
+    <section class="py-24 bg-black/50">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <a href="venue.html" class="group relative h-96 overflow-hidden border border-white/10 rounded-2xl hover-glow transition-all">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute bottom-8 left-8 z-20">
+                    <span class="text-v-green font-display text-lg uppercase mb-2 block">El Lugar</span>
+                    <h3 class="font-display text-5xl text-white italic uppercase">Madrid Arena</h3>
+                </div>
+                <div class="absolute top-6 right-6 z-20 bg-white text-black w-12 h-12 flex items-center justify-center rounded-full font-bold transform rotate-[-45deg] group-hover:rotate-0 transition-transform">➜</div>
+            </a>
+            
+            <a href="tickets.html" class="group relative h-96 overflow-hidden border border-white/10 rounded-2xl hover-glow transition-all">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute bottom-8 left-8 z-20">
+                    <span class="text-v-pink font-display text-lg uppercase mb-2 block">No te lo pierdas</span>
+                    <h3 class="font-display text-5xl text-white italic uppercase">Entradas</h3>
+                </div>
+                <div class="absolute top-6 right-6 z-20 bg-v-pink text-white w-12 h-12 flex items-center justify-center rounded-full font-bold transform rotate-[-45deg] group-hover:rotate-0 transition-transform">➜</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-v-dark border-t border-white/10 py-16">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-center md:text-left">
+                <h3 class="font-display text-3xl text-white italic">VELADA <span class="text-v-green">IV</span></h3>
+                <p class="font-sans text-sm text-gray-500 mt-2">© 2026 Powered by Twitch</p>
+            </div>
+            
+            <div class="flex gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                <span class="font-display text-2xl tracking-wider text-white">TWITCH</span>
+                <span class="font-display text-2xl tracking-wider text-white">PRIME</span>
+                <span class="font-display text-2xl tracking-wider text-white">SPOTIFY</span>
+            </div>
+
+            <div class="flex gap-6">
+                <a href="#" class="text-gray-400 hover:text-v-pink transition-colors font-display uppercase">Instagram</a>
+                <a href="#" class="text-gray-400 hover:text-v-purple transition-colors font-display uppercase">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+
+        // Countdown
+        const targetDate = new Date("June 14, 2026 20:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        }, 1000);
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(".reveal-hero", { y: 50, opacity: 0, duration: 1.5, stagger: 0.2, ease: "power4.out", delay: 0.5 });
+    </script>
+</body>
+</html>

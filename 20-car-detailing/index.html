@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRISTINE | Luxury Auto Detailing</title>
+    <title>OBSIDIAN | Elite Auto Detailing</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Exo+2:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'metal': '#1a1a1a',
-                        'chrome': '#e0e0e0',
-                        'neon-blue': '#00f3ff',
-                        'carbon': '#111111',
+                        'obsidian': '#0a0a0a',
+                        'platinum': '#E5E4E2',
+                        'ember': '#FF4500',
                     },
                     fontFamily: {
-                        display: ['Orbitron', 'sans-serif'],
-                        tech: ['Rajdhani', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                        tech: ['Exo 2', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
@@ -30,357 +34,406 @@
     <style>
         body {
             background-color: #050505;
-            color: #e0e0e0;
+            color: #E5E4E2;
             cursor: none;
             overflow-x: hidden;
         }
 
-        /* Carbon Fiber Pattern */
-        .carbon-bg {
-            background-color: #111;
-            background-image: 
-                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
-                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
-            background-position: 0 0, 10px 10px;
-            background-size: 20px 20px;
-            opacity: 0.1;
+        /* Video Background Overlay */
+        .video-overlay {
+            background: linear-gradient(to bottom, rgba(5,5,5,0.3), rgba(5,5,5,1));
         }
 
         /* Custom Cursor */
-        .cursor-ring {
-            position: fixed;
-            top: 0; left: 0;
-            width: 40px; height: 40px;
-            border: 2px solid #00f3ff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-            mix-blend-mode: difference;
-        }
         .cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 6px; height: 6px;
-            background: #00f3ff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
+            width: 8px; height: 8px; background: #FF4500;
+            position: fixed; top: 0; left: 0; border-radius: 50%;
+            pointer-events: none; z-index: 100; transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px #FF4500;
+        }
+        .cursor-circle {
+            width: 40px; height: 40px; border: 1px solid rgba(255, 69, 0, 0.5);
+            position: fixed; top: 0; left: 0; border-radius: 50%;
+            pointer-events: none; z-index: 99; transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
         }
 
-        /* Before/After Slider */
-        .slider-container {
+        /* Glitch Text */
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #050505;
+        }
+        .glitch-text::before {
+            left: 2px; text-shadow: -1px 0 #FF4500; clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px; text-shadow: -1px 0 #00ffff; clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 30px, 0); }
+            20% { clip: rect(80px, 9999px, 100px, 0); }
+            40% { clip: rect(40px, 9999px, 60px, 0); }
+            60% { clip: rect(120px, 9999px, 140px, 0); }
+            80% { clip: rect(60px, 9999px, 80px, 0); }
+            100% { clip: rect(20px, 9999px, 40px, 0); }
+        }
+
+        /* Slider Styles */
+        .comparison-slider {
             position: relative;
             width: 100%;
-            height: 600px;
+            height: 80vh;
             overflow: hidden;
-            border-radius: 4px;
-            border: 1px solid rgba(255,255,255,0.1);
         }
-        .img-before, .img-after {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
+        .comparison-item {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
         }
-        .img-after {
-            width: 50%; /* Initial split */
-            border-right: 2px solid #00f3ff;
-            z-index: 2;
+        .comparison-after {
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
         }
-        .slider-handle {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 40px; height: 40px;
-            background: #00f3ff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3;
-            cursor: grab;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        .slider-handle-bar {
+            position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
+            background: #FF4500; z-index: 10; cursor: ew-resize;
+            box-shadow: 0 0 15px #FF4500;
         }
-        .slider-handle svg {
-            width: 20px; height: 20px;
-            fill: #000;
+        .handle-circle {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 60px; height: 60px; border: 2px solid #FF4500; border-radius: 50%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* Water Ripple Effect (Canvas) */
-        #water-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 50;
-            opacity: 0.3;
-        }
-
-        /* Shine Effect */
-        .shine-text {
-            background: linear-gradient(to right, #4d4d4d 0, #fff 10%, #4d4d4d 20%);
-            background-position: 0;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s infinite linear;
-            background-size: 200%;
-        }
-        @keyframes shine {
-            0% { background-position: 0; }
-            60% { background-position: 200%; }
-            100% { background-position: 200%; }
+        /* WebGL Canvas */
+        #distortion-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; opacity: 0.4;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-neon-blue selection:text-black">
+<body class="antialiased">
 
-    <div class="carbon-bg fixed inset-0 z-0"></div>
-    <canvas id="water-canvas"></canvas>
-    
-    <div class="cursor-ring"></div>
     <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+    <canvas id="distortion-canvas"></canvas>
 
-    <!-- Nav -->
-    <nav class="fixed w-full z-40 px-8 py-6 flex justify-between items-center border-b border-white/5 bg-black/50 backdrop-blur-md">
-        <div class="font-display text-2xl tracking-tighter text-white italic">PRISTINE<span class="text-neon-blue">.</span></div>
-        <div class="font-tech text-sm tracking-[0.2em] text-neon-blue">PREMIUM AUTO CARE</div>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 px-8 py-6 flex justify-between items-center mix-blend-difference">
+        <a href="#" class="font-display text-2xl tracking-widest text-white hover:text-ember transition-colors">OBSIDIAN</a>
+        
+        <div class="hidden md:flex gap-12 font-tech text-xs tracking-[0.2em] uppercase">
+            <a href="#services" class="hover:text-ember transition-colors">Servicios</a>
+            <a href="#gallery" class="hover:text-ember transition-colors">Galería</a>
+            <a href="#booking" class="px-6 py-2 border border-white/20 hover:bg-ember hover:border-ember hover:text-black transition-all">Reservar</a>
+        </div>
+
+        <button id="mobile-menu-btn" class="md:hidden text-2xl text-white">☰</button>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-obsidian z-50 flex flex-col items-center justify-center gap-12 opacity-0 pointer-events-none transition-opacity duration-300">
+            <a href="#services" class="font-display text-3xl text-white hover:text-ember transition-colors">Servicios</a>
+            <a href="#gallery" class="font-display text-3xl text-white hover:text-ember transition-colors">Galería</a>
+            <a href="#booking" class="font-display text-3xl text-white hover:text-ember transition-colors">Reservar</a>
+            <button id="close-menu-btn" class="absolute top-6 right-8 text-3xl text-white">×</button>
+        </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="relative pt-40 pb-20 px-6 md:px-20 z-10">
-        <div class="max-w-4xl">
-            <h1 class="font-display text-6xl md:text-8xl text-white leading-none mb-6">
-                RESTORING <br>
-                <span class="text-stroke-1 text-transparent shine-text">PERFECTION</span>
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Video Background -->
+        <div class="absolute inset-0 z-0">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-60 scale-110" id="hero-video">
+                <source src="https://cdn.coverr.co/videos/coverr-polishing-a-black-car-5387/1080p.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-6">
+            <p class="font-tech text-ember tracking-[0.5em] text-sm mb-6 reveal-text">AUTOMOTIVE PERFECTION</p>
+            <h1 class="font-display text-6xl md:text-9xl text-white mb-8 glitch-text" data-text="UNLEASH">
+                UNLEASH
             </h1>
-            <p class="font-tech text-xl text-gray-400 max-w-xl leading-relaxed border-l-2 border-neon-blue pl-6">
-                Llevamos el detalle automotriz al nivel de una ciencia exacta. Transformación total, protección cerámica y corrección de pintura.
-            </p>
+            <h1 class="font-display text-6xl md:text-9xl text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-800 glitch-text" data-text="THE SHINE">
+                THE SHINE
+            </h1>
+            
+            <div class="mt-12 flex justify-center gap-8 reveal-text">
+                <div class="flex flex-col items-center">
+                    <span class="font-display text-2xl text-ember">01</span>
+                    <span class="font-tech text-xs text-gray-500 tracking-widest mt-2">CORRECCIÓN</span>
+                </div>
+                <div class="w-[1px] h-12 bg-white/20"></div>
+                <div class="flex flex-col items-center">
+                    <span class="font-display text-2xl text-ember">02</span>
+                    <span class="font-tech text-xs text-gray-500 tracking-widest mt-2">PROTECCIÓN</span>
+                </div>
+                <div class="w-[1px] h-12 bg-white/20"></div>
+                <div class="flex flex-col items-center">
+                    <span class="font-display text-2xl text-ember">03</span>
+                    <span class="font-tech text-xs text-gray-500 tracking-widest mt-2">PERFECCIÓN</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+            <div class="w-[1px] h-20 bg-gradient-to-b from-ember to-transparent animate-pulse"></div>
+            <span class="font-tech text-[10px] tracking-[0.3em] text-gray-500">SCROLL</span>
         </div>
     </header>
 
     <!-- Comparison Section -->
-    <section class="px-6 md:px-20 pb-40 relative z-10">
-        
-        <div class="mb-12 flex justify-between items-end">
+    <section class="py-32 bg-obsidian relative z-20">
+        <div class="px-6 md:px-24 mb-16 flex justify-between items-end">
             <div>
-                <h2 class="font-display text-3xl text-white mb-2">Pintura & Cerámica</h2>
-                <p class="font-tech text-neon-blue uppercase tracking-widest">Desliza para revelar</p>
+                <h2 class="font-display text-4xl md:text-5xl text-white mb-2">Transformación <span class="text-ember">Total</span></h2>
+                <p class="font-tech text-gray-400 text-sm max-w-md">
+                    Desliza para ver la diferencia entre una pintura desgastada y nuestro acabado espejo Obsidian.
+                </p>
             </div>
-            <div class="hidden md:block font-tech text-xs text-gray-500">
-                PROYECTO: PORSCHE 911 GT3 <br>
-                TRATAMIENTO: CORRECCIÓN 3 PASOS
+            <div class="hidden md:block">
+                <span class="font-tech text-xs border border-ember text-ember px-4 py-1 rounded-full">ANTES / DESPUÉS</span>
             </div>
         </div>
 
-        <!-- Slider 1: Paint Correction -->
-        <div class="slider-container mb-32 group" id="slider1">
-            <!-- "Before" Image (Base) -->
-            <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
-                 class="img-before filter grayscale brightness-50 contrast-125" alt="Antes">
-            <div class="absolute top-8 left-8 bg-black/70 px-4 py-1 font-tech text-xs text-white uppercase tracking-widest">Antes</div>
-
-            <!-- "After" Image (Overlay) -->
-            <div class="img-after overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
-                     class="absolute top-0 left-0 w-[200%] h-full object-cover filter brightness-110 saturate-125" alt="Después">
-                <div class="absolute top-8 right-8 bg-neon-blue/90 px-4 py-1 font-tech text-xs text-black font-bold uppercase tracking-widest">Después</div>
-            </div>
-
+        <div class="comparison-slider cursor-ew-resize group" id="slider">
+            <!-- Before Image -->
+            <div class="comparison-item comparison-before" style="background-image: url('https://images.unsplash.com/photo-1507136566006-cfc505b114fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'); filter: grayscale(100%) contrast(1.2);"></div>
+            
+            <!-- After Image -->
+            <div class="comparison-item comparison-after" style="background-image: url('https://images.unsplash.com/photo-1507136566006-cfc505b114fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'); filter: saturate(1.2) contrast(1.1);"></div>
+            
             <!-- Handle -->
-            <div class="slider-handle">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg viewBox="0 0 24 24" class="rotate-180"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-        </div>
-
-        <!-- Slider 2: Interior -->
-        <div class="mb-12 flex justify-between items-end">
-            <div>
-                <h2 class="font-display text-3xl text-white mb-2">Restauración Interior</h2>
-                <p class="font-tech text-neon-blue uppercase tracking-widest">Limpieza Profunda</p>
-            </div>
-        </div>
-
-        <div class="slider-container group" id="slider2">
-            <!-- "Before" Image -->
-            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
-                 class="img-before filter sepia-[.5] brightness-75" alt="Antes">
-            <div class="absolute top-8 left-8 bg-black/70 px-4 py-1 font-tech text-xs text-white uppercase tracking-widest">Antes</div>
-
-            <!-- "After" Image -->
-            <div class="img-after overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
-                     class="absolute top-0 left-0 w-[200%] h-full object-cover filter contrast-125 brightness-110" alt="Después">
-                <div class="absolute top-8 right-8 bg-neon-blue/90 px-4 py-1 font-tech text-xs text-black font-bold uppercase tracking-widest">Después</div>
-            </div>
-
-            <!-- Handle -->
-            <div class="slider-handle">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg viewBox="0 0 24 24" class="rotate-180"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-        </div>
-
-    </section>
-
-    <!-- Services Grid -->
-    <section class="px-6 md:px-20 pb-20 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
-            <div class="bg-white/5 p-12 hover:bg-neon-blue/10 transition-colors border border-white/5 group">
-                <div class="font-display text-4xl text-white/20 mb-6 group-hover:text-neon-blue transition-colors">01</div>
-                <h3 class="font-display text-xl text-white mb-4">Paint Correction</h3>
-                <p class="font-tech text-gray-400 text-sm leading-relaxed">Eliminación de swirls, arañazos y oxidación para restaurar el brillo de fábrica.</p>
-            </div>
-            <div class="bg-white/5 p-12 hover:bg-neon-blue/10 transition-colors border border-white/5 group">
-                <div class="font-display text-4xl text-white/20 mb-6 group-hover:text-neon-blue transition-colors">02</div>
-                <h3 class="font-display text-xl text-white mb-4">Ceramic Coating</h3>
-                <p class="font-tech text-gray-400 text-sm leading-relaxed">Protección hidrofóbica de larga duración contra elementos ambientales.</p>
-            </div>
-            <div class="bg-white/5 p-12 hover:bg-neon-blue/10 transition-colors border border-white/5 group">
-                <div class="font-display text-4xl text-white/20 mb-6 group-hover:text-neon-blue transition-colors">03</div>
-                <h3 class="font-display text-xl text-white mb-4">Interior Detail</h3>
-                <p class="font-tech text-gray-400 text-sm leading-relaxed">Limpieza profunda de cuero, vapor y restauración de plásticos.</p>
+            <div class="slider-handle-bar">
+                <div class="handle-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF4500" stroke-width="2">
+                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16"/>
+                    </svg>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-white/10 py-12 text-center font-tech text-xs text-gray-600 uppercase tracking-widest z-10 relative">
-        &copy; 2026 PRISTINE AUTO DETAILING.
+    <!-- Services -->
+    <section class="py-32 px-6 md:px-24 bg-zinc-900 relative overflow-hidden" id="services">
+        <!-- Background Noise -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 border-t border-white/10">
+            <!-- Service 1 -->
+            <div class="py-16 pr-8 border-b md:border-b-0 md:border-r border-white/10 group hover:bg-white/5 transition-colors duration-500">
+                <h3 class="font-display text-2xl text-white mb-6 group-hover:text-ember transition-colors">Paint<br>Correction</h3>
+                <p class="font-tech text-gray-400 text-sm leading-relaxed mb-8">
+                    Eliminamos hasta el 95% de los defectos de la pintura. Swirls, arañazos y hologramas desaparecen para revelar la verdadera profundidad del color.
+                </p>
+                <ul class="font-tech text-xs text-gray-500 space-y-2 uppercase tracking-wide">
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Pulido Multi-Etapa</li>
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Medición de Espesor</li>
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Acabado Joya</li>
+                </ul>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="py-16 md:px-8 border-b md:border-b-0 md:border-r border-white/10 group hover:bg-white/5 transition-colors duration-500">
+                <h3 class="font-display text-2xl text-white mb-6 group-hover:text-ember transition-colors">Ceramic<br>Coating</h3>
+                <p class="font-tech text-gray-400 text-sm leading-relaxed mb-8">
+                    Blindaje molecular de SiO2. Protección hidrofóbica extrema que repele agua, suciedad y radiación UV por años, no meses.
+                </p>
+                <ul class="font-tech text-xs text-gray-500 space-y-2 uppercase tracking-wide">
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Dureza 9H</li>
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Efecto Auto-Limpieza</li>
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Garantía 5 Años</li>
+                </ul>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="py-16 md:pl-8 group hover:bg-white/5 transition-colors duration-500">
+                <h3 class="font-display text-2xl text-white mb-6 group-hover:text-ember transition-colors">Interior<br>Restoration</h3>
+                <p class="font-tech text-gray-400 text-sm leading-relaxed mb-8">
+                    Devolvemos el interior a su estado de fábrica. Limpieza a vapor, nutrición de cuero y eliminación de olores con ozono.
+                </p>
+                <ul class="font-tech text-xs text-gray-500 space-y-2 uppercase tracking-wide">
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Desinfección Vapor</li>
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Acondicionado Cuero</li>
+                    <li class="flex items-center gap-2"><span class="w-1 h-1 bg-ember"></span> Detallado de Botones</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 md:px-24 border-t border-white/10 bg-black flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+            <h2 class="font-display text-3xl text-white">OBSIDIAN</h2>
+            <p class="font-tech text-xs text-gray-600 tracking-widest mt-2">MADRID • BARCELONA • MARBELLA</p>
+        </div>
+        <div class="flex gap-8 font-tech text-xs text-gray-400 uppercase tracking-widest">
+            <a href="#" class="hover:text-ember transition-colors">Instagram</a>
+            <a href="#" class="hover:text-ember transition-colors">Youtube</a>
+            <a href="#" class="hover:text-ember transition-colors">Contacto</a>
+        </div>
     </footer>
 
     <script>
+        // Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
         // Custom Cursor
-        const cursorRing = document.querySelector('.cursor-ring');
         const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
 
         window.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = `${e.clientX}px`;
-            cursorDot.style.top = `${e.clientY}px`;
-            
-            cursorRing.animate({
-                left: `${e.clientX}px`,
-                top: `${e.clientY}px`
-            }, { duration: 500, fill: "forwards" });
+            gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(cursorCircle, { x: e.clientX, y: e.clientY, duration: 0.3 });
         });
 
-        // Hover Effects
-        document.querySelectorAll('a, .slider-handle').forEach(el => {
+        document.querySelectorAll('a, .slider-handle-bar').forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursorRing.style.width = '60px';
-                cursorRing.style.height = '60px';
-                cursorRing.style.backgroundColor = 'rgba(0, 243, 255, 0.1)';
+                gsap.to(cursorCircle, { scale: 1.5, borderColor: '#FF4500', backgroundColor: 'rgba(255, 69, 0, 0.1)' });
             });
             el.addEventListener('mouseleave', () => {
-                cursorRing.style.width = '40px';
-                cursorRing.style.height = '40px';
-                cursorRing.style.backgroundColor = 'transparent';
+                gsap.to(cursorCircle, { scale: 1, borderColor: 'rgba(255, 69, 0, 0.5)', backgroundColor: 'transparent' });
             });
         });
 
         // Slider Logic
-        document.querySelectorAll('.slider-container').forEach(slider => {
-            const afterImg = slider.querySelector('.img-after');
-            const handle = slider.querySelector('.slider-handle');
-            let isDragging = false;
-
-            const updateSlider = (x) => {
-                const rect = slider.getBoundingClientRect();
-                let percentage = ((x - rect.left) / rect.width) * 100;
-                percentage = Math.max(0, Math.min(100, percentage));
-                
-                afterImg.style.width = `${percentage}%`;
-                handle.style.left = `${percentage}%`;
-            };
-
-            // Mouse Events
-            slider.addEventListener('mousedown', () => isDragging = true);
-            window.addEventListener('mouseup', () => isDragging = false);
-            window.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                updateSlider(e.clientX);
-            });
-
-            // Touch Events
-            slider.addEventListener('touchstart', () => isDragging = true);
-            window.addEventListener('touchend', () => isDragging = false);
-            window.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                updateSlider(e.touches[0].clientX);
-            });
-            
-            // Hover follow (optional UX)
-            slider.addEventListener('mousemove', (e) => {
-                if (!isDragging) {
-                    // Optional: Make handle follow mouse even without clicking for smoother discovery
-                    // updateSlider(e.clientX); 
-                }
-            });
-        });
-
-        // Water Ripple Canvas
-        const canvas = document.getElementById('water-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let ripples = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        function createRipple(x, y) {
-            ripples.push({ x, y, radius: 0, alpha: 1 });
-        }
-
-        window.addEventListener('mousemove', (e) => {
-            if(Math.random() > 0.8) createRipple(e.clientX, e.clientY); // Random drops on move
-        });
+        const slider = document.querySelector('.comparison-slider');
+        const afterImg = document.querySelector('.comparison-after');
+        const handle = document.querySelector('.slider-handle-bar');
         
-        // Create ripples on click
-        window.addEventListener('mousedown', (e) => createRipple(e.clientX, e.clientY));
+        function moveSlider(x) {
+            const rect = slider.getBoundingClientRect();
+            let percent = (x / rect.width) * 100;
+            
+            // Clamp value
+            percent = Math.max(0, Math.min(100, percent));
+            
+            // Clip path for after image
+            afterImg.style.clipPath = `polygon(${percent}% 0, 100% 0, 100% 100%, ${percent}% 100%)`;
+            handle.style.left = `${percent}%`;
+        }
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            
-            ripples.forEach((ripple, i) => {
-                ripple.radius += 2;
-                ripple.alpha -= 0.01;
-                
-                if(ripple.alpha <= 0) {
-                    ripples.splice(i, 1);
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
-                    ctx.strokeStyle = `rgba(0, 243, 255, ${ripple.alpha})`;
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
+        slider.addEventListener('mousemove', (e) => {
+            const rect = slider.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            moveSlider(x);
+        });
+
+        // Touch support for slider
+        slider.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scrolling while sliding
+            const rect = slider.getBoundingClientRect();
+            const x = e.touches[0].clientX - rect.left;
+            moveSlider(x);
+        }, { passive: false });
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // WebGL Distortion (Three.js)
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('distortion-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Create a simple plane with a shader
+        const geometry = new THREE.PlaneGeometry(2, 2);
+        const uniforms = {
+            uTime: { value: 0 },
+            uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+        };
+
+        const material = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            transparent: true,
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = vec4(position, 1.0);
                 }
-            });
-            
+            `,
+            fragmentShader: `
+                uniform float uTime;
+                uniform vec2 uResolution;
+                varying vec2 vUv;
+                
+                // Simplex noise function
+                vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+                float snoise(vec2 v){
+                    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                    vec2 i  = floor(v + dot(v, C.yy) );
+                    vec2 x0 = v - i + dot(i, C.xx);
+                    vec2 i1;
+                    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                    vec4 x12 = x0.xyxy + C.xxzz;
+                    x12.xy -= i1;
+                    i = mod(i, 289.0);
+                    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+                    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                    m = m*m ;
+                    return 105.0 * dot( m*m, vec3( dot(p.x,x0), dot(p.y,x12.xy), dot(p.z,x12.zw) ) );
+                }
+
+                void main() {
+                    vec2 st = gl_FragCoord.xy/uResolution.xy;
+                    float noise = snoise(vec2(st.x * 2.0, st.y * 2.0 - uTime * 0.1));
+                    
+                    // Create smoke-like effect
+                    float alpha = smoothstep(0.3, 0.6, noise) * 0.15;
+                    vec3 color = vec3(0.8, 0.8, 0.8); // Smoky white
+                    
+                    gl_FragColor = vec4(color, alpha);
+                }
+            `
+        });
+
+        const plane = new THREE.Mesh(geometry, material);
+        scene.add(plane);
+
+        function animate(time) {
+            uniforms.uTime.value = time * 0.001;
+            renderer.render(scene, camera);
             requestAnimationFrame(animate);
         }
-        animate();
+        animate(0);
 
-        // GSAP Reveal
-        gsap.from("h1", { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", delay: 0.2 });
-        
-        gsap.utils.toArray('.slider-container').forEach(slider => {
-            gsap.from(slider, {
-                scale: 0.95,
-                opacity: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: slider,
-                    start: "top 80%"
-                }
-            });
-        });
+        // GSAP Entrance
+        gsap.from(".reveal-text", { y: 50, opacity: 0, duration: 1.5, stagger: 0.2, ease: "power4.out", delay: 0.5 });
 
     </script>
 </body>

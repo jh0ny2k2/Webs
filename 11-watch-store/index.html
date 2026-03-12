@@ -28,8 +28,37 @@
     </script>
     <style>
         body { background-color: #0B1026; color: #E5E7EB; overflow-x: hidden; }
-        .horizontal-container { width: 500%; display: flex; flex-wrap: nowrap; }
-        .panel { width: 100vw; height: 100vh; flex-shrink: 0; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        
+        /* Default Mobile Layout (Vertical) */
+        .horizontal-container { 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .panel { 
+            width: 100%; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        /* Desktop Layout (Horizontal) */
+        @media (min-width: 768px) {
+            .horizontal-container { 
+                width: 500%; 
+                flex-direction: row; 
+                flex-wrap: nowrap; 
+            }
+            .panel { 
+                width: 100vw; 
+                height: 100vh; 
+                flex-shrink: 0; 
+            }
+        }
+
         .vertical-text { writing-mode: vertical-rl; transform: rotate(180deg); }
         .img-parallax { transform: scale(1.2); }
     </style>
@@ -59,28 +88,28 @@
             <div class="absolute inset-0 z-0">
                 <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" class="w-full h-full object-cover opacity-40 img-parallax">
             </div>
-            <div class="relative z-10 text-center">
+            <div class="relative z-10 text-center px-6">
                 <p class="font-sans text-chronos-gold text-xs tracking-[0.5em] mb-6">EST. 1924</p>
-                <h1 class="font-serif text-8xl md:text-[10rem] leading-none mb-8">Masters of<br>Time</h1>
+                <h1 class="font-serif text-6xl md:text-[10rem] leading-none mb-8">Masters of<br>Time</h1>
                 <p class="font-sans text-sm max-w-md mx-auto text-gray-400">Precision engineering meets artistic excellence. A century of horological innovation.</p>
             </div>
-            <div class="absolute bottom-12 right-12 animate-pulse">
+            <div class="absolute bottom-12 right-12 animate-pulse hidden md:block">
                 <span class="font-sans text-xs tracking-widest text-chronos-gold">SCROLL TO EXPLORE</span>
             </div>
         </div>
 
         <!-- Panel 2: The Philosophy -->
         <div class="panel bg-chronos-navy border-l border-chronos-gold/10">
-            <div class="container mx-auto px-12 grid grid-cols-2 gap-20 items-center">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1619167232675-227787672223?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80" class="w-full h-[600px] object-cover grayscale opacity-80">
-                    <div class="absolute -bottom-10 -right-10 w-64 h-64 border border-chronos-gold/30 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <span class="font-serif text-2xl text-chronos-gold">Precision</span>
+            <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center py-12 md:py-0">
+                <div class="relative order-2 md:order-1">
+                    <img src="https://images.unsplash.com/photo-1619167232675-227787672223?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80" class="w-full h-[400px] md:h-[600px] object-cover grayscale opacity-80">
+                    <div class="absolute -bottom-5 -right-5 md:-bottom-10 md:-right-10 w-48 h-48 md:w-64 md:h-64 border border-chronos-gold/30 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <span class="font-serif text-xl md:text-2xl text-chronos-gold">Precision</span>
                     </div>
                 </div>
-                <div>
-                    <span class="text-9xl font-serif text-chronos-gold/10 absolute -top-20 right-20">01</span>
-                    <h2 class="font-serif text-6xl mb-8">Every Second<br>Counts</h2>
+                <div class="order-1 md:order-2 relative">
+                    <span class="text-6xl md:text-9xl font-serif text-chronos-gold/10 absolute -top-10 right-0 md:-top-20 md:right-20">01</span>
+                    <h2 class="font-serif text-4xl md:text-6xl mb-8 relative z-10">Every Second<br>Counts</h2>
                     <p class="font-sans text-gray-400 leading-relaxed mb-8 max-w-md">
                         We believe that a watch is more than a tool to tell time. It is a companion for life's journey. Our craftsmen spend hundreds of hours perfecting each movement, ensuring that your Chronos beats in rhythm with your heart.
                     </p>
@@ -95,26 +124,26 @@
 
         <!-- Panel 3: The Showcase (Parallax) -->
         <div class="panel relative">
-            <div class="absolute inset-0 w-full h-full flex">
-                <div class="w-1/3 h-full bg-[url('https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=927&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700"></div>
-                <div class="w-1/3 h-full bg-[url('https://images.unsplash.com/photo-1623998021450-85c29c644e0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700 mt-20 border-x border-chronos-gold/20"></div>
-                <div class="w-1/3 h-full bg-[url('https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=994&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700"></div>
+            <div class="absolute inset-0 w-full h-full flex flex-col md:flex-row">
+                <div class="w-full h-1/3 md:w-1/3 md:h-full bg-[url('https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=927&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700"></div>
+                <div class="w-full h-1/3 md:w-1/3 md:h-full bg-[url('https://images.unsplash.com/photo-1623998021450-85c29c644e0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700 md:mt-20 border-y md:border-y-0 md:border-x border-chronos-gold/20"></div>
+                <div class="w-full h-1/3 md:w-1/3 md:h-full bg-[url('https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=994&q=80')] bg-cover bg-center grayscale opacity-60 hover:opacity-100 transition-opacity duration-700"></div>
             </div>
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <h2 class="font-serif text-9xl text-white mix-blend-overlay">Collections</h2>
+                <h2 class="font-serif text-6xl md:text-9xl text-white mix-blend-overlay">Collections</h2>
             </div>
         </div>
 
         <!-- Panel 4: Featured Product -->
         <div class="panel bg-chronos-navy">
             <div class="flex flex-col md:flex-row w-full h-full">
-                <div class="w-full md:w-1/2 h-full relative">
+                <div class="w-full h-[400px] md:w-1/2 md:h-full relative">
                     <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=1999&q=80" class="w-full h-full object-cover">
                 </div>
-                <div class="w-full md:w-1/2 h-full flex flex-col justify-center px-20">
+                <div class="w-full md:w-1/2 h-full flex flex-col justify-center px-6 py-12 md:px-20 md:py-0">
                     <span class="text-chronos-gold font-sans text-xs tracking-widest mb-4">THE FLAGSHIP</span>
-                    <h2 class="font-serif text-7xl mb-6">The Navigator</h2>
-                    <p class="font-sans text-gray-400 mb-12 max-w-md">Designed for the modern explorer. Robust, elegant, and uncompromisingly accurate. Features a 42mm rose gold case and a deep navy dial.</p>
+                    <h2 class="font-serif text-5xl md:text-7xl mb-6">The Navigator</h2>
+                    <p class="font-sans text-gray-400 mb-8 md:mb-12 max-w-md">Designed for the modern explorer. Robust, elegant, and uncompromisingly accurate. Features a 42mm rose gold case and a deep navy dial.</p>
                     <div class="flex gap-8 items-center">
                         <span class="font-serif text-3xl text-white">$12,500</span>
                         <a href="product.html" class="px-8 py-4 border border-chronos-gold text-chronos-gold font-sans text-xs tracking-widest hover:bg-chronos-gold hover:text-chronos-navy transition-colors">VIEW DETAILS</a>
@@ -124,9 +153,9 @@
         </div>
 
         <!-- Panel 5: Legacy/Footer -->
-        <div class="panel bg-black text-center">
-            <div class="max-w-2xl">
-                <h2 class="font-serif text-6xl mb-8 text-chronos-gold">Join the Legacy</h2>
+        <div class="panel bg-black text-center py-20 md:py-0">
+            <div class="max-w-2xl px-6">
+                <h2 class="font-serif text-4xl md:text-6xl mb-8 text-chronos-gold">Join the Legacy</h2>
                 <p class="font-sans text-gray-400 mb-12">Become part of a tradition that spans generations. Sign up for exclusive access to limited editions.</p>
                 <form class="flex border-b border-chronos-gold/30 pb-4 mb-20">
                     <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent w-full outline-none text-white placeholder-gray-600 font-sans tracking-widest">
@@ -146,48 +175,73 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        const sections = gsap.utils.toArray(".panel");
+        let mm = gsap.matchMedia();
 
-        gsap.to(sections, {
-            xPercent: -100 * (sections.length - 1),
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".horizontal-container",
-                pin: true,
-                scrub: 1,
-                snap: 1 / (sections.length - 1),
-                end: () => "+=" + document.querySelector(".horizontal-container").offsetWidth
-            }
-        });
+        mm.add("(min-width: 768px)", () => {
+            // Desktop Horizontal Scroll
+            const sections = gsap.utils.toArray(".panel");
+            const container = document.querySelector(".horizontal-container");
 
-        // Parallax Effect for Images
-        gsap.utils.toArray(".img-parallax").forEach(img => {
-            gsap.to(img, {
-                xPercent: 20,
+            const scrollTween = gsap.to(sections, {
+                xPercent: -100 * (sections.length - 1),
                 ease: "none",
                 scrollTrigger: {
-                    trigger: img.closest(".panel"),
-                    containerAnimation: gsap.getById("horizontal-scroll"), // Need to link this if using container animation, but simple scrub works for horizontal usually if mapped correctly
-                    start: "left right",
-                    end: "right left",
-                    scrub: true
+                    trigger: ".horizontal-container",
+                    pin: true,
+                    scrub: 1,
+                    snap: 1 / (sections.length - 1),
+                    end: () => "+=" + container.offsetWidth
+                }
+            });
+
+            // Parallax Effect for Images (Horizontal)
+            gsap.utils.toArray(".img-parallax").forEach(img => {
+                gsap.to(img, {
+                    xPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img.closest(".panel"),
+                        containerAnimation: scrollTween,
+                        start: "left right",
+                        end: "right left",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Progress Bar (Horizontal)
+            gsap.to("#progress-bar", {
+                width: "100%",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".horizontal-container",
+                    start: "left left",
+                    end: () => "+=" + container.offsetWidth,
+                    scrub: 0
                 }
             });
         });
 
-        // Progress Bar
-        gsap.to("#progress-bar", {
-            width: "100%",
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".horizontal-container",
-                start: "left left",
-                end: "right right", // This needs to match the total scroll length
-                end: () => "+=" + document.querySelector(".horizontal-container").offsetWidth,
-                scrub: 0
-            }
+        mm.add("(max-width: 767px)", () => {
+            // Mobile Vertical Scroll Animations
+            
+            // Simple fade up for panels
+            gsap.utils.toArray(".panel").forEach(panel => {
+                gsap.from(panel.children, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.2,
+                    scrollTrigger: {
+                        trigger: panel,
+                        start: "top 80%",
+                    }
+                });
+            });
+            
+            // Hide progress bar on mobile
+            gsap.set("#progress-bar", { display: "none" });
         });
-
     </script>
 </body>
 </html>

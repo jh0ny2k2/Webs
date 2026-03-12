@@ -88,16 +88,25 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-raw-white b-border-b flex justify-between items-stretch h-16">
-        <a href="index.html" class="font-display text-2xl tracking-tighter flex items-center px-6 hover:bg-raw-orange transition-colors">RAW MOTORS</a>
-        
-        <div class="hidden md:flex font-bold uppercase text-sm tracking-tight h-full">
-            <a href="inventory.html" class="flex items-center px-8 b-border-l hover-invert">INVENTORY (42)</a>
-            <a href="contact.html" class="flex items-center px-8 b-border-l hover-invert">SELL YOUR CAR</a>
-            <a href="contact.html" class="flex items-center px-8 b-border-l bg-raw-black text-raw-white hover:bg-raw-orange hover:text-raw-black transition-colors">CONTACT</a>
-        </div>
+    <nav class="fixed w-full z-50 bg-raw-white b-border-b h-16">
+        <div class="flex justify-between items-stretch h-full">
+            <a href="index.html" class="font-display text-2xl tracking-tighter flex items-center px-6 hover:bg-raw-orange transition-colors">RAW MOTORS</a>
+            
+            <div class="hidden md:flex font-bold uppercase text-sm tracking-tight h-full">
+                <a href="inventory.html" class="flex items-center px-8 b-border-l hover-invert">INVENTORY (42)</a>
+                <a href="contact.html" class="flex items-center px-8 b-border-l hover-invert">SELL YOUR CAR</a>
+                <a href="contact.html" class="flex items-center px-8 b-border-l bg-raw-black text-raw-white hover:bg-raw-orange hover:text-raw-black transition-colors">CONTACT</a>
+            </div>
 
-        <button class="md:hidden px-6 b-border-l text-2xl hover:bg-raw-orange transition-colors"><i class="fas fa-bars"></i>=</button>
+            <button id="mobile-menu-btn" class="md:hidden px-6 b-border-l text-2xl hover:bg-raw-orange transition-colors"><i class="fas fa-bars"></i>=</button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-raw-white b-border-t b-border-b absolute w-full left-0 top-16 flex flex-col font-bold uppercase text-sm tracking-tight">
+            <a href="inventory.html" class="block py-4 px-6 b-border-b hover:bg-raw-orange transition-colors">INVENTORY (42)</a>
+            <a href="contact.html" class="block py-4 px-6 b-border-b hover:bg-raw-orange transition-colors">SELL YOUR CAR</a>
+            <a href="contact.html" class="block py-4 px-6 hover:bg-raw-orange transition-colors">CONTACT</a>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -194,6 +203,14 @@
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
         // Intro Animation
         window.addEventListener('load', () => {
             const tl = gsap.timeline();

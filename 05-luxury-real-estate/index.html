@@ -99,9 +99,16 @@
                 <a href="contact.html" class="hover:text-luxe-gold transition-colors duration-300">CONTACTO</a>
             </div>
 
-            <button class="md:hidden text-white text-xl">
+            <button id="mobile-menu-btn" class="md:hidden text-white text-xl">
                 <i class="fas fa-bars"></i>
             </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-luxe-black/95 backdrop-blur-md absolute w-full left-0 top-full border-t border-white/10 flex flex-col items-center py-6 space-y-6 text-sm tracking-widest transition-all duration-300">
+            <a href="properties.html" class="hover:text-luxe-gold transition-colors duration-300">PROPIEDADES</a>
+            <a href="about.html" class="hover:text-luxe-gold transition-colors duration-300">NOSOTROS</a>
+            <a href="contact.html" class="hover:text-luxe-gold transition-colors duration-300">CONTACTO</a>
         </div>
     </nav>
 
@@ -348,6 +355,23 @@
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // Optional: Toggle icon between bars and times (X)
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
         // Scroll Reveal Animation
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");

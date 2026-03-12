@@ -137,7 +137,15 @@
             <a href="#details" class="hover:text-eth-gold transition-colors hover-trigger">Details</a>
             <a href="#rsvp" class="hover:text-eth-gold transition-colors hover-trigger">RSVP</a>
         </div>
-        <button class="md:hidden text-2xl hover-trigger">☰</button>
+        <button id="mobile-menu-btn" class="md:hidden text-2xl hover-trigger">☰</button>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-eth-bg z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300">
+            <a href="#story" class="font-serif text-3xl text-eth-dark hover:text-eth-gold transition-colors">Story</a>
+            <a href="#details" class="font-serif text-3xl text-eth-dark hover:text-eth-gold transition-colors">Details</a>
+            <a href="#rsvp" class="font-serif text-3xl text-eth-dark hover:text-eth-gold transition-colors">RSVP</a>
+            <button id="close-menu-btn" class="absolute top-6 right-8 text-3xl text-eth-dark">×</button>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -517,6 +525,29 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        // Close menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
 
         // --- GLOBAL: CURSOR ---
         const cursorDot = document.querySelector('.cursor-dot');

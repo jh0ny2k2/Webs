@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIGHT OF GLORY | Recinto</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'v-pink': '#FF0055',
+                        'v-purple': '#6600FF',
+                        'v-green': '#00FF99',
+                        'v-dark': '#0a0510',
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    dropShadow: {
+                        'neon': '0 0 10px rgba(255, 0, 85, 0.5)',
+                        'neon-green': '0 0 10px rgba(0, 255, 153, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0510; color: white; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0510; }
+        ::-webkit-scrollbar-thumb { background: #FF0055; border-radius: 3px; }
+        
+        .map-filter { filter: grayscale(100%) invert(90%) contrast(1.1) sepia(20%) hue-rotate(240deg) saturate(300%); }
+        
+        /* Beam Lights */
+        .beam {
+            position: absolute;
+            top: -20%;
+            width: 100px;
+            height: 150%;
+            background: linear-gradient(to bottom, rgba(0, 255, 153, 0) 0%, rgba(0, 255, 153, 0.2) 20%, rgba(0, 255, 153, 0) 100%);
+            transform-origin: top center;
+            filter: blur(20px);
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        .beam-left { left: 10%; transform: rotate(15deg); }
+        .beam-right { right: 10%; transform: rotate(-15deg); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-v-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-4 md:px-8 py-4 md:py-6 flex justify-between items-center">
+            <a href="index.html" class="font-display text-2xl md:text-3xl italic tracking-wider text-white drop-shadow-neon">VELADA <span class="text-v-green">IV</span></a>
+            <div class="hidden md:flex gap-12 font-display text-lg uppercase tracking-wider text-gray-400">
+                <a href="index.html" class="hover:text-v-green transition-colors">Inicio</a>
+                <a href="fighters.html" class="hover:text-v-green transition-colors">Combates</a>
+                <a href="venue.html" class="text-white border-b-2 border-v-pink pb-1 transition-all">Recinto</a>
+                <a href="tickets.html" class="hover:text-v-green transition-colors">Entradas</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="tickets.html" class="hidden md:block bg-white text-black px-8 py-2 font-display text-lg uppercase tracking-wider hover:bg-v-green hover:text-black transition-all skew-x-[-10deg]">
+                    <span class="block skew-x-[10deg]">Entradas</span>
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-white font-display uppercase">
+                    <span class="sr-only">Menu</span>
+                    ☰
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-v-dark z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500">
+            <a href="index.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Inicio</a>
+            <a href="fighters.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Combates</a>
+            <a href="venue.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Recinto</a>
+            <a href="tickets.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Entradas</a>
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-4xl text-white font-display uppercase">×</button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="h-[40vh] md:h-[50vh] flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-40 grayscale mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-v-dark via-v-purple/20 to-v-pink/10"></div>
+        <div class="beam beam-left"></div>
+        <div class="beam beam-right"></div>
+        
+        <div class="relative z-10 text-center px-4">
+            <span class="bg-v-pink text-white font-bold px-3 py-1 text-xs md:text-sm uppercase skew-x-[-10deg] mb-4 inline-block">El Escenario</span>
+            <h1 class="font-display text-5xl md:text-9xl text-white italic drop-shadow-neon">MADRID ARENA</h1>
+        </div>
+    </header>
+
+    <!-- Info Grid Minimal -->
+    <section class="py-12 md:py-24 px-4 md:px-6 bg-v-dark">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+            <!-- Address -->
+            <div class="text-center group">
+                <div class="w-16 h-1 bg-v-green mx-auto mb-6 group-hover:w-32 transition-all"></div>
+                <h3 class="font-display text-3xl mb-4 text-white italic uppercase">Ubicación</h3>
+                <p class="font-sans text-sm text-gray-400 leading-relaxed tracking-wide">
+                    Av. de Portugal, s/n<br>
+                    28011 Madrid<br>
+                    España
+                </p>
+            </div>
+            
+            <!-- Transport -->
+            <div class="text-center group">
+                <div class="w-16 h-1 bg-v-pink mx-auto mb-6 group-hover:w-32 transition-all"></div>
+                <h3 class="font-display text-3xl mb-4 text-white italic uppercase">Llegada</h3>
+                <p class="font-sans text-sm text-gray-400 leading-relaxed tracking-wide">
+                    Metro: Línea 6 (Alto de Extremadura)<br>
+                    Acceso VIP: Puerta 2<br>
+                    Parking Privado Disponible
+                </p>
+            </div>
+
+            <!-- Rules -->
+            <div class="text-center group">
+                <div class="w-16 h-1 bg-v-purple mx-auto mb-6 group-hover:w-32 transition-all"></div>
+                <h3 class="font-display text-3xl mb-4 text-white italic uppercase">Horarios</h3>
+                <p class="font-sans text-sm text-gray-400 leading-relaxed tracking-wide">
+                    Puertas: 18:00<br>
+                    Preliminares: 19:00<br>
+                    Main Card: 22:00
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map -->
+    <section class="h-[600px] w-full relative flex flex-col md:block">
+        <div class="relative h-[400px] md:h-full w-full">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.643328157774!2d-3.738809684604044!3d40.41677537936524!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42287d55555555%3A0x5555555555555555!2sMadrid!5e0!3m2!1ses!2ses!4v1620000000000!5m2!1ses!2ses" width="100%" height="100%" style="border:0;" class="map-filter" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        
+        <div class="relative md:absolute md:bottom-10 md:left-10 bg-black/80 p-8 border-t md:border border-white/10 backdrop-blur-md w-full md:max-w-sm shadow-[0_0_30px_rgba(102,0,255,0.3)]">
+            <h4 class="font-display text-2xl mb-4 text-white italic uppercase">Estancia Exclusiva</h4>
+            <ul class="font-sans text-xs text-gray-400 space-y-3 tracking-wide uppercase">
+                <li class="flex justify-between border-b border-white/10 pb-2"><span>Hotel Praga</span> <span class="text-v-green">0.5 km</span></li>
+                <li class="flex justify-between border-b border-white/10 pb-2"><span>NH Ribera</span> <span class="text-v-green">1.2 km</span></li>
+                <li class="flex justify-between border-b border-white/10 pb-2"><span>Holiday Inn</span> <span class="text-v-green">2.0 km</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-v-dark border-t border-white/10 py-12 text-center">
+        <p class="font-sans text-[10px] tracking-widest text-gray-600 uppercase">© 2026 Powered by Twitch</p>
+    </footer>
+
+    <script>
+        // Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+    </script>
+</body>
+</html>

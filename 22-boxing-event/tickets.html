@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIGHT OF GLORY | Entradas</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'v-pink': '#FF0055',
+                        'v-purple': '#6600FF',
+                        'v-green': '#00FF99',
+                        'v-dark': '#0a0510',
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    dropShadow: {
+                        'neon': '0 0 10px rgba(255, 0, 85, 0.5)',
+                        'neon-green': '0 0 10px rgba(0, 255, 153, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0510; color: white; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0510; }
+        ::-webkit-scrollbar-thumb { background: #FF0055; border-radius: 3px; }
+        
+        /* Beam Lights */
+        .beam {
+            position: absolute;
+            top: -20%;
+            width: 100px;
+            height: 150%;
+            background: linear-gradient(to bottom, rgba(102, 0, 255, 0) 0%, rgba(102, 0, 255, 0.4) 20%, rgba(102, 0, 255, 0) 100%);
+            transform-origin: top center;
+            filter: blur(20px);
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        .beam-left { left: 10%; transform: rotate(15deg); }
+        .beam-right { right: 10%; transform: rotate(-15deg); }
+
+        .seat {
+            width: 8px; height: 8px; background: #2a2a2a; border-radius: 50%; cursor: pointer; transition: all 0.3s;
+        }
+        .seat:hover { background: #00FF99; transform: scale(1.5); box-shadow: 0 0 10px #00FF99; }
+        .seat.selected { background: #ffffff; box-shadow: 0 0 10px #ffffff; }
+        .seat.sold { background: #111; cursor: not-allowed; opacity: 0.3; }
+        .seat.vip { background: #FF0055; }
+        
+        .ring {
+            width: 150px; height: 150px; border: 2px solid #00FF99; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            display: flex; items-center; justify-center; box-shadow: 0 0 30px rgba(0, 255, 153, 0.3);
+            background: rgba(0, 255, 153, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased h-screen flex flex-col">
+
+    <!-- Background Layer -->
+    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-t from-v-dark via-v-purple/10 to-transparent"></div>
+        <div class="beam beam-left"></div>
+        <div class="beam beam-right"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-v-dark/90 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-4 md:px-8 py-4 md:py-6 flex justify-between items-center">
+            <a href="index.html" class="font-display text-2xl md:text-3xl italic tracking-wider text-white drop-shadow-neon">VELADA <span class="text-v-green">IV</span></a>
+            <div class="hidden md:flex gap-12 font-display text-lg uppercase tracking-wider text-gray-400">
+                <a href="index.html" class="hover:text-v-green transition-colors">Inicio</a>
+                <a href="fighters.html" class="hover:text-v-green transition-colors">Combates</a>
+                <a href="venue.html" class="hover:text-v-green transition-colors">Recinto</a>
+                <a href="tickets.html" class="text-white border-b-2 border-v-pink pb-1 transition-all">Entradas</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-white font-display uppercase">☰</button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-v-dark z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-500">
+            <a href="index.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Inicio</a>
+            <a href="fighters.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Combates</a>
+            <a href="venue.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Recinto</a>
+            <a href="tickets.html" class="font-display text-4xl text-white hover:text-v-pink transition-colors italic">Entradas</a>
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-4xl text-white font-display uppercase">×</button>
+        </div>
+    </nav>
+
+    <div class="flex flex-col lg:flex-row h-full pt-20 relative z-10 overflow-y-auto lg:overflow-hidden">
+        
+        <!-- Left Panel: Seat Map -->
+        <div class="w-full lg:w-2/3 relative flex flex-col items-center justify-center p-4 md:p-8 min-h-[500px]">
+            <div class="absolute top-4 md:top-8 left-4 md:left-8 z-10">
+                <p class="font-sans text-v-green text-xs tracking-[0.3em] uppercase mb-2">Estadio La Cartuja</p>
+                <h1 class="font-display text-3xl md:text-4xl text-white italic uppercase">Selecciona Asientos</h1>
+            </div>
+
+            <!-- Stadium Layout Mockup -->
+            <div class="relative w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full border border-white/10 flex items-center justify-center transform scale-90 md:scale-100 bg-black/40 backdrop-blur-sm shadow-2xl shadow-v-purple/20 mt-12 md:mt-0">
+                
+                <!-- Sections (Radial) -->
+                <div class="absolute inset-0 rounded-full border-[1px] border-white/5"></div>
+                <div class="absolute inset-8 md:inset-16 rounded-full border-[1px] border-white/5"></div>
+                <div class="absolute inset-16 md:inset-32 rounded-full border-[1px] border-v-pink/20"></div>
+                
+                <!-- The Ring -->
+                <div class="ring">
+                    <span class="font-display text-lg md:text-2xl text-v-green tracking-widest italic">RING</span>
+                </div>
+
+                <!-- Interactive Seats (Generated by JS) -->
+                <div id="seat-grid" class="absolute inset-0 pointer-events-none">
+                    <!-- Seats will be injected here -->
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="mt-8 md:absolute md:bottom-8 md:left-8 flex flex-wrap justify-center gap-4 md:gap-8 font-sans text-[10px] uppercase tracking-widest text-gray-400">
+                <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-stone-700"></div> General</div>
+                <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-v-pink shadow-[0_0_10px_#FF0055]"></div> VIP</div>
+                <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_white]"></div> Seleccionado</div>
+                <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-black border border-white/20"></div> Ocupado</div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Checkout -->
+        <div class="w-full lg:w-1/3 bg-black/80 backdrop-blur-xl border-t lg:border-l border-white/10 p-6 md:p-12 flex flex-col shadow-[-20px_0_40px_rgba(0,0,0,0.5)] min-h-[300px]">
+            <h2 class="font-display text-2xl md:text-3xl mb-4 md:mb-8 text-white border-b border-v-purple pb-4 italic uppercase">Tu Selección</h2>
+            
+            <div class="flex-grow space-y-4 overflow-y-auto pr-2 max-h-40 lg:max-h-none" id="cart-items">
+                <p class="font-sans text-xs tracking-widest text-gray-600 text-center py-8 md:py-20 uppercase">Seleccione asientos en el mapa</p>
+            </div>
+
+            <div class="border-t border-white/10 pt-4 md:pt-8 mt-4 md:mt-6">
+                <div class="flex justify-between font-display text-2xl md:text-3xl mb-4 md:mb-8 text-white">
+                    <span>TOTAL</span>
+                    <span class="text-v-green" id="total-price">0€</span>
+                </div>
+                <button class="w-full bg-v-pink text-white py-3 md:py-4 font-display text-lg md:text-xl tracking-wider uppercase hover:bg-white hover:text-v-pink transition-all skew-x-[-10deg] shadow-[0_0_20px_rgba(255,0,85,0.4)]">
+                    <span class="block skew-x-[10deg]">Confirmar Compra</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate Seats
+        const seatGrid = document.getElementById('seat-grid');
+        const totalSeats = 100;
+        
+        function getDimensions() {
+            const isMobile = window.innerWidth < 768;
+            return {
+                radius: isMobile ? 120 : 250,
+                innerRadius: isMobile ? 80 : 180,
+                centerX: isMobile ? 150 : 300,
+                centerY: isMobile ? 150 : 300
+            };
+        }
+
+        function renderSeats() {
+            seatGrid.innerHTML = ''; // Clear existing
+            const dims = getDimensions();
+            
+            // Outer Ring
+            for (let i = 0; i < totalSeats; i++) {
+                const angle = (i / totalSeats) * Math.PI * 2;
+                const x = Math.cos(angle) * dims.radius + dims.centerX; 
+                const y = Math.sin(angle) * dims.radius + dims.centerY;
+                
+                const seat = document.createElement('div');
+                seat.className = 'seat absolute pointer-events-auto';
+                seat.style.left = x + 'px';
+                seat.style.top = y + 'px';
+                
+                if (Math.random() > 0.8) seat.classList.add('sold');
+                
+                seat.addEventListener('click', function() {
+                    if (!this.classList.contains('sold')) {
+                        this.classList.toggle('selected');
+                        updateCart();
+                    }
+                });
+                
+                seatGrid.appendChild(seat);
+            }
+
+            // Inner Ring (VIP)
+            for (let i = 0; i < 50; i++) {
+                const angle = (i / 50) * Math.PI * 2;
+                const x = Math.cos(angle) * dims.innerRadius + dims.centerX;
+                const y = Math.sin(angle) * dims.innerRadius + dims.centerY;
+                
+                const seat = document.createElement('div');
+                seat.className = 'seat absolute pointer-events-auto vip';
+                seat.style.left = x + 'px';
+                seat.style.top = y + 'px';
+                
+                seat.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    updateCart();
+                });
+                
+                seatGrid.appendChild(seat);
+            }
+        }
+
+        renderSeats();
+        window.addEventListener('resize', renderSeats);
+
+        function updateCart() {
+            const selected = document.querySelectorAll('.seat.selected');
+            const cart = document.getElementById('cart-items');
+            const totalEl = document.getElementById('total-price');
+            
+            if (selected.length === 0) {
+                cart.innerHTML = '<p class="font-sans text-xs tracking-widest text-gray-600 text-center py-20 uppercase">Seleccione asientos en el mapa</p>';
+                totalEl.innerText = '0€';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            selected.forEach((s, index) => {
+                const isVip = s.classList.contains('vip');
+                const price = isVip ? 150 : 45;
+                total += price;
+                html += `
+                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-lg border-l-4 ${isVip ? 'border-v-pink' : 'border-v-green'}">
+                        <div>
+                            <h4 class="font-display text-lg text-white uppercase italic">${isVip ? 'VIP Ringside' : 'Grada General'}</h4>
+                            <p class="font-sans text-[10px] tracking-widest text-gray-400 uppercase mt-1">Sec A • Fila ${Math.floor(Math.random()*10)+1}</p>
+                        </div>
+                        <span class="font-display text-xl text-white">${price}€</span>
+                    </div>
+                `;
+            });
+
+            cart.innerHTML = html;
+            totalEl.innerText = total + '€';
+        }
+
+        // Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        }
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+    </script>
+</body>
+</html>
