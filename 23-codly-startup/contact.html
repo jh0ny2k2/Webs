@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | Codly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Mulish', 'sans-serif'],
+                        display: ['Cormorant Garamond', 'serif']
+                    },
+                    colors: {
+                        brand: { 50: '#F9F8F6', 100: '#E5E0D8', 400: '#8E8E8E', 500: '#5C5C5C', 900: '#2C2C2C', 950: '#1A1A1A' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9F8F6; color: #2C2C2C; overflow-x: hidden; }
+        
+        .noise-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass { background: rgba(249, 248, 246, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(44, 44, 44, 0.05); }
+        
+        input, textarea, select { background: transparent; border: 1px solid rgba(44,44,44,0.2); border-radius: 0; color: #2C2C2C; padding: 16px; width: 100%; transition: all 0.3s; font-family: 'Mulish', sans-serif; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #2C2C2C; background: rgba(44,44,44,0.02); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #F9F8F6; }
+        ::-webkit-scrollbar-thumb { background: #8E8E8E; }
+
+        .menu-link { position: relative; }
+        .menu-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+            background: #2C2C2C; transition: width 0.4s ease;
+        }
+        .menu-link:hover::after { width: 100%; }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen selection:bg-brand-900 selection:text-brand-50">
+    <div class="noise-bg"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-8 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-display italic tracking-widest text-brand-900">
+                Codly.
+            </a>
+            
+            <div class="hidden md:flex gap-16 font-sans text-xs tracking-[0.2em] uppercase text-brand-900/80">
+                <a href="index.html" class="menu-link hover:text-brand-900">Inicio</a>
+                <a href="about.html" class="menu-link hover:text-brand-900">Nosotros</a>
+                <a href="services.html" class="menu-link hover:text-brand-900">Servicios</a>
+                <a href="portfolio.html" class="menu-link hover:text-brand-900">Proyectos</a>
+                <a href="contact.html" class="menu-link text-brand-900">Contacto</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="contact.html" class="hidden md:block border-b border-brand-900 pb-1 font-sans text-xs tracking-[0.2em] uppercase hover:text-brand-400 transition-colors">
+                    Empezar Proyecto
+                </a>
+                <button class="md:hidden text-brand-900" id="mobile-menu-btn"><i data-lucide="menu" class="w-6 h-6"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-brand-50/95 backdrop-blur-md border-b border-brand-900/10 hidden flex-col py-6 px-6 gap-6 text-center">
+            <a href="index.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Inicio</a>
+            <a href="about.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Nosotros</a>
+            <a href="services.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Servicios</a>
+            <a href="portfolio.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Proyectos</a>
+            <a href="contact.html" class="text-brand-900 font-display text-2xl italic">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Contact Content -->
+    <main class="flex-grow flex items-center py-32 relative z-10">
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            
+            <!-- Info -->
+            <div class="mt-8">
+                <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight mb-6 text-brand-900">Empecemos algo <span class="italic font-light">increíble.</span></h1>
+                <p class="text-xl text-brand-500 mb-12 font-light">Cuéntanos sobre tu proyecto. Estamos listos para llevar tu idea al siguiente nivel.</p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full glass flex items-center justify-center border border-brand-900/10">
+                            <i data-lucide="mail" class="w-5 h-5 text-brand-900"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-400 font-bold uppercase tracking-widest mb-1">Email</p>
+                            <p class="text-lg font-medium text-brand-900">hola@codly.studio</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full glass flex items-center justify-center border border-brand-900/10">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-900"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-400 font-bold uppercase tracking-widest mb-1">Oficina</p>
+                            <p class="text-lg font-medium text-brand-900">Gran Vía 42, Madrid</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="p-8 md:p-12 relative border border-brand-900/10 bg-white">
+                <form class="space-y-8 relative z-10" onsubmit="event.preventDefault(); alert('Mensaje enviado. ¡Nos pondremos en contacto pronto!');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="relative">
+                            <input type="text" id="name" required class="block w-full px-0 py-3 text-brand-900 bg-transparent border-0 border-b border-brand-900/20 appearance-none focus:outline-none focus:ring-0 focus:border-brand-900 peer" placeholder=" " />
+                            <label for="name" class="absolute text-xs font-bold text-brand-400 uppercase tracking-widest duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-brand-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tu nombre</label>
+                        </div>
+                        <div class="relative">
+                            <input type="email" id="email" required class="block w-full px-0 py-3 text-brand-900 bg-transparent border-0 border-b border-brand-900/20 appearance-none focus:outline-none focus:ring-0 focus:border-brand-900 peer" placeholder=" " />
+                            <label for="email" class="absolute text-xs font-bold text-brand-400 uppercase tracking-widest duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-brand-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tu email</label>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <select id="budget" class="block w-full px-0 py-3 text-brand-900 bg-transparent border-0 border-b border-brand-900/20 appearance-none focus:outline-none focus:ring-0 focus:border-brand-900 peer cursor-pointer">
+                            <option value="1k-5k">&lt; 5.000€</option>
+                            <option value="5k-10k">5.000€ - 10.000€</option>
+                            <option value="10k+">&gt; 10.000€</option>
+                        </select>
+                        <label for="budget" class="absolute text-xs font-bold text-brand-400 uppercase tracking-widest duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">Presupuesto Estimado</label>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-brand-900">
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <textarea id="message" rows="4" required class="block w-full px-0 py-3 text-brand-900 bg-transparent border-0 border-b border-brand-900/20 appearance-none focus:outline-none focus:ring-0 focus:border-brand-900 peer resize-none" placeholder=" "></textarea>
+                        <label for="message" class="absolute text-xs font-bold text-brand-400 uppercase tracking-widest duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-brand-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cuéntanos sobre tu proyecto...</label>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-900 text-brand-50 font-bold uppercase tracking-[0.2em] text-xs py-5 hover:bg-brand-500 transition-colors mt-8 flex items-center justify-center gap-3">
+                        Enviar Mensaje
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-900/10 pt-8 pb-8 text-center bg-brand-50">
+        <p class="text-brand-900/60 text-xs uppercase tracking-widest font-bold">© 2026 Codly Studio.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            document.getElementById('mobile-menu').classList.toggle('flex');
+        });
+    </script>
+</body>
+</html>

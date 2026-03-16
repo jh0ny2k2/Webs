@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codly | Diseño y Desarrollo de Aplicaciones Web</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Mulish', 'sans-serif'],
+                        display: ['Cormorant Garamond', 'serif']
+                    },
+                    colors: {
+                        brand: { 50: '#F9F8F6', 100: '#E5E0D8', 400: '#8E8E8E', 500: '#5C5C5C', 900: '#2C2C2C', 950: '#1A1A1A' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9F8F6; color: #2C2C2C; overflow-x: hidden; }
+        
+        .noise-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass { background: rgba(249, 248, 246, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(44, 44, 44, 0.05); }
+        .glass-card { background: #FFFFFF; border: 1px solid rgba(44, 44, 44, 0.05); border-radius: 0px; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(44, 44, 44, 0.05); }
+        
+        .glow { display: none; }
+        
+        .text-gradient { color: #2C2C2C; }
+        .text-gradient-brand { color: #2C2C2C; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #F9F8F6; }
+        ::-webkit-scrollbar-thumb { background: #8E8E8E; }
+        
+        .menu-link { position: relative; }
+        .menu-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+            background: #2C2C2C; transition: width 0.4s ease;
+        }
+        .menu-link:hover::after { width: 100%; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-900 selection:text-brand-50">
+    <div class="noise-bg"></div>
+
+    <!-- Ambient Glows -->
+    <div class="glow bg-brand-500 w-[600px] h-[600px] top-[-200px] left-[-200px]"></div>
+    <div class="glow bg-white w-[500px] h-[500px] top-[20%] right-[-200px]"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-8 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-display italic tracking-widest text-brand-900">
+                Codly.
+            </a>
+            
+            <div class="hidden md:flex gap-16 font-sans text-xs tracking-[0.2em] uppercase text-brand-900/80">
+                <a href="index.html" class="menu-link text-brand-900">Inicio</a>
+                <a href="about.html" class="menu-link hover:text-brand-900">Nosotros</a>
+                <a href="services.html" class="menu-link hover:text-brand-900">Servicios</a>
+                <a href="portfolio.html" class="menu-link hover:text-brand-900">Proyectos</a>
+                <a href="contact.html" class="menu-link hover:text-brand-900">Contacto</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="contact.html" class="hidden md:block border-b border-brand-900 pb-1 font-sans text-xs tracking-[0.2em] uppercase hover:text-brand-400 transition-colors">
+                    Empezar Proyecto
+                </a>
+                <button class="md:hidden text-brand-900" id="mobile-menu-btn">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-brand-50/95 backdrop-blur-md border-b border-brand-900/10 hidden flex-col py-6 px-6 gap-6 text-center">
+            <a href="index.html" class="text-brand-900 font-display text-2xl italic">Inicio</a>
+            <a href="about.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Nosotros</a>
+            <a href="services.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Servicios</a>
+            <a href="portfolio.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Proyectos</a>
+            <a href="contact.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center pt-32 overflow-hidden bg-brand-50">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(142,142,142,0.05)_1px,transparent_1px)] bg-[size:24px_24px] z-0"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-5xl mx-auto text-center">
+                <div class="inline-flex items-center gap-3 mb-12 animate-fade-in-up" style="animation-delay: 0.1s; opacity: 0;">
+                    <span class="w-10 h-[1px] bg-brand-900"></span>
+                    <span class="text-xs font-sans tracking-[0.3em] uppercase text-brand-900 font-semibold">Estudio de Diseño Web Premium</span>
+                    <span class="w-10 h-[1px] bg-brand-900"></span>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl lg:text-[7rem] font-display text-brand-950 mb-8 leading-[1] animate-fade-in-up" style="animation-delay: 0.2s; opacity: 0;">
+                    Diseñamos el <br />
+                    <span class="italic text-brand-500">futuro digital.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-brand-900/70 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in-up font-sans font-light" style="animation-delay: 0.3s; opacity: 0;">
+                    Transformamos ideas complejas en experiencias web extraordinarias. Especialistas en UI/UX, Tailwind CSS y arquitecturas modernas para startups ambiciosas.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-8 animate-fade-in-up" style="animation-delay: 0.4s; opacity: 0;">
+                    <a href="portfolio.html" class="bg-brand-900 text-brand-50 px-10 py-4 font-sans text-xs uppercase tracking-[0.2em] hover:bg-brand-500 transition-colors flex items-center justify-center gap-3">
+                        Ver Proyectos
+                    </a>
+                    <a href="contact.html" class="border border-brand-900 text-brand-900 px-10 py-4 font-sans text-xs uppercase tracking-[0.2em] hover:bg-brand-900 hover:text-brand-50 transition-colors flex items-center justify-center gap-3">
+                        Agendar Llamada
+                    </a>
+                </div>
+            </div>
+
+            <!-- Floating Mockup Element -->
+            <div class="mt-24 relative mx-auto max-w-5xl bg-white border border-brand-900/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-4 pb-0 animate-fade-in-up" style="animation-delay: 0.6s; opacity: 0;">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2015&q=80" alt="Dashboard Preview" class="w-full h-[500px] object-cover grayscale opacity-90">
+            </div>
+        </div>
+    </header>
+
+    <!-- Trusted By -->
+    <section class="py-20 border-y border-brand-900/10 bg-white relative z-10">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-[10px] text-brand-900/50 font-sans mb-12 uppercase tracking-[0.4em]">Startups que confían en nosotros</p>
+            <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="flex items-center gap-3 text-2xl font-display text-brand-900"><i data-lucide="triangle" class="w-5 h-5"></i> Vertex</div>
+                <div class="flex items-center gap-3 text-2xl font-display text-brand-900"><i data-lucide="hexagon" class="w-5 h-5"></i> NexaCore</div>
+                <div class="flex items-center gap-3 text-2xl font-display text-brand-900"><i data-lucide="box" class="w-5 h-5"></i> Quantum</div>
+                <div class="flex items-center gap-3 text-2xl font-display text-brand-900"><i data-lucide="circle" class="w-5 h-5"></i> Orbit</div>
+                <div class="flex items-center gap-3 text-2xl font-display text-brand-900"><i data-lucide="aperture" class="w-5 h-5"></i> Horizon</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Features -->
+    <section class="py-32 relative z-10 bg-brand-50">
+        <div class="container mx-auto px-6">
+            <div class="mb-20 md:text-center max-w-3xl mx-auto reveal">
+                <h2 class="text-4xl md:text-6xl font-display text-brand-950 mb-6">Nuestra forma de crear</h2>
+                <p class="text-brand-900/70 text-lg font-sans font-light leading-relaxed">No hacemos plantillas. Construimos productos digitales a medida que escalan y convierten.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Card 1 -->
+                <div class="glass-card p-10 md:col-span-2 reveal">
+                    <div class="w-12 h-12 flex items-center justify-center mb-8 border border-brand-900/10 rounded-full">
+                        <i data-lucide="zap" class="w-5 h-5 text-brand-900"></i>
+                    </div>
+                    <h3 class="text-3xl font-display text-brand-950 mb-4">Rendimiento Extremo</h3>
+                    <p class="text-brand-900/70 leading-relaxed max-w-md font-sans font-light text-sm">Utilizamos las últimas tecnologías (React, Tailwind, GSAP) para garantizar que tu aplicación cargue en milisegundos y ofrezca una experiencia fluida.</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="glass-card p-10 reveal" style="transition-delay: 0.1s;">
+                    <div class="w-12 h-12 flex items-center justify-center mb-8 border border-brand-900/10 rounded-full">
+                        <i data-lucide="smartphone" class="w-5 h-5 text-brand-900"></i>
+                    </div>
+                    <h3 class="text-3xl font-display text-brand-950 mb-4">Mobile First</h3>
+                    <p class="text-brand-900/70 leading-relaxed font-sans font-light text-sm">Diseños responsivos perfectos en cualquier dispositivo.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-10 reveal">
+                    <div class="w-12 h-12 flex items-center justify-center mb-8 border border-brand-900/10 rounded-full">
+                        <i data-lucide="figma" class="w-5 h-5 text-brand-900"></i>
+                    </div>
+                    <h3 class="text-3xl font-display text-brand-950 mb-4">UI/UX Premium</h3>
+                    <p class="text-brand-900/70 leading-relaxed font-sans font-light text-sm">Prototipado en Figma con atención obsesiva al detalle.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card p-10 md:col-span-2 reveal" style="transition-delay: 0.1s;">
+                    <div class="w-12 h-12 flex items-center justify-center mb-8 border border-brand-900/10 rounded-full">
+                        <i data-lucide="code" class="w-5 h-5 text-brand-900"></i>
+                    </div>
+                    <h3 class="text-3xl font-display text-brand-950 mb-4">Código Limpio y Escalable</h3>
+                    <p class="text-brand-900/70 leading-relaxed max-w-md font-sans font-light text-sm">Entregamos repositorios listos para producción. Código documentado, modular y preparado para crecer junto a tu startup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="py-24 relative z-10 bg-white border-y border-brand-900/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-display text-brand-950 mb-4">Nuestro Stack Tecnológico</h2>
+                <p class="text-brand-900/70 text-lg font-sans font-light">Usamos las mejores herramientas para construir productos superiores.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 opacity-60 text-brand-900 hover:opacity-100 transition-opacity duration-500">
+                <div class="flex flex-col items-center gap-4 reveal hover:text-brand-500 transition-colors"><i data-lucide="file-code-2" class="w-8 h-8"></i><span class="font-sans font-bold tracking-[0.2em] text-[10px] uppercase">React</span></div>
+                <div class="flex flex-col items-center gap-4 reveal hover:text-brand-500 transition-colors"><i data-lucide="palette" class="w-8 h-8"></i><span class="font-sans font-bold tracking-[0.2em] text-[10px] uppercase">Tailwind</span></div>
+                <div class="flex flex-col items-center gap-4 reveal hover:text-brand-500 transition-colors"><i data-lucide="figma" class="w-8 h-8"></i><span class="font-sans font-bold tracking-[0.2em] text-[10px] uppercase">Figma</span></div>
+                <div class="flex flex-col items-center gap-4 reveal hover:text-brand-500 transition-colors"><i data-lucide="database" class="w-8 h-8"></i><span class="font-sans font-bold tracking-[0.2em] text-[10px] uppercase">Supabase</span></div>
+                <div class="flex flex-col items-center gap-4 reveal hover:text-brand-500 transition-colors"><i data-lucide="move-3d" class="w-8 h-8"></i><span class="font-sans font-bold tracking-[0.2em] text-[10px] uppercase">WebGL</span></div>
+                <div class="flex flex-col items-center gap-4 reveal hover:text-brand-500 transition-colors"><i data-lucide="cloud-lightning" class="w-8 h-8"></i><span class="font-sans font-bold tracking-[0.2em] text-[10px] uppercase">Vercel</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-32 relative z-10 bg-brand-50">
+        <div class="container mx-auto px-6">
+            <div class="mb-20 md:text-center max-w-2xl mx-auto reveal">
+                <h2 class="text-4xl md:text-6xl font-display text-brand-950 mb-6">Lo que dicen de nosotros</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="glass-card p-10 md:p-14 reveal">
+                    <div class="flex gap-2 text-brand-900 mb-8">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-xl text-brand-900/80 italic mb-10 font-display leading-relaxed">"El equipo de Codly no solo diseñó nuestra plataforma, sino que redefinió nuestra marca. La conversión aumentó un 40% en el primer mes de lanzamiento."</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-brand-900/10">
+                        <div class="w-12 h-12 rounded-full bg-brand-100 overflow-hidden grayscale">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="CEO" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-sans font-bold text-brand-950 uppercase tracking-widest text-[10px]">Carlos Mendoza</h4>
+                            <p class="text-[10px] text-brand-900/50 uppercase tracking-widest mt-1">CEO, NexaCore</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-10 md:p-14 reveal" style="transition-delay: 0.1s;">
+                    <div class="flex gap-2 text-brand-900 mb-8">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-xl text-brand-900/80 italic mb-10 font-display leading-relaxed">"Buscábamos una agencia que entendiera la velocidad de una startup. Entregaron un producto premium en tiempo récord, con un código impecable."</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-brand-900/10">
+                        <div class="w-12 h-12 rounded-full bg-brand-100 overflow-hidden grayscale">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="CTO" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-sans font-bold text-brand-950 uppercase tracking-widest text-[10px]">Laura Gómez</h4>
+                            <p class="text-[10px] text-brand-900/50 uppercase tracking-widest mt-1">CTO, Horizon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 relative z-10 bg-white">
+        <div class="container mx-auto px-6 max-w-4xl text-center reveal">
+            <span class="w-16 h-[1px] bg-brand-900 mx-auto block mb-8"></span>
+            <h2 class="text-5xl md:text-7xl font-display text-brand-950 mb-8 italic">¿Listo para elevar tu producto?</h2>
+            <p class="text-xl text-brand-900/70 mb-12 max-w-2xl mx-auto font-sans font-light">Hablemos sobre tu proyecto y descubramos cómo podemos ayudarte a alcanzar tus objetivos.</p>
+            <a href="contact.html" class="inline-flex items-center justify-center gap-4 bg-brand-900 text-brand-50 px-12 py-5 font-sans text-xs uppercase tracking-[0.2em] hover:bg-brand-500 transition-colors">
+                Iniciar Proyecto
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-900/10 pt-20 pb-10 relative z-10 bg-brand-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-12 mb-16">
+                <div class="text-center md:text-left">
+                    <a href="index.html" class="text-3xl font-display italic tracking-widest mb-6 block text-brand-900">
+                        Codly.
+                    </a>
+                    <p class="text-brand-900/60 max-w-xs text-sm font-sans font-light leading-relaxed">Construyendo el futuro de la web, un píxel a la vez. Madrid, España.</p>
+                </div>
+                <div class="flex gap-16 text-sm text-center md:text-left">
+                    <div class="flex flex-col gap-5">
+                        <span class="font-sans font-bold text-brand-950 mb-2 uppercase tracking-[0.2em] text-[10px]">Compañía</span>
+                        <a href="about.html" class="text-brand-900/70 hover:text-brand-900 transition-colors font-light">Nosotros</a>
+                        <a href="services.html" class="text-brand-900/70 hover:text-brand-900 transition-colors font-light">Servicios</a>
+                        <a href="portfolio.html" class="text-brand-900/70 hover:text-brand-900 transition-colors font-light">Proyectos</a>
+                    </div>
+                    <div class="flex flex-col gap-5">
+                        <span class="font-sans font-bold text-brand-950 mb-2 uppercase tracking-[0.2em] text-[10px]">Social</span>
+                        <a href="#" class="text-brand-900/70 hover:text-brand-900 transition-colors font-light">Twitter</a>
+                        <a href="#" class="text-brand-900/70 hover:text-brand-900 transition-colors font-light">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-brand-900/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-brand-900/50 uppercase tracking-[0.2em] font-bold">
+                <p>© 2026 Codly Studio. Todos los derechos reservados.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-brand-900 transition-colors">Privacidad</a>
+                    <a href="#" class="hover:text-brand-900 transition-colors">Términos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass');
+                navbar.classList.remove('border-transparent');
+            } else {
+                navbar.classList.remove('glass');
+                navbar.classList.add('border-transparent');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        // Intro Animations
+        gsap.to(".animate-fade-in-up", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.1,
+            ease: "power3.out"
+        });
+
+        // Scroll Reveal
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.reveal').forEach(element => {
+            gsap.fromTo(element, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                    }
+                }
+            );
+        });
+    </script>
+</body>
+</html>

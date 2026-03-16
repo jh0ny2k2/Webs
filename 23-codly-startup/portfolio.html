@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos | Codly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Mulish:wght@200;300;400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Mulish', 'sans-serif'],
+                        display: ['Cormorant Garamond', 'serif']
+                    },
+                    colors: {
+                        brand: { 50: '#F9F8F6', 100: '#E5E0D8', 400: '#8E8E8E', 500: '#5C5C5C', 900: '#2C2C2C', 950: '#1A1A1A' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F9F8F6; color: #2C2C2C; overflow-x: hidden; }
+        
+        .noise-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass { background: rgba(249, 248, 246, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(44, 44, 44, 0.05); }
+        .project-card:hover .project-overlay { opacity: 1; }
+        .project-card:hover .project-preview-container { transform: scale(1.02); }
+        
+        .project-preview {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+            transform-origin: top left;
+            transform: scale(0.5);
+            width: 200%;
+            height: 200%;
+            background: #fff;
+        }
+
+        .project-preview-container {
+            transition: transform 0.7s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #F9F8F6; }
+        ::-webkit-scrollbar-thumb { background: #8E8E8E; }
+
+        .menu-link { position: relative; }
+        .menu-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+            background: #2C2C2C; transition: width 0.4s ease;
+        }
+        .menu-link:hover::after { width: 100%; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-900 selection:text-brand-50">
+    <div class="noise-bg"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-8 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-display italic tracking-widest text-brand-900">
+                Codly.
+            </a>
+            
+            <div class="hidden md:flex gap-16 font-sans text-xs tracking-[0.2em] uppercase text-brand-900/80">
+                <a href="index.html" class="menu-link hover:text-brand-900">Inicio</a>
+                <a href="about.html" class="menu-link hover:text-brand-900">Nosotros</a>
+                <a href="services.html" class="menu-link hover:text-brand-900">Servicios</a>
+                <a href="portfolio.html" class="menu-link text-brand-900">Proyectos</a>
+                <a href="contact.html" class="menu-link hover:text-brand-900">Contacto</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="contact.html" class="hidden md:block border-b border-brand-900 pb-1 font-sans text-xs tracking-[0.2em] uppercase hover:text-brand-400 transition-colors">
+                    Empezar Proyecto
+                </a>
+                <button class="md:hidden text-brand-900" id="mobile-menu-btn"><i data-lucide="menu" class="w-6 h-6"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-brand-50/95 backdrop-blur-md border-b border-brand-900/10 hidden flex-col py-6 px-6 gap-6 text-center">
+            <a href="index.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Inicio</a>
+            <a href="about.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Nosotros</a>
+            <a href="services.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Servicios</a>
+            <a href="portfolio.html" class="text-brand-900 font-display text-2xl italic">Proyectos</a>
+            <a href="contact.html" class="text-brand-900/70 hover:text-brand-900 font-display text-2xl italic">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-40 pb-16 text-center">
+        <div class="container mx-auto px-6 relative z-10">
+            <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight mb-4 reveal text-brand-900">Trabajos Destacados</h1>
+            <p class="text-xl text-brand-500 max-w-2xl mx-auto reveal font-light">Una selección de plataformas digitales, e-commerce y aplicaciones web que hemos diseñado y desarrollado.</p>
+        </div>
+    </header>
+
+    <!-- Grid -->
+    <section class="py-12 pb-32">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Proj 1: 05-luxury-real-estate -->
+            <a href="../05-luxury-real-estate/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../05-luxury-real-estate/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Real Estate</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Luxury Villas</h3>
+                    <p class="text-brand-500 font-light text-sm">Sitio web premium para inmobiliaria de lujo.</p>
+                </div>
+            </a>
+
+            <!-- Proj 2: 06-dental-clinic -->
+            <a href="../06-dental-clinic/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../06-dental-clinic/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Healthcare</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Dental Clinic</h3>
+                    <p class="text-brand-500 font-light text-sm">Plataforma limpia y confiable para servicios dentales.</p>
+                </div>
+            </a>
+
+            <!-- Proj 3: 07-tattoo-studio -->
+            <a href="../07-tattoo-studio/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../07-tattoo-studio/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Art & Lifestyle</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Ink Studio</h3>
+                    <p class="text-brand-500 font-light text-sm">Diseño oscuro y artístico para estudio de tatuajes.</p>
+                </div>
+            </a>
+
+            <!-- Proj 4: 08-crossfit-gym -->
+            <a href="../08-crossfit-gym/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../08-crossfit-gym/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Fitness</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Crossfit Box</h3>
+                    <p class="text-brand-500 font-light text-sm">Web dinámica y enérgica para centro de entrenamiento.</p>
+                </div>
+            </a>
+
+            <!-- Proj 5: 09-sushi-restaurant -->
+            <a href="../09-sushi-restaurant/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../09-sushi-restaurant/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Gastronomy</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Sushi Master</h3>
+                    <p class="text-brand-500 font-light text-sm">Experiencia visual asiática para restaurante de sushi.</p>
+                </div>
+            </a>
+
+            <!-- Proj 6: 10-used-cars -->
+            <a href="../10-used-cars/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../10-used-cars/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Automotive</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Auto Sales</h3>
+                    <p class="text-brand-500 font-light text-sm">Catálogo interactivo de venta de coches de segunda mano.</p>
+                </div>
+            </a>
+
+            <!-- Proj 7: 11-watch-store -->
+            <a href="../11-watch-store/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../11-watch-store/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">E-Commerce</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Luxury Watches</h3>
+                    <p class="text-brand-500 font-light text-sm">Tienda online elegante para relojes de alta gama.</p>
+                </div>
+            </a>
+
+            <!-- Proj 8: 12-sneaker-drop -->
+            <a href="../12-sneaker-drop/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../12-sneaker-drop/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Urban Fashion</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Sneaker Drop</h3>
+                    <p class="text-brand-500 font-light text-sm">Landing page vibrante para lanzamientos exclusivos de zapatillas.</p>
+                </div>
+            </a>
+
+            <!-- Proj 9: 13-mechanical-keyboards -->
+            <a href="../13-mechanical-keyboards/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../13-mechanical-keyboards/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Tech Gear</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Custom Keys</h3>
+                    <p class="text-brand-500 font-light text-sm">Tienda especializada en teclados mecánicos custom.</p>
+                </div>
+            </a>
+
+            <!-- Proj 10: 14-headphones-store -->
+            <a href="../14-headphones-store/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../14-headphones-store/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Audio</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Sound Scape</h3>
+                    <p class="text-brand-500 font-light text-sm">E-commerce inmersivo para auriculares de alta fidelidad.</p>
+                </div>
+            </a>
+
+            <!-- Proj 11: 15-furniture-design -->
+            <a href="../15-furniture-design/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../15-furniture-design/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Interior Design</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Nordic Living</h3>
+                    <p class="text-brand-500 font-light text-sm">Diseño minimalista para estudio de muebles escandinavos.</p>
+                </div>
+            </a>
+
+            <!-- Proj 12: 16-wedding-invite -->
+            <a href="../16-wedding-invite/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../16-wedding-invite/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Events</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Digital RSVP</h3>
+                    <p class="text-brand-500 font-light text-sm">Invitación de boda digital interactiva y elegante.</p>
+                </div>
+            </a>
+
+            <!-- Proj 13: 17-modern-barbershop -->
+            <a href="../17-modern-barbershop/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../17-modern-barbershop/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Grooming</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">The Barber Club</h3>
+                    <p class="text-brand-500 font-light text-sm">Sistema de reservas online para barbería moderna.</p>
+                </div>
+            </a>
+
+            <!-- Proj 14: 18-developer-portfolio -->
+            <a href="../18-developer-portfolio/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../18-developer-portfolio/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Personal Brand</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Dev Portfolio</h3>
+                    <p class="text-brand-500 font-light text-sm">Portfolio personal interactivo para ingeniero de software.</p>
+                </div>
+            </a>
+
+            <!-- Proj 15: 19-artisan-pizza -->
+            <a href="../19-artisan-pizza/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../19-artisan-pizza/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Food & Beverage</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Pizzeria Napoli</h3>
+                    <p class="text-brand-500 font-light text-sm">Sitio apetitoso con menú interactivo para pizzería artesanal.</p>
+                </div>
+            </a>
+
+            <!-- Proj 16: 20-car-detailing -->
+            <a href="../20-car-detailing/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../20-car-detailing/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Auto Services</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Pro Detailing</h3>
+                    <p class="text-brand-500 font-light text-sm">Plataforma de servicios de estética y limpieza de vehículos.</p>
+                </div>
+            </a>
+
+            <!-- Proj 17: 21-specialty-coffee -->
+            <a href="../21-specialty-coffee/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../21-specialty-coffee/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Cafe</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Brew & Beans</h3>
+                    <p class="text-brand-500 font-light text-sm">Sitio web cálido y acogedor para cafetería de especialidad.</p>
+                </div>
+            </a>
+
+            <!-- Proj 18: 22-boxing-event -->
+            <a href="../22-boxing-event/index.html" class="project-card block relative rounded-3xl overflow-hidden glass cursor-pointer reveal">
+                <div class="project-preview-container aspect-[4/3] overflow-hidden relative">
+                    <iframe src="../22-boxing-event/index.html" class="project-preview" loading="lazy"></iframe>
+                </div>
+                <div class="project-overlay absolute inset-0 bg-gradient-to-t from-brand-50 via-brand-50/80 to-transparent opacity-0 transition-opacity duration-500 flex flex-col justify-end p-8">
+                    <span class="text-brand-900 text-xs font-bold uppercase tracking-widest mb-2">Sports Event</span>
+                    <h3 class="text-2xl font-display font-bold text-brand-900 mb-2">Fight Night</h3>
+                    <p class="text-brand-500 font-light text-sm">Landing page promocional y venta de entradas para evento de boxeo.</p>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Metrics / Impact -->
+    <section class="py-24 bg-white border-y border-brand-900/10 relative z-10">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-display font-bold tracking-tight mb-12 text-brand-900">El impacto de nuestro trabajo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="reveal">
+                    <div class="text-5xl font-display font-bold text-brand-500 mb-2">+150%</div>
+                    <p class="text-brand-900/60 text-sm uppercase tracking-widest font-bold">Incremento promedio en conversión</p>
+                </div>
+                <div class="reveal" style="transition-delay: 0.1s">
+                    <div class="text-5xl font-display font-bold text-brand-500 mb-2">-40%</div>
+                    <p class="text-brand-900/60 text-sm uppercase tracking-widest font-bold">Reducción en tiempo de carga</p>
+                </div>
+                <div class="reveal" style="transition-delay: 0.2s">
+                    <div class="text-5xl font-display font-bold text-brand-500 mb-2">24/7</div>
+                    <p class="text-brand-900/60 text-sm uppercase tracking-widest font-bold">Soporte y monitoreo continuo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-900/10 pt-12 pb-8 text-center bg-brand-50">
+        <p class="text-brand-900/60 text-xs uppercase tracking-widest font-bold">© 2026 Codly Studio.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const lenis = new Lenis({ duration: 1.2 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            document.getElementById('mobile-menu').classList.toggle('flex');
+        });
+
+        gsap.from(".reveal", { y: 30, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out" });
+    </script>
+</body>
+</html>
